@@ -1,10 +1,14 @@
 package com.andy.androinfo.uis;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,30 +17,35 @@ import android.widget.TextView;
 
 import com.andy.androinfo.R;
 import com.andy.androinfo.beans.TitleBean;
-import com.andy.androinfo.utils.FileUtil;
+import com.andy.androinfo.utils.StorageUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AndyBaseActivity {
 
     RecyclerView title_rv;
     LinearLayoutManager linearLayoutManager;
     TitleAdapter titleAdapter;
     ArrayList<TitleBean> titleBeans;
+    ViewPager content_vp;
+    ContentFragmentPagerAdapter contentFragmentPagerAdapter;
+    List<Fragment> fragmentList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FileUtil.checkFileExist("/data/data/");
-        FileUtil.checkFileExist("/data/data/com.microvirt.market");
-        FileUtil.checkFileExist("/data/data/com.microvirt.launcher");
-        FileUtil.checkFileExist("/data/data/com.microvirt.bugeili");
+
         titleBeans = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        fragmentList = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
             TitleBean titleBean = new TitleBean();
             titleBean.setSubTitle("AA " + i);
             titleBeans.add(titleBean);
+            fragmentList.add(ClassfyFraments.instance("AA " + i));
         }
 
         title_rv = (RecyclerView) findViewById(R.id.andy_title_rv);
@@ -45,7 +54,59 @@ public class MainActivity extends AppCompatActivity {
         title_rv.setLayoutManager(linearLayoutManager);
         titleAdapter = new TitleAdapter(titleBeans);
         title_rv.setAdapter(titleAdapter);
+        titleAdapter.tabChange(0);
 
+        StorageUtil.getStorageCapacity(this);
+
+        content_vp = (ViewPager) findViewById(R.id.andy_content_vp);
+        contentFragmentPagerAdapter = new ContentFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
+        content_vp.setAdapter(contentFragmentPagerAdapter);
+        content_vp.setCurrentItem(0);
+        content_vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.e("Andy", "pos = " + position +" posOffset = " +positionOffset +" posOffsetPixel = " + positionOffsetPixels);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.e("Andy", "selected " + position);
+                titleAdapter.tabChange(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                Log.e("Andy", "state = "+state);
+            }
+        });
+
+        titleAdapter.setClickListener(new TitleClickListener() {
+            @Override
+            public void titleClick(TitleHolder holder, int pos) {
+                content_vp.setCurrentItem(pos, true);
+            }
+        });
+    }
+
+
+    public class ContentFragmentPagerAdapter extends FragmentPagerAdapter {
+
+        private List<Fragment> fragmentList;
+
+        public ContentFragmentPagerAdapter(FragmentManager fm, List<Fragment> fragmentList) {
+            super(fm);
+            this.fragmentList = fragmentList;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
+        }
     }
 
     public interface TitleClickListener {
@@ -56,14 +117,22 @@ public class MainActivity extends AppCompatActivity {
         private ArrayList<TitleBean> titleBeans;
         private TitleClickListener clickListener;
         private int lastTitle;
+        private int willPos;
 
         public TitleAdapter(ArrayList<TitleBean> titleBeans) {
             this.titleBeans = titleBeans;
             lastTitle = -1;
+            willPos = 0;
         }
 
         public void setClickListener(TitleClickListener clickListener) {
             this.clickListener = clickListener;
+        }
+
+        public void tabChange(int pos) {
+            willPos = pos;
+            lastTitle = -1;
+            notifyDataSetChanged();
         }
 
         @Override
@@ -76,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final TitleHolder holder, final int position) {
             holder.subTitle_tv.setText(titleBeans.get(position).getSubTitle());
-            if (lastTitle == -1 && position == 0) {
+            if (lastTitle == -1 && position == willPos) {
                 lastTitle = 0;
                 holder.subTitle_tv.setSelected(true);
             } else {
