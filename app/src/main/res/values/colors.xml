@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="andy_color_transparent">#00ffffff</color>
+
+
+
+    <color name="andy_title_font_white">#ffffff</color>
 </resources>

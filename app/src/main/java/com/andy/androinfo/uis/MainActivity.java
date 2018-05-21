@@ -32,8 +32,6 @@ public class MainActivity extends AndyBaseActivity {
     ContentFragmentPagerAdapter contentFragmentPagerAdapter;
     List<Fragment> fragmentList;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,11 +39,12 @@ public class MainActivity extends AndyBaseActivity {
 
         titleBeans = new ArrayList<>();
         fragmentList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        String[] ts = getResources().getStringArray(R.array.andy_titles);
+        for (int i = 0; i < ts.length; i++) {
             TitleBean titleBean = new TitleBean();
-            titleBean.setSubTitle("AA " + i);
+            titleBean.setSubTitle(ts[i]);
             titleBeans.add(titleBean);
-            fragmentList.add(ClassfyFraments.instance("AA " + i));
+            fragmentList.add(ClassfyFraments.instance(ts[i]));
         }
 
         title_rv = (RecyclerView) findViewById(R.id.andy_title_rv);

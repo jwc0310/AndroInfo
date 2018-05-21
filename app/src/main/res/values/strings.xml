@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">androInfo</string>
+
+    <string-array name="andy_titles">
+        <item>设备</item>
+        <item>系统</item>
+        <item>电池</item>
+        <item>关于</item>
+    </string-array>
 </resources>
