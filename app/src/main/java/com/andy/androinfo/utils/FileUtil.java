@@ -1,5 +1,7 @@
 package com.andy.androinfo.utils;
 
+import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.File;
@@ -9,6 +11,11 @@ import java.io.File;
  */
 
 public class FileUtil {
+
+    public static void sdPath() {
+        String sdpath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        Log.e("Andy-File",  sdpath);
+    }
 
     public static void checkFileExist(String fileOrDir) {
         try {

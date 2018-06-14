@@ -17,12 +17,21 @@ import android.widget.TextView;
 
 import com.andy.androinfo.R;
 import com.andy.androinfo.beans.TitleBean;
+import com.andy.androinfo.utils.FileUtil;
+import com.andy.androinfo.utils.HasFeature;
 import com.andy.androinfo.utils.StorageUtil;
+import com.andy.androinfo.utils.Test2;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AndyBaseActivity {
+
+    public static String abc() {
+        Log.e("Andy666", "dayinyici");
+     return "abc";
+    }
+    public static final String testabc = abc();
 
     RecyclerView title_rv;
     LinearLayoutManager linearLayoutManager;
@@ -33,9 +42,25 @@ public class MainActivity extends AndyBaseActivity {
     List<Fragment> fragmentList;
 
     @Override
+    public void onResume() {
+        super.onResume();
+        String test = testabc;
+        //Log.e("Andy000", Build.BRAND);
+        //Log.e("Andy000", String.valueOf(Build.VERSION.SDK_INT));
+        //Log.e("Andy000", Build.VERSION.RELEASE);
+
+        Test2.main(this);
+        FileUtil.sdPath();
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        HasFeature.showHasFeature(this);
+
+
 
         titleBeans = new ArrayList<>();
         fragmentList = new ArrayList<>();
