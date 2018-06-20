@@ -13,11 +13,25 @@ import com.andy.androinfo.hook.HookUtil;
 
 public class AndroInfoApplication extends Application {
 
+    private static Context global;
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         //new HookUtil(MainActivity.class, this).handleOpenGLInfo();
         new HookUtil(MainActivity.class, this).hookFuncs();
+        new HookUtil(MainActivity.class, this).hookNotificationManager();
         Log.e("Andy777", getPackageName());
     }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        global = this;
+    }
+
+    public static Context getGlobal() {
+        return global;
+    }
+
 }

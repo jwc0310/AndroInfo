@@ -1,15 +1,16 @@
 package com.andy.androinfo.hook;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
-import com.andy.androinfo.hook.ActivityThreadHandlerCallback;
-import com.andy.androinfo.hook.AmsInvocationHandler;
+import com.andy.androinfo.utils.LogUtil;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -22,10 +23,58 @@ public class HookUtil {
 
     private Class<?> proxyActivity;
     private Context context;
+    private static final String TAG = HookUtil.class.getSimpleName();
 
     public HookUtil(Class<?> proxyActivity, Context context) {
         this.proxyActivity = proxyActivity;
         this.context = context;
+    }
+
+    public void hookNotificationManager() {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        //获得系统的sService
+        try {
+            Method getService = NotificationManager.class.getDeclaredMethod("getService");
+            getService.setAccessible(true);
+            final Object sService = getService.invoke(notificationManager);
+
+            //动态代理 INotificationManager
+            Class inotifyManager = Class.forName("android.app.INotificationManager");
+            Object proxyNotify = Proxy.newProxyInstance(getClass().getClassLoader(), new Class<?>[]{inotifyManager},
+                    new InvocationHandler() {
+                        @Override
+                        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                            LogUtil.e(TAG, "notifyProxy invoke method: " + method.getName());
+                            if (args != null && args.length > 0) {
+                                for (Object object : args) {
+                                        LogUtil.e(TAG, "notifyProxy arg = ");
+                                }
+                            }
+                            // 操作交由 sService 处理，不拦截通知
+                             return method.invoke(sService, args);
+                            // 拦截通知，什么也不做
+                            //return null;
+                            // 或者是根据通知的 Tag 和 ID 进行筛选
+                        }
+                    });
+
+            Field sServiceField = NotificationManager.class.getDeclaredField("sService");
+            sServiceField.setAccessible(true);
+            sServiceField.set(notificationManager, proxyNotify);
+
+
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
     }
 
     public void hookOnClickListener(View view) {
@@ -40,7 +89,7 @@ public class HookUtil {
             Field mOnClickListener = listenInfoClz.getDeclaredField("mOnClickListener");
             mOnClickListener.setAccessible(true);
 
-            View.OnClickListener origin = (View.OnClickListener)mOnClickListener.get(listenerInfo);
+            View.OnClickListener origin = (View.OnClickListener) mOnClickListener.get(listenerInfo);
             View.OnClickListener hookOnClickListener = new HookOnClickListener(origin);
             mOnClickListener.set(listenerInfo, hookOnClickListener);
 
@@ -87,7 +136,7 @@ public class HookUtil {
         }
     }
 
-    public void handleOpenGLInfo() {
+    public void handleBuildProperty() {
         try {
             Log.e("Andy666", "handleBuildInfo");
             Class<?> systemPropertiesClass = Class.forName("android.os.Build$VERSION");
@@ -161,7 +210,7 @@ public class HookUtil {
             mCallback.setAccessible(true);
             //这里设置我们自己实现的callback
             mCallback.set(handler, new ActivityThreadHandlerCallback(handler));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
