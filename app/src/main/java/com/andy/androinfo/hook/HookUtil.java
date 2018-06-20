@@ -1,11 +1,16 @@
-package com.andy.androinfo.utils;
+package com.andy.androinfo.hook;
 
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+
+import com.andy.androinfo.hook.ActivityThreadHandlerCallback;
+import com.andy.androinfo.hook.AmsInvocationHandler;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
@@ -15,13 +20,41 @@ import java.lang.reflect.Proxy;
 
 public class HookUtil {
 
-
     private Class<?> proxyActivity;
     private Context context;
 
     public HookUtil(Class<?> proxyActivity, Context context) {
         this.proxyActivity = proxyActivity;
         this.context = context;
+    }
+
+    public void hookOnClickListener(View view) {
+        try {
+            //获得ListenerInfo对象
+            Method getListenerInfo = View.class.getDeclaredMethod("getListenerInfo");
+            getListenerInfo.setAccessible(true);
+            Object listenerInfo = getListenerInfo.invoke(view);
+
+            //获得onClickListener对象
+            Class<?> listenInfoClz = Class.forName("android.view.View$ListenerInfo");
+            Field mOnClickListener = listenInfoClz.getDeclaredField("mOnClickListener");
+            mOnClickListener.setAccessible(true);
+
+            View.OnClickListener origin = (View.OnClickListener)mOnClickListener.get(listenerInfo);
+            View.OnClickListener hookOnClickListener = new HookOnClickListener(origin);
+            mOnClickListener.set(listenerInfo, hookOnClickListener);
+
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
     }
 
     public void hookAms() {

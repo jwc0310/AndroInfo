@@ -5,7 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.andy.androinfo.uis.MainActivity;
-import com.andy.androinfo.utils.HookUtil;
+import com.andy.androinfo.hook.HookUtil;
 
 /**
  * Created by Administrator on 2018/5/31.

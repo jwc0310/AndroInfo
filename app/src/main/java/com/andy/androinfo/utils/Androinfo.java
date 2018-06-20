@@ -15,10 +15,6 @@ public class Androinfo {
         StringBuilder builder = new StringBuilder();
         builder.append("设备型号：");
         builder.append(Build.BOARD);
-
-        Logger logger = Logger.getLogger("mytag");
-        logger.info("cc");
-
         return builder.toString();
     }
 

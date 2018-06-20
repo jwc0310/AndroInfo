@@ -1,13 +1,8 @@
 package com.andy.androinfo.utils;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -18,13 +13,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
+import java.util.Observable;
 
 /**
  * Created by Administrator on 2018/6/1.
  */
 
-public class Test2 {
+public class Test2 extends Observable{
 
     public static boolean tt = false;
 
@@ -82,9 +77,6 @@ public class Test2 {
 
 
         Log.e(wendao, builder.toString());
-
-
-
 
         Log.e(wendao, tm.getLine1Number());
         Log.e(wendao, tm.getNetworkOperator());

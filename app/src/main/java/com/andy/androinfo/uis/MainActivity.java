@@ -1,5 +1,9 @@
 package com.andy.androinfo.uis;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +23,7 @@ import com.andy.androinfo.R;
 import com.andy.androinfo.beans.TitleBean;
 import com.andy.androinfo.utils.FileUtil;
 import com.andy.androinfo.utils.HasFeature;
+import com.andy.androinfo.utils.PackageUtils;
 import com.andy.androinfo.utils.StorageUtil;
 import com.andy.androinfo.utils.Test2;
 
@@ -27,12 +32,6 @@ import java.util.List;
 
 public class MainActivity extends AndyBaseActivity {
 
-    public static String abc() {
-        Log.e("Andy666", "dayinyici");
-     return "abc";
-    }
-    public static final String testabc = abc();
-
     RecyclerView title_rv;
     LinearLayoutManager linearLayoutManager;
     TitleAdapter titleAdapter;
@@ -40,18 +39,29 @@ public class MainActivity extends AndyBaseActivity {
     ViewPager content_vp;
     ContentFragmentPagerAdapter contentFragmentPagerAdapter;
     List<Fragment> fragmentList;
+    BatteryBcr batteryBcr;
 
     @Override
     public void onResume() {
         super.onResume();
-        String test = testabc;
         //Log.e("Andy000", Build.BRAND);
         //Log.e("Andy000", String.valueOf(Build.VERSION.SDK_INT));
         //Log.e("Andy000", Build.VERSION.RELEASE);
-
+/*
         Test2.main(this);
         FileUtil.sdPath();
+        PackageUtils.getInstalledPackages(this);
+*/
 
+        StorageUtil.sdcardInfo();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        if (batteryBcr != null)
+            unregisterReceiver(batteryBcr);
+        super.onDestroy();
     }
 
     @Override
@@ -60,7 +70,10 @@ public class MainActivity extends AndyBaseActivity {
         setContentView(R.layout.activity_main);
         HasFeature.showHasFeature(this);
 
-
+        batteryBcr = new BatteryBcr();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(batteryBcr, filter);
 
         titleBeans = new ArrayList<>();
         fragmentList = new ArrayList<>();
@@ -69,7 +82,13 @@ public class MainActivity extends AndyBaseActivity {
             TitleBean titleBean = new TitleBean();
             titleBean.setSubTitle(ts[i]);
             titleBeans.add(titleBean);
-            fragmentList.add(ClassfyFraments.instance(ts[i]));
+            if (titleBean.getSubTitle().equals("传感器")) {
+                fragmentList.add(SensorFrament.instance(""));
+            } else if (titleBean.getSubTitle().equals("测试")) {
+                fragmentList.add(TestFrament.instance(""));
+            } else {
+                fragmentList.add(ClassfyFraments.instance(ts[i]));
+            }
         }
 
         title_rv = (RecyclerView) findViewById(R.id.andy_title_rv);
@@ -205,6 +224,29 @@ public class MainActivity extends AndyBaseActivity {
         public TitleHolder(View itemView) {
             super(itemView);
             this.subTitle_tv = (TextView) itemView.findViewById(R.id.andy_item_title_id);
+        }
+    }
+
+
+    private class BatteryBcr extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent != null) {
+                String action = intent.getAction();
+                switch (action) {
+                    case Intent.ACTION_BATTERY_CHANGED:
+
+                        Bundle bundle = intent.getExtras();
+                        Log.e("Andy", "battery change = " +intent.toString()+" "+bundle.toString());
+
+                        Log.e("Andy_battery", "battery level = " + intent.getIntExtra("level", 0));
+                        Log.e("Andy_battery", "battery scale = " + intent.getIntExtra("scale", 0));
+                        break;
+                }
+            }
+
         }
     }
 }
