@@ -15,6 +15,7 @@ public class Androinfo {
         StringBuilder builder = new StringBuilder();
         builder.append("设备型号：");
         builder.append(Build.BOARD);
+
         return builder.toString();
     }
 

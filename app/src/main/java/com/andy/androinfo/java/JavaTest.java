@@ -14,6 +14,4 @@ public class JavaTest {
         int cj = aa / 3;
         System.out.println("result +" + cj);
     }
-
-
 }

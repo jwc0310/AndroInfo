@@ -178,10 +178,12 @@ public class Test2 extends Observable{
 
     }
 
-    private static String loadData(String command) {
+    public static String loadData(String command) {
+        StringBuilder content = new StringBuilder();
         try {
             //String command = "cat /sys/class/net/wlan0/address";
-            Process process = Runtime.getRuntime().exec("sh");
+//            Process process = Runtime.getRuntime().exec(command);
+            Process process = Runtime.getRuntime().exec("su");
             DataOutputStream outputStream = new DataOutputStream(process.getOutputStream());
             outputStream.write(command.getBytes());
             outputStream.writeBytes("\n");
@@ -190,19 +192,23 @@ public class Test2 extends Observable{
             outputStream.flush();
             process.waitFor();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String content = "";
             String line;
-            while ((line = reader.readLine()) != null)
-                content += line;
-
-            return content;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+            while ((line = reader.readLine()) != null) {
+                content.append(line);
+                content.append("\n");
+            }
+            String errormsg="";
+            BufferedReader reader1 = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            while((line = reader1.readLine()) != null) {
+                errormsg +=line;
+                errormsg +="\n";
+            }
+            Log.e("tmp", errormsg);
+        } catch (Exception e) {
+            Log.e("Andy", "dfdsfsdfadfa");
             e.printStackTrace();
         }
-        return "";
+        return content.toString();
     }
 
     private static String getSystemProperty(String key) {

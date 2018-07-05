@@ -113,6 +113,12 @@ public class HasFeature {
         }
     }
 
+    public static FeatureInfo[] getDeviceAvailableFeatures(Context context) {
+        PackageManager pm = (PackageManager) context.getPackageManager();
+        FeatureInfo[] featureInfos = pm.getSystemAvailableFeatures();
+        return featureInfos;
+    }
+
     private static void showFeature(PackageManager pm, String feature) {
         String tmp = feature;
         if (tmp.startsWith("android.hardware.") || tmp.startsWith("android.software.")) {
@@ -120,9 +126,9 @@ public class HasFeature {
         }
 
         if (pm.hasSystemFeature(feature)) {
-            Log.e("Andy_feature", "Feature: " + tmp +"\ntrue\n");
+            //Log.e("Andy_feature", "Feature: " + tmp +"\ntrue\n");
         } else {
-            Log.e("Andy_feature", "Feature: " + tmp +"\nfalse\n");
+            //Log.e("Andy_feature", "Feature: " + tmp +"\nfalse\n");
         }
 
     }

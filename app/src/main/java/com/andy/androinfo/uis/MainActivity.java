@@ -21,6 +21,9 @@ import android.widget.TextView;
 
 import com.andy.androinfo.R;
 import com.andy.androinfo.beans.TitleBean;
+import com.andy.androinfo.emulator.Detecter;
+import com.andy.androinfo.reflect.ReflectUtil;
+import com.andy.androinfo.utils.AndroFileObserver;
 import com.andy.androinfo.utils.FileUtil;
 import com.andy.androinfo.utils.HasFeature;
 import com.andy.androinfo.utils.PackageUtils;
@@ -41,6 +44,8 @@ public class MainActivity extends AndyBaseActivity {
     List<Fragment> fragmentList;
     BatteryBcr batteryBcr;
 
+    AndroFileObserver fileObserver;
+
     @Override
     public void onResume() {
         super.onResume();
@@ -52,8 +57,24 @@ public class MainActivity extends AndyBaseActivity {
         FileUtil.sdPath();
         PackageUtils.getInstalledPackages(this);
 */
+//        StorageUtil
+//        .sdcardInfo();
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(3000);
+//                    Log.e("Andy11111", "ll data/data1: "+Test2.loadData("ls -l /data/data"));
+//
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).start();
 
-        StorageUtil.sdcardInfo();
+        ReflectUtil.doReflect(this.getClassLoader());
+        ReflectUtil.doReflect2();
 
     }
 
@@ -61,6 +82,8 @@ public class MainActivity extends AndyBaseActivity {
     public void onDestroy() {
         if (batteryBcr != null)
             unregisterReceiver(batteryBcr);
+        if (fileObserver != null)
+            fileObserver.stopWatching();
         super.onDestroy();
     }
 
@@ -69,6 +92,9 @@ public class MainActivity extends AndyBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         HasFeature.showHasFeature(this);
+
+        fileObserver = new AndroFileObserver("/data/data/com.android.vending/shared_prefs/");
+        fileObserver.startWatching();
 
         batteryBcr = new BatteryBcr();
         IntentFilter filter = new IntentFilter();
@@ -86,7 +112,11 @@ public class MainActivity extends AndyBaseActivity {
                 fragmentList.add(SensorFrament.instance(""));
             } else if (titleBean.getSubTitle().equals("测试")) {
                 fragmentList.add(TestFrament.instance(""));
-            } else {
+            }else if (titleBean.getSubTitle().equals("Binder")) {
+                fragmentList.add(BinderFrament.instance(""));
+            }else if (titleBean.getSubTitle().equals("feature")) {
+                fragmentList.add(FeatureFrament.instance(""));
+            }else {
                 fragmentList.add(ClassfyFraments.instance(ts[i]));
             }
         }
@@ -129,6 +159,9 @@ public class MainActivity extends AndyBaseActivity {
                 content_vp.setCurrentItem(pos, true);
             }
         });
+
+        String str = Detecter.isDebuggerConnected() ? "connected" : "not connected";
+        Log.e("AndyDetector", " is "+ str);
     }
 
 

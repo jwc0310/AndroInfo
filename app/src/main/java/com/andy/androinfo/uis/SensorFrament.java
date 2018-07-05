@@ -16,6 +16,9 @@ import android.widget.TextView;
 
 import com.andy.androinfo.R;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
  * Created by Administrator on 2018/5/14.
  */
@@ -95,6 +98,17 @@ public class SensorFrament extends AndyBaseFragment implements SensorEventListen
         mTxtValue7 = (TextView) view.findViewById(R.id.andy_tv_sensor7);
         mTxtValue8 = (TextView) view.findViewById(R.id.andy_tv_sensor8);
         mTxtValue9 = (TextView) view.findViewById(R.id.andy_tv_sensor9);
+
+        try {
+            Log.e("AndroFileObserver", "create file");
+            File file = new File("/sdcard/Download/tmp.xml");
+            if (file.exists())
+                file.delete();
+
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return view;
     }
