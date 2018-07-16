@@ -15,6 +15,7 @@ import com.andy.androinfo.binder.DemoService;
 import com.andy.androinfo.binder.IDemoConnection;
 import com.andy.androinfo.hook.HookUtil;
 import com.andy.androinfo.utils.NotificationUtils;
+import com.andy.androinfo.utils.StorageUtil;
 
 /**
  * Created by Administrator on 2018/5/14.
@@ -61,6 +62,11 @@ public class BinderFrament extends AndyBaseFragment {
         Log.e("Andy", "add binder");
         Intent intent = new Intent(getContext(), DemoService.class);
         context.bindService(intent, new IDemoConnection(), Context.BIND_AUTO_CREATE);
+
+        StorageUtil.getStorageCapacity(getContext());
+        StorageUtil.readSDCard(getContext());
+        StorageUtil.readSystem(getContext());
+
     }
 
     @Override

@@ -221,15 +221,14 @@ public class Test2 extends Observable{
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
-
+            e.printStackTrace();
         } catch (IllegalAccessException e) {
-
+            e.printStackTrace();
         } catch (InvocationTargetException e) {
-
+            e.printStackTrace();
         }
         return "exception no value";
     }
-
 
     private static void log(String key, String str) {
         Log.e("666666", key + ": " +str);

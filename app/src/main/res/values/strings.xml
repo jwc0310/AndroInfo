@@ -6,9 +6,11 @@
         <item>系统</item>
         <item>电池</item>
         <item>传感器</item>
-        <item>关于</item>
         <item>测试</item>
         <item>Binder</item>
         <item>feature</item>
+        <item>Camera</item>
+        <item>detector</item>
+        <item>关于</item>
     </string-array>
 </resources>

@@ -106,10 +106,10 @@ public class HasFeature {
         FeatureInfo[] featureInfos = pm.getSystemAvailableFeatures();
         for (int i = 0; i < featureInfos.length; i++) {
             String name = featureInfos[i].name;
-            if (null != name)
-                Log.e("Andy_featureList", name);
-            else
-                Log.e("Andy_featureList", "null");
+//            if (null != name)
+//                Log.e("Andy_featureList", name);
+//            else
+//                Log.e("Andy_featureList", "null");
         }
     }
 

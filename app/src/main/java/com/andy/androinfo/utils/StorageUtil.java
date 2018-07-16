@@ -41,7 +41,42 @@ public class StorageUtil {
         String totalStr1 = Formatter.formatFileSize(context, totalSize1);
         String availableStr1 = Formatter.formatFileSize(context, availableSize1);
 
-        Log.e("Andy", availableStr1 +"/" +totalStr1);
+        Log.e("Andy storage", availableStr1 +"/" +totalStr1);
+    }
+
+
+    public static void readSDCard(Context context) {
+        String state = Environment.getExternalStorageState();
+        if(Environment.MEDIA_MOUNTED.equals(state)) {
+            File sdcardDir = Environment.getExternalStorageDirectory();
+            StatFs sf = new StatFs(sdcardDir.getPath());
+            long blockSize = sf.getBlockSize();
+            long blockCount = sf.getBlockCount();
+            long availCount = sf.getAvailableBlocks();
+            Log.d("Andy storage", "block大小:"+ blockSize+",block数目:"+ blockCount+",总大小:"+blockSize*blockCount/1024+"KB");
+            Log.d("Andy storage", "可用的block数目：:"+ availCount+",剩余空间:"+ availCount*blockSize/1024+"KB");
+
+
+            String totalStr1 = Formatter.formatFileSize(context, blockSize * blockCount);
+            String availableStr1 = Formatter.formatFileSize(context, availCount * blockSize);
+
+            Log.e("Andy storage", availableStr1 +"/" +totalStr1);
+        }
+    }
+
+    public static void readSystem(Context context) {
+        File root = Environment.getRootDirectory();
+        StatFs sf = new StatFs(root.getPath());
+        long blockSize = sf.getBlockSize();
+        long blockCount = sf.getBlockCount();
+        long availCount = sf.getAvailableBlocks();
+        Log.d("Andy storage", "block大小:"+ blockSize+",block数目:"+ blockCount+",总大小:"+blockSize*blockCount/1024+"KB");
+        Log.d("Andy storage", "可用的block数目：:"+ availCount+",可用大小:"+ availCount*blockSize/1024+"KB");
+
+        String totalStr1 = Formatter.formatFileSize(context, blockSize * blockCount);
+        String availableStr1 = Formatter.formatFileSize(context, availCount * blockSize);
+
+        Log.e("Andy storage", availableStr1 +"/" +totalStr1);
     }
 
     public static void sdcardInfo() {

@@ -49,30 +49,6 @@ public class MainActivity extends AndyBaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        //Log.e("Andy000", Build.BRAND);
-        //Log.e("Andy000", String.valueOf(Build.VERSION.SDK_INT));
-        //Log.e("Andy000", Build.VERSION.RELEASE);
-/*
-        Test2.main(this);
-        FileUtil.sdPath();
-        PackageUtils.getInstalledPackages(this);
-*/
-//        StorageUtil
-//        .sdcardInfo();
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Thread.sleep(3000);
-//                    Log.e("Andy11111", "ll data/data1: "+Test2.loadData("ls -l /data/data"));
-//
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
-
         ReflectUtil.doReflect(this.getClassLoader());
         ReflectUtil.doReflect2();
 
@@ -110,13 +86,25 @@ public class MainActivity extends AndyBaseActivity {
             titleBeans.add(titleBean);
             if (titleBean.getSubTitle().equals("传感器")) {
                 fragmentList.add(SensorFrament.instance(""));
+            } else if (titleBean.getSubTitle().equals("Binder")) {
+                fragmentList.add(BinderFrament.instance(""));
+            } else if (titleBean.getSubTitle().equals("feature")) {
+                fragmentList.add(FeatureFrament.instance(""));
+            } else if (titleBean.getSubTitle().equals("Camera")) {
+                fragmentList.add(CameraFrament.instance(""));
+            } else if (titleBean.getSubTitle().equals("detector")) {
+                fragmentList.add(EmulatorFrament.instance(""));
+            } else if (titleBean.getSubTitle().equals("设备")) {
+                fragmentList.add(DeviceFrament.instance(""));
+            } else if (titleBean.getSubTitle().equals("电池")) {
+                fragmentList.add(DeviceFrament.instance(""));
+            } else if (titleBean.getSubTitle().equals("系统")) {
+                fragmentList.add(DeviceFrament.instance(""));
+            } else if (titleBean.getSubTitle().equals("关于")) {
+                fragmentList.add(DeviceFrament.instance(""));
             } else if (titleBean.getSubTitle().equals("测试")) {
                 fragmentList.add(TestFrament.instance(""));
-            }else if (titleBean.getSubTitle().equals("Binder")) {
-                fragmentList.add(BinderFrament.instance(""));
-            }else if (titleBean.getSubTitle().equals("feature")) {
-                fragmentList.add(FeatureFrament.instance(""));
-            }else {
+            } else {
                 fragmentList.add(ClassfyFraments.instance(ts[i]));
             }
         }
@@ -138,7 +126,7 @@ public class MainActivity extends AndyBaseActivity {
         content_vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.e("Andy", "pos = " + position +" posOffset = " +positionOffset +" posOffsetPixel = " + positionOffsetPixels);
+                Log.e("Andy", "pos = " + position + " posOffset = " + positionOffset + " posOffsetPixel = " + positionOffsetPixels);
             }
 
             @Override
@@ -149,7 +137,7 @@ public class MainActivity extends AndyBaseActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                Log.e("Andy", "state = "+state);
+                Log.e("Andy", "state = " + state);
             }
         });
 
@@ -159,11 +147,7 @@ public class MainActivity extends AndyBaseActivity {
                 content_vp.setCurrentItem(pos, true);
             }
         });
-
-        String str = Detecter.isDebuggerConnected() ? "connected" : "not connected";
-        Log.e("AndyDetector", " is "+ str);
     }
-
 
     public class ContentFragmentPagerAdapter extends FragmentPagerAdapter {
 
@@ -272,7 +256,7 @@ public class MainActivity extends AndyBaseActivity {
                     case Intent.ACTION_BATTERY_CHANGED:
 
                         Bundle bundle = intent.getExtras();
-                        Log.e("Andy", "battery change = " +intent.toString()+" "+bundle.toString());
+                        Log.e("Andy", "battery change = " + intent.toString() + " " + bundle.toString());
 
                         Log.e("Andy_battery", "battery level = " + intent.getIntExtra("level", 0));
                         Log.e("Andy_battery", "battery scale = " + intent.getIntExtra("scale", 0));

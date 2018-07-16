@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.FeatureInfo;
 import android.content.pm.PackageManager;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -21,7 +24,10 @@ import com.andy.androinfo.R;
 import com.andy.androinfo.hook.HookUtil;
 import com.andy.androinfo.utils.HasFeature;
 import com.andy.androinfo.utils.NotificationUtils;
+import com.andy.androinfo.utils.StorageUtil;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -92,7 +98,6 @@ public class FeatureFrament extends AndyBaseFragment {
         for (ScanResult scanResult : scanResults)
             Log.e("Andy7777", scanResult.toString());
 
-
         PackageManager pm = context.getPackageManager();
         try {
             ApplicationInfo info = pm.getApplicationInfo("com.microvirt.market", 0);
@@ -107,7 +112,21 @@ public class FeatureFrament extends AndyBaseFragment {
         if (null != savedInstanceState) {
 
             TextUtils.isEmpty("ccc");
+
         }
+
+        File sd = Environment.getExternalStorageDirectory();
+        Log.e("Andy000", "sdcard path = " + sd.getAbsolutePath());
+
+//        File tmp = new File(sd, "tmp");
+//        if (tmp.exists()) {
+//            tmp.delete();
+//        }
+//        try {
+//            tmp.createNewFile();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
