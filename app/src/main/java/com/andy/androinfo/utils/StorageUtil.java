@@ -23,6 +23,14 @@ public class StorageUtil {
         Log.e(TAG, str);
     }
 
+
+    public static void printStorageDir(Context context) {
+        String internalPath = Environment.getRootDirectory().getPath();
+        String externalPath = Environment.getExternalStorageDirectory().getPath();
+        Log.e(TAG, internalPath);
+        Log.e(TAG, externalPath);
+    }
+
     public static void getStorageCapacity(Context context) {
         //internal
         File path = Environment.getDataDirectory();

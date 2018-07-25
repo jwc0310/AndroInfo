@@ -1,11 +1,8 @@
 package com.andy.androinfo.uis;
 
-import android.content.Context;
-import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +15,12 @@ import com.andy.androinfo.R;
 import com.andy.androinfo.emulator.Detecter;
 import com.andy.androinfo.utils.Androinfo;
 import com.andy.androinfo.utils.PropertyUtil;
+import com.andy.androinfo.utils.ShellUtil;
+import com.andy.androinfo.utils.StorageUtil;
 
 /**
  * Created by Administrator on 2018/5/14.
  */
-
 public class EmulatorFrament extends AndyBaseFragment {
 
     private TextView content_tv;
@@ -103,8 +101,7 @@ public class EmulatorFrament extends AndyBaseFragment {
             }
         });
 
-
-
+        StorageUtil.printStorageDir(getContext());
     }
 
     @Override

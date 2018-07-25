@@ -97,11 +97,11 @@ public class MainActivity extends AndyBaseActivity {
             } else if (titleBean.getSubTitle().equals("设备")) {
                 fragmentList.add(DeviceFrament.instance(""));
             } else if (titleBean.getSubTitle().equals("电池")) {
-                fragmentList.add(DeviceFrament.instance(""));
+                fragmentList.add(BatteryFrament.instance(""));
             } else if (titleBean.getSubTitle().equals("系统")) {
-                fragmentList.add(DeviceFrament.instance(""));
+                fragmentList.add(SystemFrament.instance(""));
             } else if (titleBean.getSubTitle().equals("关于")) {
-                fragmentList.add(DeviceFrament.instance(""));
+                fragmentList.add(AboutFrament.instance(""));
             } else if (titleBean.getSubTitle().equals("测试")) {
                 fragmentList.add(TestFrament.instance(""));
             } else {
@@ -126,12 +126,12 @@ public class MainActivity extends AndyBaseActivity {
         content_vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.e("Andy", "pos = " + position + " posOffset = " + positionOffset + " posOffsetPixel = " + positionOffsetPixels);
+                Log.i("Andy", "pos = " + position + " posOffset = " + positionOffset + " posOffsetPixel = " + positionOffsetPixels);
             }
 
             @Override
             public void onPageSelected(int position) {
-                Log.e("Andy", "selected " + position);
+                Log.i("Andy", "selected " + position);
                 titleAdapter.tabChange(position);
             }
 

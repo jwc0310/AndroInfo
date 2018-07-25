@@ -10,8 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.andy.androinfo.R;
+import com.andy.androinfo.features.Gapps;
 import com.andy.androinfo.hook.HookUtil;
+import com.andy.androinfo.utils.FileOps;
 import com.andy.androinfo.utils.NotificationUtils;
+import com.andy.androinfo.utils.XmlUtils;
+
+import org.xmlpull.v1.XmlPullParser;
 
 /**
  * Created by Administrator on 2018/5/14.
@@ -47,17 +52,18 @@ public class TestFrament extends AndyBaseFragment {
 
     @Override
     protected void initPrepare() {
-        Log.e("Andy", "initPrepare");
     }
 
     @Override
     protected void onInvisible() {
-        Log.e("Andy", "onInvisible");
     }
 
     @Override
     protected void initData() {
-        Log.e("Andy", "add content: " + content);
+        //Gapps.hookGaid();
+//        XmlUtils.parseXml("/sdcard/Download/adid_settings.xml");
+//        XmlUtils.parseXml("/sdcard/Download/person.xml");
+//        FileOps.modifyXml("/sdcard/Download/adid_settings.xml", "\"adid_key\"", "addffdfdcdifsjdfkji");
     }
 
     @Override

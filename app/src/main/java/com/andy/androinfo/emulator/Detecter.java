@@ -15,15 +15,15 @@ public class Detecter {
     public static String getDetecterInfo(Context context) {
         StringBuilder builder = new StringBuilder("");
 
-        builder.append("Usb debug is ");
+        builder.append("usb debug is ");
         builder.append(checkUsbDebugModeIsOn(context) ? "on" : "off");
         builder.append("\n");
 
-        builder.append("Developer mode is ");
+        builder.append("developer mode is ");
         builder.append(isDebuggerConnected() ? "on" : "off");
         builder.append("\n");
 
-        builder.append("Cgroup file is ");
+        builder.append("cgroup file is ");
         builder.append(checkCgroupFileExist() ? "exist" : "not exist");
         builder.append("\n");
 
