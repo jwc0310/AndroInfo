@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Debug;
 import android.provider.Settings;
 
+import com.andy.androinfo.utils.BatteryUtils;
+
 import java.io.File;
 
 /**
@@ -26,6 +28,8 @@ public class Detecter {
         builder.append("cgroup file is ");
         builder.append(checkCgroupFileExist() ? "exist" : "not exist");
         builder.append("\n");
+
+        BatteryUtils.dump(context);
 
         return builder.toString();
     }

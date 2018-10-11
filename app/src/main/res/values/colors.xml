@@ -5,8 +5,10 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="andy_color_transparent">#00ffffff</color>
-
-
+    <color name="black">#ff000000</color>
 
     <color name="andy_title_font_white">#ffffff</color>
+
+    <color name="others">#ffff0000</color>
+    <color name="others1">#ffe35900</color>
 </resources>

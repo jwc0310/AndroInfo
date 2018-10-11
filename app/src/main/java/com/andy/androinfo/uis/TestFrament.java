@@ -1,6 +1,7 @@
 package com.andy.androinfo.uis;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -12,6 +13,8 @@ import android.widget.Button;
 import com.andy.androinfo.R;
 import com.andy.androinfo.features.Gapps;
 import com.andy.androinfo.hook.HookUtil;
+import com.andy.androinfo.preference.ActivityWithPreferenceFragment;
+import com.andy.androinfo.preference.PreferenceActivityWithPreferenceFragment;
 import com.andy.androinfo.utils.FileOps;
 import com.andy.androinfo.utils.NotificationUtils;
 import com.andy.androinfo.utils.XmlUtils;
@@ -26,7 +29,7 @@ public class TestFrament extends AndyBaseFragment {
 
     private static final String TAG = TestFrament.class.getSimpleName();
 
-    private Button hook_onClick, hook_notify;
+    private Button hook_onClick, hook_notify, go_prefer, go_prefer2;
     private int testi = 0;
     private Context context;
 
@@ -60,7 +63,7 @@ public class TestFrament extends AndyBaseFragment {
 
     @Override
     protected void initData() {
-        //Gapps.hookGaid();
+        Gapps.hookGaid();
 //        XmlUtils.parseXml("/sdcard/Download/adid_settings.xml");
 //        XmlUtils.parseXml("/sdcard/Download/person.xml");
 //        FileOps.modifyXml("/sdcard/Download/adid_settings.xml", "\"adid_key\"", "addffdfdcdifsjdfkji");
@@ -92,6 +95,23 @@ public class TestFrament extends AndyBaseFragment {
                 NotificationUtils.sendNotification(testi++);
             }
         });
+
+        go_prefer = (Button) view.findViewById(R.id.andy_prefer_setting);
+        go_prefer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), PreferenceActivityWithPreferenceFragment.class));
+            }
+        });
+
+        go_prefer2 = (Button) view.findViewById(R.id.andy_prefer_setting2);
+        go_prefer2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ActivityWithPreferenceFragment.class));
+            }
+        });
+
         return view;
     }
 }

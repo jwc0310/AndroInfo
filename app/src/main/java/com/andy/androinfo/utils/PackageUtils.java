@@ -1,12 +1,15 @@
 package com.andy.androinfo.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.util.Log;
 
 import org.json.JSONArray;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -30,4 +33,20 @@ public class PackageUtils {
 
         return jas.toString();
     }
+
+    public static void getInstallPackages(Context context) {
+        PackageManager  packageManager  = context.getPackageManager();
+        Intent intent = new Intent("android.intent.action.MAIN", null);
+        intent.addCategory("android.intent.category.LAUNCHER");
+        List list = packageManager.queryIntentActivities(intent, 0);
+        if (list != null) {
+            Iterator iterator = list.iterator();
+            while (iterator.hasNext()) {
+                Log.e("Andy package", ((ResolveInfo)iterator.next()).activityInfo.packageName);
+            }
+        }
+    }
+
+
+
 }

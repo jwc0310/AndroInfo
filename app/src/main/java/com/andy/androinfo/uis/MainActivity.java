@@ -12,10 +12,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -66,6 +68,10 @@ public class MainActivity extends AndyBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        Log.e("xxxx", dm.widthPixels + " x " + dm.heightPixels);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_main);
         HasFeature.showHasFeature(this);
 
@@ -133,6 +139,7 @@ public class MainActivity extends AndyBaseActivity {
             public void onPageSelected(int position) {
                 Log.i("Andy", "selected " + position);
                 titleAdapter.tabChange(position);
+                title_rv.scrollToPosition(position);
             }
 
             @Override

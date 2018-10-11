@@ -21,6 +21,20 @@
             android:padding="5dp"
             android:text="Hook notification"/>
 
+        <Button
+            android:id="@+id/andy_prefer_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="go prefer"/>
+
+        <Button
+            android:id="@+id/andy_prefer_setting2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="go prefer2"/>
+
     </LinearLayout>
 
 </ScrollView>

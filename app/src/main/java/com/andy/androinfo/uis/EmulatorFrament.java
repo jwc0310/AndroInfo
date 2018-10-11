@@ -63,6 +63,10 @@ public class EmulatorFrament extends AndyBaseFragment {
         proContent.append(Detecter.getDetecterInfo(getContext()));
         proContent.append("\n");
         proContent.append(Androinfo.deviceInfo(getContext()));
+        proContent.append("\n");
+        proContent.append(ShellUtil.do_exec("netcfg"));
+        int pid = android.os.Process.myPid();
+        proContent.append(ShellUtil.do_exec("ps | grep " + pid));
         content_tv.setText(proContent.toString());
     }
 
