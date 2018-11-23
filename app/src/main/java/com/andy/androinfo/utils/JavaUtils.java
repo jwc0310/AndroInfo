@@ -1,4 +1,4 @@
-package com.andy.androinfo.uis;
+package com.andy.androinfo.utils;
 
 public class JavaUtils {
 

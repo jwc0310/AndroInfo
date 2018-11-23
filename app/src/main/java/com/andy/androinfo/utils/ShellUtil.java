@@ -32,6 +32,37 @@ public class ShellUtil {
         return pid;
     }
 
+    public static String do_exec_getprop() {
+        StringBuilder builder = new StringBuilder("");
+        int result;
+        String command = "toolbox getprop";
+        try {
+            Process process = Runtime.getRuntime().exec("sh");
+            DataOutputStream outputStream = new DataOutputStream(process.getOutputStream());
+            outputStream.write(command.getBytes());
+            outputStream.writeBytes("\n");
+            outputStream.flush();
+            outputStream.writeBytes("exit\n");
+            outputStream.flush();
+            result = process.waitFor();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while((line = reader.readLine()) != null) {
+                builder.append(line);
+                builder.append("\n");
+            }
+            BufferedReader reader1 = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            while((line = reader1.readLine()) != null) {
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            builder = new StringBuilder("");
+        }
+
+        return builder.toString();
+    }
+
     public static String do_exec(String command) {
         StringBuilder builder = new StringBuilder("");
         int result;
@@ -44,8 +75,6 @@ public class ShellUtil {
             outputStream.writeBytes("exit\n");
             outputStream.flush();
             result = process.waitFor();
-            builder.append("pid = " + getPid(process));
-            builder.append("\n");
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;

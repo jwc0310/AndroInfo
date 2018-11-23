@@ -67,6 +67,8 @@ public class EmulatorFrament extends AndyBaseFragment {
         proContent.append(ShellUtil.do_exec("netcfg"));
         int pid = android.os.Process.myPid();
         proContent.append(ShellUtil.do_exec("ps | grep " + pid));
+        proContent.append("\n");
+        proContent.append(StorageUtil.printStorageDir(getContext()).toString());
         content_tv.setText(proContent.toString());
     }
 
@@ -105,7 +107,6 @@ public class EmulatorFrament extends AndyBaseFragment {
             }
         });
 
-        StorageUtil.printStorageDir(getContext());
     }
 
     @Override

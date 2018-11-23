@@ -1,6 +1,8 @@
 package com.andy.androinfo.utils;
 
 import android.os.Build;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.andy.androinfo.beans.Properys;
 
@@ -10,12 +12,33 @@ import java.util.List;
 
 public class PropertyUtil {
 
+    private static final String[] properities =  {
+            "ro.build.id",
+            "ro.build.display.id",
+            "ro.build.version.incremental",
+            "ro.build.version.sdk",
+            "ro.build.version.preview_sdk",
+            "ro.build.version.codename",
+            "ro.build.version.all_codenames",
+            "ro.build.version.release",
+            "ro.build.version.security_patch",
+            "ro.build.version.base_os",
+            "ro.product.name",
+            "ro.product.device",
+            "ro.product.board",
+            "ro.product.manufacturer",
+    };
+
     public static List<Properys> getPropertyList() {
+        String result = ShellUtil.do_exec_getprop();
         List<Properys> list = new ArrayList<>();
-        list.add(new Properys("ro.product.name", Build.PRODUCT));
-        list.add(new Properys("ro.product.device", Build.DEVICE));
-        list.add(new Properys("ro.product.board", Build.BOARD));
-        list.add(new Properys("ro.product.manufacturer", Build.MANUFACTURER));
+        if (!TextUtils.isEmpty(result)) {
+            String[] lines = result.split("\n");
+            for (int i = 0; i < lines.length; i++) {
+                String[] pros = lines[i].split(":");
+                list.add(new Properys(pros[0], pros[1]));
+            }
+        }
         return list;
     }
 

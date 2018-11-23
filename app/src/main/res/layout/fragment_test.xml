@@ -35,6 +35,20 @@
             android:padding="5dp"
             android:text="go prefer2"/>
 
+        <Button
+            android:id="@+id/andy_open_exec_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="entry exec"/>
+
+        <Button
+            android:id="@+id/andy_install_xapk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="install xapk"/>
+
     </LinearLayout>
 
 </ScrollView>

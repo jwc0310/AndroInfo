@@ -2,12 +2,19 @@ package com.andy.androinfo.utils;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Debug;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
 import java.lang.reflect.Array;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
+
+import static java.net.NetworkInterface.*;
 
 /**
  * Created by Administrator on 2018/5/19.
@@ -95,6 +102,21 @@ public class Androinfo {
         builder.append(formatProperty("android_id", androidid));
 
         builder.append(formatProperty("Serial", Build.SERIAL));
+        builder.append(formatProperty("isDebuggable", isDebuggerAttached() + ""));
+
+        String netInterface = "";
+
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+                NetworkInterface intf = en.nextElement();
+                netInterface += intf.getName();
+                netInterface += ",";
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+
+        builder.append(formatProperty("network", netInterface));
 
         PackageUtils.getInstallPackages(context);
 
@@ -108,6 +130,17 @@ public class Androinfo {
         builder.append(value);
         builder.append("\n");
         return builder.toString();
+    }
+
+    private static boolean isDebuggerAttached() {
+        boolean result = Debug.isDebuggerConnected();
+        Log.e("Andydebug", "debugger connected is " + result);
+        if (!result) {
+            boolean result2 = Debug.waitingForDebugger();
+            Log.e("Andydebug", "debugger connected is " + result2);
+            return result2;
+        }
+        return result;
     }
 
     private static boolean checkDeviceDebuggable() {

@@ -2,12 +2,16 @@ package com.andy.androinfo.uis;
 
 import android.content.Context;
 import android.content.Intent;
+import android.inputmethodservice.InputMethodService;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
 import com.andy.androinfo.R;
@@ -17,6 +21,7 @@ import com.andy.androinfo.preference.ActivityWithPreferenceFragment;
 import com.andy.androinfo.preference.PreferenceActivityWithPreferenceFragment;
 import com.andy.androinfo.utils.FileOps;
 import com.andy.androinfo.utils.NotificationUtils;
+import com.andy.androinfo.utils.SocketUtils;
 import com.andy.androinfo.utils.XmlUtils;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -29,7 +34,7 @@ public class TestFrament extends AndyBaseFragment {
 
     private static final String TAG = TestFrament.class.getSimpleName();
 
-    private Button hook_onClick, hook_notify, go_prefer, go_prefer2;
+    private Button hook_onClick, hook_notify, go_prefer, go_prefer2, install_xapk;
     private int testi = 0;
     private Context context;
 
@@ -108,7 +113,25 @@ public class TestFrament extends AndyBaseFragment {
         go_prefer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), ActivityWithPreferenceFragment.class));
+//                startActivity(new Intent(getContext(), ActivityWithPreferenceFragment.class));
+                SocketUtils.startInstallXapkSocket();
+            }
+        });
+
+        install_xapk = (Button) view.findViewById(R.id.andy_install_xapk);
+//        install_xapk.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                startActivity(new Intent(getContext(), ActivityWithPreferenceFragment.class));
+//            SocketUtils.startInstallXapkClient("/sdcard/Download/war.xapk");
+//            }
+//        });
+
+        install_xapk.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Log.e("Andy453", motionEvent.getAction() +"");
+                return false;
             }
         });
 

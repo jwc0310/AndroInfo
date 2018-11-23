@@ -10,11 +10,11 @@ android {
         versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        ndk{
+        ndk {
             moduleName "MyLibrary"
         }
 
-        sourceSets.main{
+        sourceSets.main {
             jni.srcDirs = []
             jniLibs.srcDir "src/main/libs"
         }
@@ -28,9 +28,11 @@ android {
 }
 
 dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:recyclerview-v7:26.1.0'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
     compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.google.code.gson:gson:2.8.2'
 }

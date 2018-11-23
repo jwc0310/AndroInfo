@@ -1,6 +1,7 @@
 package com.andy.androinfo.uis;
 
 import android.content.Context;
+import android.hardware.Camera;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andy.androinfo.R;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/5/14.
@@ -45,17 +48,14 @@ public class CameraFrament extends AndyBaseFragment {
 
     @Override
     protected void initPrepare() {
-        Log.e("Andy", "initPrepare");
     }
 
     @Override
     protected void onInvisible() {
-        Log.e("Andy", "onInvisible");
     }
 
     @Override
     protected void initData() {
-        Log.e("Andy", "add content: " + content);
     }
 
     @Override
@@ -70,6 +70,12 @@ public class CameraFrament extends AndyBaseFragment {
             cameraManager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
         } else {
 
+        }
+
+        Camera camera = Camera.open();
+        List<Camera.Size> sizeList = camera.getParameters().getSupportedPreviewSizes();
+        for (Camera.Size size : sizeList) {
+            Log.e("Andycamera", size.width +" x " +size.height);
         }
     }
 

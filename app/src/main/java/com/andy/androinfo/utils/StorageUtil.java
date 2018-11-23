@@ -24,11 +24,20 @@ public class StorageUtil {
     }
 
 
-    public static void printStorageDir(Context context) {
+    public static StringBuilder printStorageDir(Context context) {
         String internalPath = Environment.getRootDirectory().getPath();
         String externalPath = Environment.getExternalStorageDirectory().getPath();
-        Log.e(TAG, internalPath);
-        Log.e(TAG, externalPath);
+        String downloadCache = Environment.getDownloadCacheDirectory().getAbsolutePath();
+
+        StringBuilder builder = new StringBuilder("");
+        builder.append("rootdir: " + internalPath);
+        builder.append("\n");
+        builder.append("externalPath: " + externalPath);
+        builder.append("\n");
+        builder.append("downloadCache: " + downloadCache);
+        builder.append("\n");
+
+        return builder;
     }
 
     public static void getStorageCapacity(Context context) {

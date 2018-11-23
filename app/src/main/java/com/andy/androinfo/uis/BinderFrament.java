@@ -26,7 +26,6 @@ public class BinderFrament extends AndyBaseFragment {
     private static final String TAG = BinderFrament.class.getSimpleName();
 
     private Context context;
-
     public static BinderFrament instance(String content) {
         BinderFrament fragment = new BinderFrament();
         return fragment;

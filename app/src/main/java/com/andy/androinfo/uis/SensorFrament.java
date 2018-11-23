@@ -49,6 +49,22 @@ public class SensorFrament extends AndyBaseFragment implements SensorEventListen
             sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_GRAVITY), SensorManager.SENSOR_DELAY_GAME);
             sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION), SensorManager.SENSOR_DELAY_GAME);
         }
+        Sensor sensor = sm.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        if (sensor == null) {
+            Log.e("Andy Sensor", "sensor proximity is null");
+        } else {
+            Log.e("Andy Sensor", "sensor proximity is enable");
+        }
+
+
+        for (int i = 1; i < 10; i++) {
+            Sensor sensor1 = sm.getDefaultSensor(i);
+            if (sensor1 == null) {
+                Log.e("Andy Sensor", "sensor " + i + " is null");
+            } else {
+                Log.e("Andy Sensor", "sensor " + i + " is enable");
+            }
+        }
     }
 
     @Override
@@ -65,17 +81,14 @@ public class SensorFrament extends AndyBaseFragment implements SensorEventListen
 
     @Override
     protected void initPrepare() {
-        Log.e("Andy", "initPrepare");
     }
 
     @Override
     protected void onInvisible() {
-        Log.e("Andy", "onInvisible");
     }
 
     @Override
     protected void initData() {
-        Log.e("Andy", "add content: " + content);
     }
 
     @Override
@@ -100,7 +113,6 @@ public class SensorFrament extends AndyBaseFragment implements SensorEventListen
         mTxtValue9 = (TextView) view.findViewById(R.id.andy_tv_sensor9);
 
         try {
-            Log.e("AndroFileObserver", "create file");
             File file = new File("/sdcard/Download/tmp.xml");
             if (file.exists())
                 file.delete();

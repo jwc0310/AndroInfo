@@ -2,6 +2,8 @@ package com.andy.androinfo.utils;
 
 import android.text.TextUtils;
 
+import dalvik.system.DexFile;
+
 /**
  * Created by Administrator on 2018/5/10.
  */
@@ -14,6 +16,7 @@ public class Test{
 
         System.out.println(dd);
         System.out.println(newDD);
+
     }
 
 }
