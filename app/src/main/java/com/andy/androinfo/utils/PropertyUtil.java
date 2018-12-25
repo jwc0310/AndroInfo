@@ -1,8 +1,6 @@
 package com.andy.androinfo.utils;
 
-import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.andy.androinfo.beans.Properys;
 
@@ -55,7 +53,6 @@ public class PropertyUtil {
 
         return value;
     }
-
 
     public static boolean setprop(String key, String value) {
         boolean result = true;

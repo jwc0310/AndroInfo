@@ -14,6 +14,7 @@ import com.andy.androinfo.R;
 import com.andy.androinfo.binder.DemoService;
 import com.andy.androinfo.binder.IDemoConnection;
 import com.andy.androinfo.hook.HookUtil;
+import com.andy.androinfo.jni.TestJni;
 import com.andy.androinfo.utils.NotificationUtils;
 import com.andy.androinfo.utils.StorageUtil;
 
@@ -48,12 +49,10 @@ public class BinderFrament extends AndyBaseFragment {
 
     @Override
     protected void initPrepare() {
-        Log.e("Andy", "initPrepare");
     }
 
     @Override
     protected void onInvisible() {
-        Log.e("Andy", "onInvisible");
     }
 
     @Override
@@ -65,6 +64,9 @@ public class BinderFrament extends AndyBaseFragment {
         StorageUtil.getStorageCapacity(getContext());
         StorageUtil.readSDCard(getContext());
         StorageUtil.readSystem(getContext());
+
+        TestJni.getHello();
+        TestJni.getHello("body");
 
     }
 

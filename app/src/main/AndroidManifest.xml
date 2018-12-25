@@ -41,7 +41,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".uis.execActivity"></activity>
+        <activity android:name=".uis.execActivity"/>
     </application>
 
 </manifest>

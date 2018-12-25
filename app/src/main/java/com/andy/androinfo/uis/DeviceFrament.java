@@ -1,7 +1,6 @@
 package com.andy.androinfo.uis;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
@@ -15,10 +14,7 @@ import android.view.ViewGroup;
 import com.andy.androinfo.R;
 import com.andy.androinfo.adapters.PropertyListAdapter;
 import com.andy.androinfo.beans.Properys;
-import com.andy.androinfo.binder.DemoService;
-import com.andy.androinfo.binder.IDemoConnection;
 import com.andy.androinfo.utils.PropertyUtil;
-import com.andy.androinfo.utils.StorageUtil;
 
 import java.util.ArrayList;
 import java.util.List;

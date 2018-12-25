@@ -7,4 +7,5 @@ public class TestJni {
     }
 
     public static native String getHello();
+    public static native String getHello(String paras);
 }

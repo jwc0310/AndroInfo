@@ -12,8 +12,16 @@ extern "C" {
  * Method:    getHello
  * Signature: ()Ljava/lang/String;
  */
-JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello
+JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__
   (JNIEnv *, jclass);
+
+/*
+ * Class:     com_andy_androinfo_jni_TestJni
+ * Method:    getHello
+ * Signature: (Ljava/lang/String;)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__Ljava_lang_String_2
+  (JNIEnv *, jclass, jstring);
 
 #ifdef __cplusplus
 }
