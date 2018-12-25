@@ -1,5 +1,6 @@
 package com.andy.androinfo.utils;
 
+import android.os.Build;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -36,6 +37,8 @@ public class ShellUtil {
         StringBuilder builder = new StringBuilder("");
         int result;
         String command = "toolbox getprop";
+        if (Build.VERSION.SDK_INT >= 25)
+            command = "getprop";
         try {
             Process process = Runtime.getRuntime().exec("sh");
             DataOutputStream outputStream = new DataOutputStream(process.getOutputStream());

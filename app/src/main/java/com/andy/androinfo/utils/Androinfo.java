@@ -14,8 +14,6 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
-import static java.net.NetworkInterface.*;
-
 /**
  * Created by Administrator on 2018/5/19.
  */
@@ -42,6 +40,7 @@ public class Androinfo {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
         builder.append(formatProperty("device_id", tm.getDeviceId()));
+        builder.append(formatProperty("android_id", Settings.System.getString(context.getContentResolver(), Settings.System.ANDROID_ID)));
         builder.append(formatProperty("ro.debuggable", PropertyUtil.getprop("ro.debuggable", "no value")));
         builder.append(formatProperty("ro.secure", PropertyUtil.getprop("ro.secure", "no value")));
         builder.append(formatProperty("persist.sys.usb.config", PropertyUtil.getprop("persist.sys.usb.config", "no value")));

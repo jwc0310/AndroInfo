@@ -66,17 +66,17 @@ public class CameraFrament extends AndyBaseFragment {
         Bundle bundle = getArguments();
         content = bundle.getString(TYPE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            cameraManager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
-        } else {
-
-        }
-
-        Camera camera = Camera.open();
-        List<Camera.Size> sizeList = camera.getParameters().getSupportedPreviewSizes();
-        for (Camera.Size size : sizeList) {
-            Log.e("Andycamera", size.width +" x " +size.height);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            cameraManager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
+//        } else {
+//
+//        }
+//
+//        Camera camera = Camera.open();
+//        List<Camera.Size> sizeList = camera.getParameters().getSupportedPreviewSizes();
+//        for (Camera.Size size : sizeList) {
+//            Log.e("Andycamera", size.width +" x " +size.height);
+//        }
     }
 
     @Override

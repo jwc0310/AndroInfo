@@ -43,6 +43,27 @@ public class PackageUtils {
         return jas.toString();
     }
 
+    public static String getInstalledApps2(Context context) {
+        StringBuilder builder = new StringBuilder();
+        PackageManager packageManager = context.getPackageManager();
+        List<ApplicationInfo> list = packageManager.getInstalledApplications(0x2000);
+        for (ApplicationInfo packageInfo : list) {
+            Log.e("AndyPackage", packageInfo.packageName +", is install in sdcard ? = " + ((packageInfo.flags & ApplicationInfo.FLAG_EXTERNAL_STORAGE) != 0)
+            + ", from = " + packageManager.getInstallerPackageName(packageInfo.packageName));
+        }
+        return builder.toString();
+    }
+
+    public static String getInstalledApps(Context context) {
+        StringBuilder builder = new StringBuilder();
+        PackageManager packageManager = context.getPackageManager();
+        List<PackageInfo> list = packageManager.getInstalledPackages(0);
+        for (PackageInfo packageInfo : list) {
+            Log.e("AndyPackage", packageInfo.toString());
+        }
+        return builder.toString();
+    }
+
     public static void getInstallPackages(Context context) {
         PackageManager  packageManager  = context.getPackageManager();
         Intent intent = new Intent("android.intent.action.MAIN", null);

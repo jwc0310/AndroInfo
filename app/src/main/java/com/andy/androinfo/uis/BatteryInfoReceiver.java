@@ -3,7 +3,6 @@ package com.andy.androinfo.uis;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-
 import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.Message;
@@ -48,7 +47,6 @@ public class BatteryInfoReceiver extends BroadcastReceiver {
         stringBuilder.append("\n");
         stringBuilder.append("valtage: " + intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0));
         stringBuilder.append("\n");
-
 
         Message msg = new Message();
         msg.what = 0x1;

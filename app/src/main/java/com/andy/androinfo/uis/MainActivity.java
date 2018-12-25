@@ -25,12 +25,7 @@ import com.andy.androinfo.R;
 import com.andy.androinfo.beans.TitleBean;
 import com.andy.androinfo.emulator.Detecter;
 import com.andy.androinfo.reflect.ReflectUtil;
-import com.andy.androinfo.utils.AndroFileObserver;
-import com.andy.androinfo.utils.FileUtil;
-import com.andy.androinfo.utils.HasFeature;
-import com.andy.androinfo.utils.PackageUtils;
-import com.andy.androinfo.utils.StorageUtil;
-import com.andy.androinfo.utils.Test2;
+import com.andy.androinfo.utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +42,12 @@ public class MainActivity extends AndyBaseActivity {
     BatteryBcr batteryBcr;
 
     AndroFileObserver fileObserver;
+
+    private void doEmulatorTest() {
+        Emulator.test(this);
+        new IPInfo(this).getMacAddress();
+        new IPInfo(this).getWIFILocalIpAdress();
+    }
 
     @Override
     public void onResume() {
@@ -132,7 +133,7 @@ public class MainActivity extends AndyBaseActivity {
         content_vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.i("Andy", "pos = " + position + " posOffset = " + positionOffset + " posOffsetPixel = " + positionOffsetPixels);
+                //Log.i("Andy", "pos = " + position + " posOffset = " + positionOffset + " posOffsetPixel = " + positionOffsetPixels);
             }
 
             @Override
@@ -154,6 +155,15 @@ public class MainActivity extends AndyBaseActivity {
                 content_vp.setCurrentItem(pos, true);
             }
         });
+
+        doEmulatorTest();
+        try {
+            DirUtils.getApplicationDirectories(this);
+            DirUtils.getEnvironmentDirectories();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public class ContentFragmentPagerAdapter extends FragmentPagerAdapter {
