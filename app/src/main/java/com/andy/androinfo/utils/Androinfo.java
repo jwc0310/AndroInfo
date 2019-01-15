@@ -39,8 +39,10 @@ public class Androinfo {
 
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
+        builder.append(formatProperty("Mac: ", WifiUtils.getMacDefault(context)));
         builder.append(formatProperty("device_id", tm.getDeviceId()));
-        builder.append(formatProperty("android_id", Settings.System.getString(context.getContentResolver(), Settings.System.ANDROID_ID)));
+        builder.append(formatProperty("System android_id", Settings.System.getString(context.getContentResolver(), Settings.System.ANDROID_ID)));
+        builder.append(formatProperty("Secure android_id", Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID)));
         builder.append(formatProperty("ro.debuggable", PropertyUtil.getprop("ro.debuggable", "no value")));
         builder.append(formatProperty("ro.secure", PropertyUtil.getprop("ro.secure", "no value")));
         builder.append(formatProperty("persist.sys.usb.config", PropertyUtil.getprop("persist.sys.usb.config", "no value")));
@@ -106,7 +108,7 @@ public class Androinfo {
         String netInterface = "";
 
         try {
-            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en != null && en.hasMoreElements(); ) {
                 NetworkInterface intf = en.nextElement();
                 netInterface += intf.getName();
                 netInterface += ",";

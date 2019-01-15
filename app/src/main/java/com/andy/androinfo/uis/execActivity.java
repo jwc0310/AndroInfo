@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.FileInputStream;
+
 
 public class execActivity extends AppCompatActivity {
 
@@ -36,10 +38,15 @@ public class execActivity extends AppCompatActivity {
         });
     }
 
-    private void exec(String cmd) {
+    private void exec(String cmd){
         if (TextUtils.isEmpty(cmd)) {
             exec_reulst.setText("cmd is null");
             return;
+        }
+        try {
+
+        }catch (Exception e) {
+            e.printStackTrace();
         }
 
         String result = ShellUtil.do_exec(cmd);

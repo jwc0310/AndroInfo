@@ -1,10 +1,15 @@
 package com.andy.androinfo.utils;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Vibrator;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.InputDevice;
 
@@ -20,6 +25,79 @@ import java.util.regex.Pattern;
 public class Emulator {
     private static final String TAG = "AndyEmulator";
 
+    public static void run(Context context) {
+        test(context);
+        isEmulator(context);
+    }
+
+    public static boolean isEmulator(Context context){
+        boolean notHasBlueTooth = notHasBlueTooth();
+        boolean notHasLightSensorManager = notHasLightSensorManager(context);
+        boolean isFeatures = isFeatures();
+        Log.e("notHasBlueTooth=====", String.valueOf(notHasBlueTooth));
+        Log.e("notHaanager=====", String.valueOf(notHasLightSensorManager));
+        Log.e("isFeatures=====", String.valueOf(isFeatures));
+        if(notHasBlueTooth || notHasLightSensorManager || isFeatures){
+            Log.e("isEmulator=========","true");
+            return true;
+        }
+        Log.e("isEmulator=========","false");
+        return false;
+    }
+
+    /**
+     * 判断是否存在光传感器来判断是否为模拟器
+     * 部分真机也不存在温度和压力传感器。其余传感器模拟器也存在。
+     * @return true 为模拟器
+     */
+    public static Boolean notHasLightSensorManager(Context context) {
+        SensorManager sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        Sensor sensor8 = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT); //光
+        if (null == sensor8) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 根据部分特征参数设备信息来判断是否为模拟器
+     *
+     * @return true 为模拟器
+     */
+    public static boolean isFeatures() {
+        return Build.FINGERPRINT.startsWith("generic")
+                || Build.FINGERPRINT.toLowerCase().contains("vbox")
+                || Build.FINGERPRINT.toLowerCase().contains("test-keys")
+                || Build.MODEL.contains("google_sdk")
+                || Build.MODEL.contains("Emulator")
+                || Build.MODEL.contains("Android SDK built for x86")
+                || Build.MANUFACTURER.contains("Genymotion")
+                || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+                || "google_sdk".equals(Build.PRODUCT);
+    }
+
+    /**
+     * 判断蓝牙是否有效来判断是否为模拟器
+     *
+     * @return true 为模拟器
+     */
+    public static boolean notHasBlueTooth() {
+        BluetoothAdapter ba = BluetoothAdapter.getDefaultAdapter();
+        if (ba == null) {
+            return true;
+        } else {
+            // 如果有蓝牙不一定是有效的。获取蓝牙名称，若为null 则默认为模拟器
+            String name = ba.getName();
+            if (TextUtils.isEmpty(name)) {
+                return true;
+            } else {
+                Log.e(TAG, "bluetooth name is = " + name);
+                return false;
+            }
+        }
+    }
+
     public static void test(Context context) {
         int[] nums = InputDevice.getDeviceIds();
         Log.e("AndyEmulator", "nums = " + nums.length);
@@ -33,11 +111,6 @@ public class Emulator {
 
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         Log.e(TAG, "hasVibrator = " + vibrator.hasVibrator());
-
-//        String source = context.getPackageManager().getInstallerPackageName("com.com2us.ninepb3d.normal.freefull.google.global.android.common");
-//        if (source != null) {
-//            Log.e(TAG, "com2us.source = " + source);
-//        }
 
         listProc();
         queryActivitys(context);
@@ -103,7 +176,6 @@ public class Emulator {
         }
 
     }
-
 
     private static boolean isNumeric(String str) {
         Pattern pattern = Pattern.compile("[0-9]*");

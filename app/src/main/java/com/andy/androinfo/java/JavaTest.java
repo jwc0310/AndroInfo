@@ -1,5 +1,7 @@
 package com.andy.androinfo.java;
 
+import android.content.Intent;
+
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 
@@ -9,7 +11,6 @@ import java.lang.reflect.Field;
 
 public class JavaTest {
     public static void main(String[] args) {
-
         Student.print();
         //Student.print2();
 
@@ -17,9 +18,6 @@ public class JavaTest {
             Class<?>  stringType = Class.forName(String.class.getName());
             Array.set(Student.names, 0, "aaaaa");
             Student.print();
-
-
-
 
         } catch (Exception e) {
             e.printStackTrace();

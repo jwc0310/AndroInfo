@@ -37,6 +37,9 @@ public class StorageUtil {
         builder.append("downloadCache: " + downloadCache);
         builder.append("\n");
 
+        builder.append("mount stat : " + Environment.getExternalStorageState());
+        builder.append("\n");
+
         return builder;
     }
 

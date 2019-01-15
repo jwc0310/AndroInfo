@@ -1,9 +1,5 @@
 package com.andy.androinfo.utils;
 
-import android.text.TextUtils;
-
-import dalvik.system.DexFile;
-
 /**
  * Created by Administrator on 2018/5/10.
  */
@@ -16,6 +12,22 @@ public class Test{
 
         System.out.println(dd);
         System.out.println(newDD);
+
+        long time = System.currentTimeMillis();
+        System.out.println(time);
+
+        try {
+            Thread.sleep(1000);
+            long time1 = System.currentTimeMillis();
+            System.out.println(time1);
+            if (time1 > time) {
+                System.out.println("normal");
+            } else {
+                System.out.println("abnormal");
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 

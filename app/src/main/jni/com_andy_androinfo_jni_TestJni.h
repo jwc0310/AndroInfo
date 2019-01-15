@@ -23,6 +23,30 @@ JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__
 JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__Ljava_lang_String_2
   (JNIEnv *, jclass, jstring);
 
+/*
+ * Class:     com_andy_androinfo_jni_TestJni
+ * Method:    qemuBkpt
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_andy_androinfo_jni_TestJni_qemuBkpt
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     com_andy_androinfo_jni_TestJni
+ * Method:    qemuFingerPrint
+ * Signature: ()D
+ */
+JNIEXPORT jdouble JNICALL Java_com_andy_androinfo_jni_TestJni_qemuFingerPrint
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     com_andy_androinfo_jni_TestJni
+ * Method:    detect
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_andy_androinfo_jni_TestJni_detect
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif

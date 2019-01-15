@@ -81,8 +81,6 @@ public class DirUtils {
         //获取程序默认数据库路径 :/data/data/com.mufeng.toolproject/databases/mufeng
         String databasePat = context.getDatabasePath("mufeng").toString();
         System.out.println("sdcard context.getDatabasePath(\"mufeng\")=:" + databasePat);
-
-
     }
 
 

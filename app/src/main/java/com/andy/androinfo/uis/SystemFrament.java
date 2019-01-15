@@ -49,12 +49,10 @@ public class SystemFrament extends AndyBaseFragment {
 
     @Override
     protected void initPrepare() {
-        Log.e("Andy", "initPrepare");
     }
 
     @Override
     protected void onInvisible() {
-        Log.e("Andy", "onInvisible");
     }
 
     @Override
@@ -72,7 +70,6 @@ public class SystemFrament extends AndyBaseFragment {
         builder.append("orientation = " + orientation);
 
         textView.setText(builder.toString());
-
     }
 
     @Override

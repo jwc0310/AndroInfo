@@ -44,7 +44,7 @@ public class MainActivity extends AndyBaseActivity {
     AndroFileObserver fileObserver;
 
     private void doEmulatorTest() {
-        Emulator.test(this);
+        Emulator.run(this);
         new IPInfo(this).getMacAddress();
         new IPInfo(this).getWIFILocalIpAdress();
     }
@@ -54,6 +54,7 @@ public class MainActivity extends AndyBaseActivity {
         super.onResume();
         ReflectUtil.doReflect(this.getClassLoader());
         ReflectUtil.doReflect2();
+        XmlUtils.getAndroidId();
 
     }
 

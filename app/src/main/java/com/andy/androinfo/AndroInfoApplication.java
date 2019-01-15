@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.andy.androinfo.uis.MainActivity;
 import com.andy.androinfo.hook.HookUtil;
+import com.andy.androinfo.utils.LogUtil;
 
 /**
  * Created by Administrator on 2018/5/31.
@@ -22,6 +23,7 @@ public class AndroInfoApplication extends Application {
         new HookUtil(MainActivity.class, this).hookFuncs();
         new HookUtil(MainActivity.class, this).hookNotificationManager();
         Log.e("Andy777", getPackageName());
+        LogUtil.setDebug(true);
     }
 
     @Override

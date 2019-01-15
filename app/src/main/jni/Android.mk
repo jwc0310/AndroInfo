@@ -6,5 +6,7 @@ LOCAL_LDLIBS    := -llog
 
 LOCAL_MODULE    := MyLibrary
 LOCAL_SRC_FILES := hello.cpp
+LOCAL_SRC_FILES += read_elf_head.c
+LOCAL_SRC_FILES += emulator_check.c
 
 include $(BUILD_SHARED_LIBRARY)
