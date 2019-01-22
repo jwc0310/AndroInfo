@@ -55,7 +55,6 @@ public class MainActivity extends AndyBaseActivity {
         ReflectUtil.doReflect(this.getClassLoader());
         ReflectUtil.doReflect2();
         XmlUtils.getAndroidId();
-
     }
 
     @Override
@@ -158,6 +157,9 @@ public class MainActivity extends AndyBaseActivity {
         });
 
         doEmulatorTest();
+        DirUtils.externalDir(this);
+        MemUtils.getMemInfo(this);
+        
         try {
             DirUtils.getApplicationDirectories(this);
             DirUtils.getEnvironmentDirectories();

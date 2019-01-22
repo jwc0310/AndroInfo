@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.os.StatFs;
+import android.os.storage.StorageManager;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -19,6 +21,31 @@ import java.io.IOException;
  */
 public class DirUtils {
     private static final String TAG = "DirectoryUtils";
+
+    public static void externalDir(Context context) {
+        /*
+
+        try {
+            File file0 = new File("/storage/emulated/0/Android/data/abcdef1");
+            file0.createNewFile();
+
+            file0 = new File("/storage/emulated/0/Android/data/abcdef2");
+            file0.createNewFile();
+
+            file0 = new File("/sdcard/Android/data/abcdef3");
+            file0.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.e(TAG, Environment.getExternalStorageDirectory().getAbsolutePath());
+//        Log.e(TAG, context.getExternalCacheDir().getAbsolutePath());
+//        for (File file : context.getExternalCacheDirs()) {
+//            Log.e(TAG, file != null ? file.getAbsolutePath() : "file = null");
+//        }
+//
+//        Log.e(TAG, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getAbsolutePath());
+    */
+    }
 
     public static void getEnvironmentDirectories() {
         //:/system
@@ -67,8 +94,8 @@ public class DirUtils {
         System.out.println("sdcard context.getCacheDir()=:" + cacheDir);
 
         //应用在外部存储上的目录 :/storage/emulated/0/Android/data/com.mufeng.toolproject/files/Movies
-        //String externalFilesDir = context.getExternalFilesDir(Environment.DIRECTORY_MOVIES).toString();
-        //System.out.println("sdcard context.getExternalFilesDir()=:" + externalFilesDir);
+        String externalFilesDir = context.getExternalFilesDir(Environment.DIRECTORY_MOVIES).toString();
+        System.out.println("sdcard context.getExternalFilesDir()=:" + externalFilesDir);
 
         //应用的在外部存储上的缓存目录 :/storage/emulated/0/Android/data/com.mufeng.toolproject/cache
         String externalCacheDir = context.getExternalCacheDir().toString();

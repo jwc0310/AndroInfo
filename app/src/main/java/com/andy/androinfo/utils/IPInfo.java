@@ -36,7 +36,7 @@ public class IPInfo {
     }
 
     public String getMacAddress() {
-        Log.e(TAG, mWifiInfo.getMacAddress());
+        Log.e(TAG, mWifiInfo.getMacAddress() == null ? "null" : mWifiInfo.getMacAddress());
         Log.e(TAG, mWifiInfo.getBSSID());
         Log.e(TAG, mWifiInfo.getSSID());
         Log.e(TAG, mWifiInfo.getRssi()+"");
