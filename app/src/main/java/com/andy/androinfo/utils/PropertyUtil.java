@@ -10,7 +10,7 @@ import java.util.List;
 
 public class PropertyUtil {
 
-    private static final String[] properities =  {
+    private static final String[] properities = {
             "ro.build.id",
             "ro.build.display.id",
             "ro.build.version.incremental",
@@ -28,7 +28,7 @@ public class PropertyUtil {
     };
 
     public static List<Properys> getPropertyList() {
-        String result = ShellUtil.do_exec_getprop();
+        String result = ShellUtils.do_exec_getprop();
         List<Properys> list = new ArrayList<>();
         if (!TextUtils.isEmpty(result)) {
             String[] lines = result.split("\n");

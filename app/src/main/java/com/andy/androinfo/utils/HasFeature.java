@@ -106,10 +106,6 @@ public class HasFeature {
         FeatureInfo[] featureInfos = pm.getSystemAvailableFeatures();
         for (int i = 0; i < featureInfos.length; i++) {
             String name = featureInfos[i].name;
-//            if (null != name)
-//                Log.e("Andy_featureList", name);
-//            else
-//                Log.e("Andy_featureList", "null");
         }
     }
 
@@ -119,17 +115,13 @@ public class HasFeature {
         return featureInfos;
     }
 
-    private static void showFeature(PackageManager pm, String feature) {
+    private static boolean showFeature(PackageManager pm, String feature) {
         String tmp = feature;
         if (tmp.startsWith("android.hardware.") || tmp.startsWith("android.software.")) {
             tmp = tmp.substring(17);
         }
 
-        if (pm.hasSystemFeature(feature)) {
-            //Log.e("Andy_feature", "Feature: " + tmp +"\ntrue\n");
-        } else {
-            //Log.e("Andy_feature", "Feature: " + tmp +"\nfalse\n");
-        }
+        return pm.hasSystemFeature(feature);
 
     }
 

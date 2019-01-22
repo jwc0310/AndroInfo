@@ -34,14 +34,14 @@ public class Emulator {
         boolean notHasBlueTooth = notHasBlueTooth();
         boolean notHasLightSensorManager = notHasLightSensorManager(context);
         boolean isFeatures = isFeatures();
-        Log.e("notHasBlueTooth=====", String.valueOf(notHasBlueTooth));
-        Log.e("notHaanager=====", String.valueOf(notHasLightSensorManager));
-        Log.e("isFeatures=====", String.valueOf(isFeatures));
+        LogUtil.e(LogUtil.Emulator_debug, "notHasBlueTooth=====", String.valueOf(notHasBlueTooth));
+        LogUtil.e(LogUtil.Emulator_debug, "notHaanager=====", String.valueOf(notHasLightSensorManager));
+        LogUtil.e(LogUtil.Emulator_debug, "isFeatures=====", String.valueOf(isFeatures));
         if(notHasBlueTooth || notHasLightSensorManager || isFeatures){
-            Log.e("isEmulator=========","true");
+            LogUtil.e(LogUtil.Emulator_debug, "isEmulator=========","true");
             return true;
         }
-        Log.e("isEmulator=========","false");
+        LogUtil.e(LogUtil.Emulator_debug, "isEmulator=========","false");
         return false;
     }
 
@@ -92,7 +92,7 @@ public class Emulator {
             if (TextUtils.isEmpty(name)) {
                 return true;
             } else {
-                Log.e(TAG, "bluetooth name is = " + name);
+                LogUtil.e(LogUtil.Emulator_debug, TAG, "bluetooth name is = " + name);
                 return false;
             }
         }
@@ -100,17 +100,17 @@ public class Emulator {
 
     public static void test(Context context) {
         int[] nums = InputDevice.getDeviceIds();
-        Log.e("AndyEmulator", "nums = " + nums.length);
+        LogUtil.e(LogUtil.Emulator_debug, "AndyEmulator", "nums = " + nums.length);
         for (int num : nums) {
-            Log.e("AndyEmulator", "num = " + num);
+            LogUtil.e(LogUtil.Emulator_debug,"AndyEmulator", "num = " + num);
             InputDevice inputDevice = InputDevice.getDevice(num);
-            Log.e(TAG, inputDevice.getName());
-            Log.e(TAG, inputDevice.getDescriptor());
-            Log.e(TAG, inputDevice.getControllerNumber()+"");
+            LogUtil.e(LogUtil.Emulator_debug, TAG, inputDevice.getName());
+            LogUtil.e(LogUtil.Emulator_debug, TAG, inputDevice.getDescriptor());
+            LogUtil.e(LogUtil.Emulator_debug, TAG, inputDevice.getControllerNumber()+"");
         }
 
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        Log.e(TAG, "hasVibrator = " + vibrator.hasVibrator());
+        LogUtil.e(LogUtil.Emulator_debug, TAG, "hasVibrator = " + vibrator.hasVibrator());
 
         listProc();
         queryActivitys(context);
@@ -141,13 +141,13 @@ public class Emulator {
     }
 
     private static void readFile(File file) {
-        Log.e(TAG, file.getAbsolutePath());
+        LogUtil.e(LogUtil.Emulator_debug, TAG, file.getAbsolutePath());
         try {
             FileReader reader = new FileReader(file);
             BufferedReader br = new BufferedReader(reader);
             String line;
             while ((line = br.readLine()) != null) {
-                Log.e(TAG, file.getAbsolutePath() +" "+line);
+                LogUtil.e(LogUtil.Emulator_debug, TAG, file.getAbsolutePath() +" "+line);
             }
             reader.close();
             br.close();
@@ -163,16 +163,16 @@ public class Emulator {
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         List<ResolveInfo> list =  packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         if (list == null) {
-            Log.e(TAG, "query = null");
+            LogUtil.e(LogUtil.Emulator_debug, TAG, "query = null");
             return;
         }
 
         if (list.size() == 0) {
-            Log.e(TAG, "query size null");
+            LogUtil.e(LogUtil.Emulator_debug, TAG, "query size null");
         }
 
         for (ResolveInfo resolveInfo : list) {
-            Log.e(TAG, "query = " + resolveInfo.activityInfo.packageName);
+            LogUtil.e(LogUtil.Emulator_debug, TAG, "query = " + resolveInfo.activityInfo.packageName);
         }
 
     }

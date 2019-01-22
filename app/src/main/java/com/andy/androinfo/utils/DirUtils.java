@@ -37,77 +37,77 @@ public class DirUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.e(TAG, Environment.getExternalStorageDirectory().getAbsolutePath());
-//        Log.e(TAG, context.getExternalCacheDir().getAbsolutePath());
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, Environment.getExternalStorageDirectory().getAbsolutePath());
+//        LogUtil.e(LogUtil.DirUtils_debug, TAG, context.getExternalCacheDir().getAbsolutePath());
 //        for (File file : context.getExternalCacheDirs()) {
-//            Log.e(TAG, file != null ? file.getAbsolutePath() : "file = null");
+//            LogUtil.e(LogUtil.DirUtils_debug, TAG, file != null ? file.getAbsolutePath() : "file = null");
 //        }
 //
-//        Log.e(TAG, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getAbsolutePath());
+//        LogUtil.e(LogUtil.DirUtils_debug, TAG, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getAbsolutePath());
     */
     }
 
     public static void getEnvironmentDirectories() {
         //:/system
         String rootDir = Environment.getRootDirectory().toString();
-        System.out.println("sdcard Environment.getRootDirectory()=:" + rootDir);
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, "sdcard Environment.getRootDirectory()=:" + rootDir);
 
         //:/data 用户数据目录
         String dataDir = Environment.getDataDirectory().toString();
-        System.out.println("sdcard Environment.getDataDirectory()=:" + dataDir);
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, "sdcard Environment.getDataDirectory()=:" + dataDir);
 
         //:/cache 下载缓存内容目录
         String cacheDir = Environment.getDownloadCacheDirectory().toString();
-        System.out.println("sdcard Environment.getDownloadCacheDirectory()=:" + cacheDir);
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, "sdcard Environment.getDownloadCacheDirectory()=:" + cacheDir);
 
         //:/mnt/sdcard或者/storage/emulated/0或者/storage/sdcard0 主要的外部存储目录
         String storageDir = Environment.getExternalStorageDirectory().toString();
-        System.out.println("sdcard Environment.getExternalStorageDirectory()=:" + storageDir +" size = " +getSDCardSize());
-        System.out.println("sdcard free = " +getSDCardAvailableSize());
-        System.out.println("sdcard free2 = " +getSDCardFreeSize());
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, "sdcard Environment.getExternalStorageDirectory()=:" + storageDir +" size = " +getSDCardSize());
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, "sdcard free = " +getSDCardAvailableSize());
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, "sdcard free2 = " +getSDCardFreeSize());
 
         //:/mnt/sdcard/Pictures或者/storage/emulated/0/Pictures或者/storage/sdcard0/Pictures
         String publicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
-        System.out.println("sdcard Environment.getExternalStoragePublicDirectory()=:" + publicDir);
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, "sdcard Environment.getExternalStoragePublicDirectory()=:" + publicDir);
 
         //获取SD卡是否存在:mounted
         String storageState = Environment.getExternalStorageState().toLowerCase();
-        System.out.println("sdcard Environment.getExternalStorageState()=:" + storageState);
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, "sdcard Environment.getExternalStorageState()=:" + storageState);
 
         //设备的外存是否是用内存模拟的，是则返回true。(API Level 11)
         boolean isEmulated = Environment.isExternalStorageEmulated();
-        System.out.println("sdcard Environment.isExternalStorageEmulated()=:" + isEmulated);
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, "sdcard Environment.isExternalStorageEmulated()=:" + isEmulated);
 
         //设备的外存是否是可以拆卸的，比如SD卡，是则返回true。(API Level 9)
         boolean isRemovable = Environment.isExternalStorageRemovable();
-        System.out.println("sdcard Environment.isExternalStorageRemovable()=:" + isRemovable);
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, "sdcard Environment.isExternalStorageRemovable()=:" + isRemovable);
     }
 
     public static void getApplicationDirectories(Context context) {
 
         //获取当前程序路径 应用在内存上的目录 :/data/data/com.mufeng.toolproject/files
         String filesDir = context.getFilesDir().toString();
-        System.out.println("sdcard context.getFilesDir()=:" + filesDir);
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, "sdcard context.getFilesDir()=:" + filesDir);
 
         //应用的在内存上的缓存目录 :/data/data/com.mufeng.toolproject/cache
         String cacheDir = context.getCacheDir().toString();
-        System.out.println("sdcard context.getCacheDir()=:" + cacheDir);
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, "sdcard context.getCacheDir()=:" + cacheDir);
 
         //应用在外部存储上的目录 :/storage/emulated/0/Android/data/com.mufeng.toolproject/files/Movies
         String externalFilesDir = context.getExternalFilesDir(Environment.DIRECTORY_MOVIES).toString();
-        System.out.println("sdcard context.getExternalFilesDir()=:" + externalFilesDir);
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, "sdcard context.getExternalFilesDir()=:" + externalFilesDir);
 
         //应用的在外部存储上的缓存目录 :/storage/emulated/0/Android/data/com.mufeng.toolproject/cache
         String externalCacheDir = context.getExternalCacheDir().toString();
-        System.out.println("sdcard context.getExternalCacheDir()=:" + externalCacheDir);
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, "sdcard context.getExternalCacheDir()=:" + externalCacheDir);
 
         //获取该程序的安装包路径 :/data/app/com.mufeng.toolproject-3.apk
         String packageResourcePath = context.getPackageResourcePath();
-        System.out.println("sdcard context.getPackageResourcePath()=:" + packageResourcePath);
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, "sdcard context.getPackageResourcePath()=:" + packageResourcePath);
 
         //获取程序默认数据库路径 :/data/data/com.mufeng.toolproject/databases/mufeng
         String databasePat = context.getDatabasePath("mufeng").toString();
-        System.out.println("sdcard context.getDatabasePath(\"mufeng\")=:" + databasePat);
+        LogUtil.e(LogUtil.DirUtils_debug, TAG, "sdcard context.getDatabasePath(\"mufeng\")=:" + databasePat);
     }
 
 

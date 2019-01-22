@@ -100,7 +100,7 @@ public class FeatureFrament extends AndyBaseFragment {
 
         PackageManager pm = context.getPackageManager();
         try {
-            ApplicationInfo info = pm.getApplicationInfo("com.microvirt.market", 0);
+            ApplicationInfo info = pm.getApplicationInfo("com..market", 0);
             Log.e("Andy777", info.loadLabel(pm).toString());
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

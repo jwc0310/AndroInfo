@@ -20,7 +20,7 @@ public class StorageUtil {
     private static final String TAG = StorageUtil.class.getSimpleName();
 
     private static void log(String str) {
-        Log.e(TAG, str);
+        LogUtil.e(LogUtil.StorageUtil_debug, TAG, str);
     }
 
 
@@ -61,7 +61,7 @@ public class StorageUtil {
         String totalStr1 = Formatter.formatFileSize(context, totalSize1);
         String availableStr1 = Formatter.formatFileSize(context, availableSize1);
 
-        Log.e("Andy storage", availableStr1 +"/" +totalStr1);
+        log(availableStr1 +"/" +totalStr1);
     }
 
 
@@ -73,14 +73,14 @@ public class StorageUtil {
             long blockSize = sf.getBlockSize();
             long blockCount = sf.getBlockCount();
             long availCount = sf.getAvailableBlocks();
-            Log.d("Andy storage", "block大小:"+ blockSize+",block数目:"+ blockCount+",总大小:"+blockSize*blockCount/1024+"KB");
-            Log.d("Andy storage", "可用的block数目：:"+ availCount+",剩余空间:"+ availCount*blockSize/1024+"KB");
+            log("block大小:"+ blockSize+",block数目:"+ blockCount+",总大小:"+blockSize*blockCount/1024+"KB");
+            log("可用的block数目：:"+ availCount+",剩余空间:"+ availCount*blockSize/1024+"KB");
 
 
             String totalStr1 = Formatter.formatFileSize(context, blockSize * blockCount);
             String availableStr1 = Formatter.formatFileSize(context, availCount * blockSize);
 
-            Log.e("Andy storage", availableStr1 +"/" +totalStr1);
+            log(availableStr1 +"/" +totalStr1);
         }
     }
 
@@ -90,13 +90,13 @@ public class StorageUtil {
         long blockSize = sf.getBlockSize();
         long blockCount = sf.getBlockCount();
         long availCount = sf.getAvailableBlocks();
-        Log.d("Andy storage", "block大小:"+ blockSize+",block数目:"+ blockCount+",总大小:"+blockSize*blockCount/1024+"KB");
-        Log.d("Andy storage", "可用的block数目：:"+ availCount+",可用大小:"+ availCount*blockSize/1024+"KB");
+        log("block大小:"+ blockSize+",block数目:"+ blockCount+",总大小:"+blockSize*blockCount/1024+"KB");
+        log("可用的block数目：:"+ availCount+",可用大小:"+ availCount*blockSize/1024+"KB");
 
         String totalStr1 = Formatter.formatFileSize(context, blockSize * blockCount);
         String availableStr1 = Formatter.formatFileSize(context, availCount * blockSize);
 
-        Log.e("Andy storage", availableStr1 +"/" +totalStr1);
+        log(availableStr1 +"/" +totalStr1);
     }
 
     public static void sdcardInfo() {
@@ -142,10 +142,10 @@ public class StorageUtil {
         }
 
         if (str1 == null) {
-            Log.e(TAG, "has no mmcblk");
+            log("has no mmcblk");
             return;
         } else {
-            Log.e(TAG, str1);
+            log(str1);
         }
 
         localOb = "";
@@ -231,43 +231,43 @@ public class StorageUtil {
         }
 
         if (FileUtil.checkFileExist("/sys/block/mmcblk0/device/type")) {
-            Log.e("Andy", "type exists");
+            log("type exists");
         } else {
-            Log.e("Andy", "type not exists");
+            log( "type not exists");
         }
 
         if (FileUtil.checkFileExist("/sys/block/mmcblk0/device/name")) {
-            Log.e("Andy", "name exists");
+            log( "name exists");
         } else {
-            Log.e("Andy", "name not exists");
+            log( "name not exists");
         }
 
         if (FileUtil.checkFileExist("/sys/block/mmcblk0/device/cid")) {
-            Log.e("Andy", "cid exists");
+            log( "cid exists");
         } else {
-            Log.e("Andy", "cid not exists");
+            log( "cid not exists");
         }
 
         String ac = FileUtil.checkExistAndRead("/sys/class/power_supply/ac/online");
         if (ac != null) {
-            Log.e("Andy", "ac/online = " + ac);
+            log( "ac/online = " + ac);
         } else {
-            Log.e("Andy", "ac/online not exists");
+            log( "ac/online not exists");
         }
 
         String usb = FileUtil.checkExistAndRead("/sys/class/power_supply/usb/online");
 
         if (usb != null) {
-            Log.e("Andy", "usb/online = " + usb);
+            log( "usb/online = " + usb);
         } else {
-            Log.e("Andy", "usb/online not exists");
+            log( "usb/online not exists");
         }
 
         String battery_cap = FileUtil.checkExistAndRead("/sys/class/power_supply/battery/capacity");
         if (battery_cap != null) {
-            Log.e("Andy", "battery/capacity = " + battery_cap);
+            log( "battery/capacity = " + battery_cap);
         } else {
-            Log.e("Andy", "battery/capacity not exists");
+            log( "battery/capacity not exists");
         }
     }
 

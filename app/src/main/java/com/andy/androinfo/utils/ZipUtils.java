@@ -1,7 +1,6 @@
 package com.andy.androinfo.utils;
 
 import android.os.Environment;
-import android.util.Log;
 
 import com.andy.androinfo.beans.XAPKManifest;
 import com.andy.androinfo.beans.XAPKManifest.ExpansionsBean;
@@ -29,7 +28,14 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+//安装xapk的测试
+//xapk = apk + obb
 public class ZipUtils {
+    private static final String TAG = ZipUtils.class.getSimpleName();
+
+    private static void log(String content) {
+        LogUtil.e(LogUtil.ZipUtils_debug, TAG, content);
+    }
 
     private static void printZipEntry(ZipEntry zipEntry) {
         printLog(zipEntry.getName());
@@ -53,8 +59,6 @@ public class ZipUtils {
         return file2;
 
     }
-
-
 
     private static XAPKManifest parseXAPKManifest(InputStream inputStream, int size) {
         try {
@@ -143,8 +147,6 @@ public class ZipUtils {
                 inputStream.close();
             }
 
-            System.out.println("obb install success");
-
             //extract apk
             ZipEntry apkEntry = xapkFile.getEntry(manifest.getPackage_name() + ".apk");
             if (apkEntry == null)
@@ -185,14 +187,14 @@ public class ZipUtils {
                     Long size = zipEntry.getSize();
                     size.intValue();
                     XAPKManifest xapkManifest = parseXAPKManifest(file.getInputStream(zipEntry));
-                    Log.e("installXAPK", xapkManifest.toString());
+                    log(xapkManifest.toString());
 
                     long l1 = getExpansionsSize(file, xapkManifest);
 
                     if (l1 <= 0l)
                         return;
 
-                    Log.e("installXAPK", "size = " + l1);
+                    log("size = " + l1);
 
                     byte[] bytes = new byte[16384];
 
@@ -203,7 +205,7 @@ public class ZipUtils {
                         ZipEntry zipEntry1 = file.getEntry(expansionsBean.getFile());
                         InputStream inputStream = file.getInputStream(zipEntry1);
                         File file1 = getExpansionsPath(xapkManifest, expansionsBean);
-                        Log.e("installXAPK", "file1 = " + file1.getAbsolutePath());
+                        log("file1 = " + file1.getAbsolutePath());
                         FileOutputStream fileOutputStream = new FileOutputStream(file1);
 
                         int i = -1;
@@ -214,7 +216,7 @@ public class ZipUtils {
                         inputStream.close();
                     }
 
-                    Log.e("installXAPK", "install obb finish and start install apk");
+                    log("install obb finish and start install apk");
 
                     //extract apk
                     ZipEntry apkEntry = file.getEntry(xapkManifest.getPackage_name()+".apk");
@@ -237,13 +239,13 @@ public class ZipUtils {
 
                     int result = PackageUtils.installApk(xapkManifest.getPackage_name(), tmpInstallApk.getAbsolutePath());
                     if (result == 0) {
-                        Log.e("installXAPK", "install success");
+                        log("install success");
                     } else {
-                        Log.e("installXAPK", "install failed = " + result);
+                        log("install failed = " + result);
                     }
                     tmpInstallApk.delete();
 
-                    Log.e("installXAPK", "install finish");
+                    log("install finish");
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -427,7 +429,7 @@ public class ZipUtils {
     }
 
     private static void printLog(String str) {
-        System.out.println(str);
+        log(str);
     }
 
 

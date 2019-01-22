@@ -5,7 +5,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,12 +18,16 @@ import java.util.Locale;
 public class WifiUtils {
     private static final String TAG = "WifUtils";
 
+    private static void log(String content) {
+        LogUtil.e(LogUtil.WifUtils_debug, TAG, content);
+    }
+
     public static StringBuilder getWifiInfo(Context context) {
         StringBuilder builder = new StringBuilder();
         WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         //获取已经连接wifi 信息
         WifiInfo wifiInfo = manager.getConnectionInfo();
-        Log.e(TAG, wifiInfo.toString());
+        log(wifiInfo.toString());
         String info = wifiInfo.toString();
         String[] items = info.split(",");
         for (String string : items) {

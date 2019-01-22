@@ -1,7 +1,6 @@
 package com.andy.androinfo.utils;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -10,8 +9,11 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+
 public class SocketUtils {
 
+    //安装xapk的测试
+    //xapk = apk + obb
     public static void startInstallXapkClient(final String path) {
         new Thread(new Runnable() {
             @Override
@@ -34,7 +36,6 @@ public class SocketUtils {
                     e.printStackTrace();
                 }
 
-                Log.e("Andy", "tmp = " + tmp);
                 if (TextUtils.isEmpty(tmp) || tmp.equals("null") || !tmp.endsWith(".apk")) {
                     return;
                 }
@@ -52,30 +53,25 @@ public class SocketUtils {
                 ServerSocket server = null;
                 Socket client = null;
                 try {
-                    Log.e("Andy", "create socket server 21508");
                     server = new ServerSocket(21508, 0, InetAddress.getByName("127.0.0.1"));
                     while (true) {
                         try {
                             client = server.accept();
-                            Log.e("Andy", "get a client");
                             String result;
                             // 读取客户端数据
                             DataInputStream input = new DataInputStream(client.getInputStream());
                             String clientInputStr = input.readLine();
-                            Log.e("Andy", clientInputStr+"");
 
                             if (clientInputStr != null && clientInputStr.length() > 0) {
                                 String[] split = clientInputStr.split(":");
                                 if (split != null && split.length > 1) {
                                     String path = split[1];
-                                    Log.e("Andy", "path = " + path);
                                     //do someThing;
                                     result = null;
                                     if (!TextUtils.isEmpty(path))
                                         result = ZipUtils.runInstallXapkObb(path);
 
                                     String rr = (result == null ? "null\n" : result+"\n");
-                                    Log.e("Andy", "result = " + result);
 
                                     DataOutputStream output = new DataOutputStream(client.getOutputStream());
                                     output.write(result.getBytes());

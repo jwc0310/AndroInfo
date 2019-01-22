@@ -3,7 +3,7 @@ package com.andy.androinfo.uis;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.andy.androinfo.R;
-import com.andy.androinfo.utils.ShellUtil;
+import com.andy.androinfo.utils.ShellUtils;
 
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
@@ -49,7 +49,7 @@ public class execActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        String result = ShellUtil.do_exec(cmd);
+        String result = ShellUtils.do_exec(cmd);
         exec_reulst.setText(result);
 
     }

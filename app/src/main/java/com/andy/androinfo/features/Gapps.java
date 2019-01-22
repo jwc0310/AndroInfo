@@ -1,13 +1,17 @@
 package com.andy.androinfo.features;
 
-import android.util.Log;
-
-import com.andy.androinfo.utils.FileOps;
-import com.andy.androinfo.utils.ShellUtil;
+import com.andy.androinfo.utils.FileUtil;
+import com.andy.androinfo.utils.LogUtil;
+import com.andy.androinfo.utils.ShellUtils;
 
 import java.io.File;
 
 public class Gapps {
+    private static final String TAG = Gapps.class.getSimpleName();
+
+    private static void log(String content) {
+        LogUtil.e(LogUtil.Gapps_debug, TAG, content);
+    }
 
     public static void hookGaid() {
 
@@ -15,23 +19,23 @@ public class Gapps {
         final String tmpPath = "/sdcard/Download/tmp.xml";
         final String modifyTAG = "\"adid_key\"";
 
-        if (!ShellUtil.exec("cp /data/data/com.google.android.gms/shared_prefs/adid_settings.xml " + filePath)) {
-            Log.e("Andy hook", "copy failed");
+        if (!ShellUtils.exec("cp /data/data/com.google.android.gms/shared_prefs/adid_settings.xml " + filePath)) {
+            log("copy failed");
             return;
         }
 
-        Log.e("Andy hook", "copy success");
+        log("copy success");
 
-        if (!FileOps.modifyXml(filePath, modifyTAG, "zhangyibo")) {
+        if (!FileUtil.modifyXml(filePath, modifyTAG, "zhangyibo")) {
             deleteFile(filePath);
             deleteFile(tmpPath);
-            Log.e("Andy hook", "modify failed");
+            log("modify failed");
             return;
         }
-        Log.e("Andy hook", "modify success");
+        log("modify success");
 
-        if (!ShellUtil.exec("cp /sdcard/Download/tmp.xml /data/data/com.google.android.gms/shared_prefs/adid_settings.xml")) {
-            Log.e("Andy hook", "copy back failed");
+        if (!ShellUtils.exec("cp /sdcard/Download/tmp.xml /data/data/com.google.android.gms/shared_prefs/adid_settings.xml")) {
+            log("copy back failed");
         }
         deleteFile(filePath);
         deleteFile(tmpPath);

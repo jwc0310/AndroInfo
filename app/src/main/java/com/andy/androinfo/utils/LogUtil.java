@@ -8,10 +8,35 @@ import android.util.Log;
 
 public class LogUtil {
 
-    private static boolean debug = false;
+    private static boolean debug = true;
+    public static boolean MemUtils_debug = false;
+    public static boolean Emulator_debug = false;
+    public static boolean ActivityUtils_debug = false;
+    public static boolean BatteryUtils_debug = false;
+    public static boolean DirUtils_debug = false;
+    public static boolean Test_debug = false;
+    public static boolean PackageUtils_debug = false;
+    public static boolean LocationUtils_debug = false;
+    public static boolean StorageUtil_debug = false;
+    public static boolean WifiUtils_debug = false;
+    public static boolean XmlUtils_debug = false;
+    public static boolean FileUtil_debug = false;
+    public static boolean WifUtils_debug = false;
+    public static boolean ZipUtils_debug = false;
+    public static boolean HookUtil_debug = false;
 
     public static void setDebug(boolean debug) {
         LogUtil.debug = debug;
+    }
+
+    public static void e(boolean module_debug, String tag, String log) {
+        if (!debug)
+            return;
+
+        if (!module_debug)
+            return;
+
+        Log.e(tag, log);
     }
 
     public static void e(String tag, String string) {
@@ -25,4 +50,8 @@ public class LogUtil {
             return;
         Log.i(tag, string);
     }
+
+
+
+    public static boolean Gapps_debug = false;
 }

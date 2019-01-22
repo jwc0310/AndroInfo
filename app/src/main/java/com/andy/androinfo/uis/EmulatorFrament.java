@@ -25,10 +25,10 @@ import com.andy.androinfo.emulator.Detecter;
 import com.andy.androinfo.jni.TestJni;
 import com.andy.androinfo.utils.ActivityUtils;
 import com.andy.androinfo.utils.Androinfo;
-import com.andy.androinfo.utils.CaculatorEmulatorBattery;
+import com.andy.androinfo.utils.BatteryUtils;
 import com.andy.androinfo.utils.PackageUtils;
 import com.andy.androinfo.utils.PropertyUtil;
-import com.andy.androinfo.utils.ShellUtil;
+import com.andy.androinfo.utils.ShellUtils;
 import com.andy.androinfo.utils.StorageUtil;
 
 import java.io.File;
@@ -97,12 +97,12 @@ public class EmulatorFrament extends AndyBaseFragment {
         proContent.append(Androinfo.deviceInfo(getContext()));
         proContent.append("\n");
         proContent.append("\n");
-        proContent.append(ShellUtil.do_exec("netcfg"));
+        proContent.append(ShellUtils.do_exec("netcfg"));
         int pid = android.os.Process.myPid();
-        proContent.append(ShellUtil.do_exec("ps | grep " + pid));
+        proContent.append(ShellUtils.do_exec("ps | grep " + pid));
         proContent.append("\n");
         proContent.append("\n");
-        proContent.append(ShellUtil.do_exec("ps"));
+        proContent.append(ShellUtils.do_exec("ps"));
         proContent.append("\n");
         proContent.append("\n");
         proContent.append(StorageUtil.printStorageDir(getContext()).toString());
@@ -113,7 +113,6 @@ public class EmulatorFrament extends AndyBaseFragment {
         for (int i : deviceIds) {
             InputDevice inputDevice = InputDevice.getDevice(i);
             if (inputDevice != null) {
-                Log.e("Andy2", inputDevice.toString());
                 proContent.append("\n");
                 proContent.append(inputDevice.toString());
             }
@@ -136,17 +135,14 @@ public class EmulatorFrament extends AndyBaseFragment {
         proContent.append("\n");
         proContent.append("\n");
         if (BluetoothAdapter.getDefaultAdapter().getAddress() == null) {
-            Log.e("Andy2", "bluetooth addr is null");
             proContent.append("\n");
             proContent.append("bluetooth addr is null");
         } else {
-            Log.e("Andy2", "bluetooth addr is not null");
             proContent.append("\n");
             proContent.append("bluetooth addr is not null = " +BluetoothAdapter.getDefaultAdapter().getAddress());
         }
         proContent.append("\n");proContent.append("\n");
 
-        Log.e("Andy2", "os version = " + System.getProperty("os.version"));
         proContent.append("\n");
         proContent.append("\n");
         proContent.append("os version = " + System.getProperty("os.version"));
@@ -155,11 +151,9 @@ public class EmulatorFrament extends AndyBaseFragment {
         proContent.append("os arch = " + System.getProperty("os.arch"));
         if (Build.VERSION.SDK_INT >= 21) {
             File[] files = getContext().getExternalMediaDirs();
-            Log.e("Andy3", "mediadirs = " + files.length);
             for (File file : files) {
                 if (file == null)
                     continue;
-                Log.e("Andy3", file.getAbsolutePath());
             }
         }
         String strVrsion = ActivityUtils.gles(getContext());
@@ -170,7 +164,6 @@ public class EmulatorFrament extends AndyBaseFragment {
         Iterator<Map.Entry<String, String>> it2 = System.getenv().entrySet().iterator();
         while (it2.hasNext()) {
             Map.Entry<String, String> entry = it2.next();
-            Log.e("Andy5", entry.getKey()+" ," +entry.getValue());
             proContent.append("\n");
             proContent.append("     " +entry.getKey() +"     " + entry.getValue());
         }
@@ -208,10 +201,8 @@ public class EmulatorFrament extends AndyBaseFragment {
         try {
             parser = getContext().getAssets().openXmlResourceParser("ab1c.xml");
             String abc = parser.getAttributeValue("resources", "abc1111");
-            Log.e("Andy11", "acb = " + abc);
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e("Andy11", "acb = exception");
         }
         getShowMsg();
 
@@ -224,12 +215,8 @@ public class EmulatorFrament extends AndyBaseFragment {
                 int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
                 int batteryPct = level*100 / scale;
                 awhileBattery = batteryPct;
-                Log.i("xiahuantest",    "点击百分比："+batteryPct+"%");
-                Log.i("xiahuantest",    "initBattery："+initBattery);
-                Log.i("xiahuantest",    "awhileBattery："+awhileBattery);
 
-                float s = CaculatorEmulatorBattery.caculatorBattery(initBattery,awhileBattery);
-                Log.i("xiahuantest",    "方差："+s);
+                float s = BatteryUtils.caculatorBattery(initBattery,awhileBattery);
                 if (s>0) {
                     Toast.makeText(getActivity(), "真机", Toast.LENGTH_SHORT).show();
                 }else{

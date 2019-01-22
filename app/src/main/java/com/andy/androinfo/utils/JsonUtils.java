@@ -11,9 +11,6 @@ import java.io.UnsupportedEncodingException;
 
 public class JsonUtils {
 
-
-
-
     public static void main(String[] args) {
         String file = "D:\\test\\aa\\manifest.json";
         File jsonFile = new File(file);

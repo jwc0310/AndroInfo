@@ -2,29 +2,21 @@ package com.andy.androinfo.uis;
 
 import android.content.Context;
 import android.content.Intent;
-import android.inputmethodservice.InputMethodService;
 import android.os.Bundle;
-import android.os.Process;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
 import com.andy.androinfo.R;
 import com.andy.androinfo.features.Gapps;
 import com.andy.androinfo.hook.HookUtil;
-import com.andy.androinfo.preference.ActivityWithPreferenceFragment;
 import com.andy.androinfo.preference.PreferenceActivityWithPreferenceFragment;
-import com.andy.androinfo.utils.FileOps;
 import com.andy.androinfo.utils.NotificationUtils;
 import com.andy.androinfo.utils.SocketUtils;
-import com.andy.androinfo.utils.XmlUtils;
-
-import org.xmlpull.v1.XmlPullParser;
 
 /**
  * Created by Administrator on 2018/5/14.

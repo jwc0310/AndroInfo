@@ -45,10 +45,10 @@ public class HookUtil {
                     new InvocationHandler() {
                         @Override
                         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                            LogUtil.e(TAG, "notifyProxy invoke method: " + method.getName());
+                            log("notifyProxy invoke method: " + method.getName());
                             if (args != null && args.length > 0) {
                                 for (Object object : args) {
-                                        LogUtil.e(TAG, "notifyProxy arg = ");
+                                        log("notifyProxy arg = ");
                                 }
                             }
                             // 操作交由 sService 处理，不拦截通知
@@ -138,7 +138,7 @@ public class HookUtil {
 
     public void handleBuildProperty() {
         try {
-            Log.e("Andy666", "handleBuildInfo");
+            log( "handleBuildInfo");
             Class<?> systemPropertiesClass = Class.forName("android.os.Build$VERSION");
             Field board = systemPropertiesClass.getDeclaredField("SDK_INT");
             board.setAccessible(true);
@@ -154,12 +154,12 @@ public class HookUtil {
 
     public void handleBuildinfo() {
         try {
-            Log.e("Andy666", "handleBuildInfo");
+            log( "handleBuildInfo");
             Class<?> systemPropertiesClass = Class.forName("android.os.Build");
             Field board = systemPropertiesClass.getDeclaredField("BRAND");
             board.setAccessible(true);
             board.set(systemPropertiesClass, "Andy's board");
-            Log.e("Andy666", Build.BRAND);
+            log( Build.BRAND);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -180,7 +180,7 @@ public class HookUtil {
             Field aa = apiClass.getDeclaredField("aa");
             aa.set(apiClass, -1);
 
-            Log.e("Andy", "hookFuncs = " + result);
+            log( "hookFuncs = " + result);
 
             //AmsInvocationHandler handler = new AmsInvocationHandler(apiClass, context);
             //Object proxy = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
@@ -213,6 +213,12 @@ public class HookUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+
+    private static void log(String content) {
+        LogUtil.e(LogUtil.HookUtil_debug, TAG, content);
     }
 
 

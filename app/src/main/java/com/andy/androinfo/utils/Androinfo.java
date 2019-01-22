@@ -135,10 +135,8 @@ public class Androinfo {
 
     private static boolean isDebuggerAttached() {
         boolean result = Debug.isDebuggerConnected();
-        Log.e("Andydebug", "debugger connected is " + result);
         if (!result) {
             boolean result2 = Debug.waitingForDebugger();
-            Log.e("Andydebug", "debugger connected is " + result2);
             return result2;
         }
         return result;

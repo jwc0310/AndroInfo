@@ -11,15 +11,21 @@ import java.util.Date;
 
 public class LocationUtils {
 
+    private static String TAG = LocationUtils.class.getSimpleName();
+
+    private static void log(String content) {
+        LogUtil.e(LogUtil.LocationUtils_debug, TAG, content);
+    }
+
     public static boolean isMockLocation(Context context, Location location) {
         if (location.isFromMockProvider()) {
-            Log.e("Andy location", "[Location] blocked as mock location. REASON : isFromMockProvider.");
+            log("[Location] blocked as mock location. REASON : isFromMockProvider.");
             return true;
         }
 
         try {
             if (Settings.Secure.getInt(context.getContentResolver(), "mock_location") == 1) {
-                Log.e("Andy location", "[Location] blocked as mock location. REASON : ALLOW_MOCK_LOCATION.");
+                log("[Location] blocked as mock location. REASON : ALLOW_MOCK_LOCATION.");
                 return true;
             }
         } catch (Settings.SettingNotFoundException e) {
@@ -42,14 +48,14 @@ public class LocationUtils {
         String str = Build.TAGS;
         if ((str != null) && (str.contains("test-keys")))
         {
-            Log.e("Andy location", "[Location] WARNING : buildTags contains test-keys.");
+            log("[Location] WARNING : buildTags contains test-keys.");
             return true;
         }
         try
         {
             if (new File("/system/app/Superuser.apk").exists())
             {
-                Log.e("Andy location", "[Location] WARNING : Superuser.apk is existed.");
+                log("[Location] WARNING : Superuser.apk is existed.");
                 return true;
             }
         }
@@ -57,7 +63,7 @@ public class LocationUtils {
         {
             if ((canExecuteCommand("/system/xbin/which su")) || (canExecuteCommand("/system/bin/which su")) || (canExecuteCommand("which su")))
             {
-                Log.e("Andy location", "[Location] WARNING : super-user command can execute.");
+                log("[Location] WARNING : super-user command can execute.");
                 return true;
             }
         }

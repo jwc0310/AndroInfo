@@ -1,6 +1,5 @@
 package com.andy.androinfo.utils;
 
-import android.util.Log;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -13,15 +12,19 @@ import java.io.IOException;
 public class XmlUtils {
     private static final String TAG = "XmlUtils";
 
+    private static void log(String content) {
+        LogUtil.e(LogUtil.XmlUtils_debug, TAG, content);
+    }
+
     public static String getAndroidId() {
-        Log.e(TAG, "start get Android Id");
+        log("start get Android Id");
         String name = null;
 
         try {
             File file = new File("/sdcard/Download/settings_secure.xml");
             if (!file.exists())
                 return null;
-            Log.e(TAG, "start get Android Id 2");
+            log("start get Android Id 2");
             FileInputStream in = new FileInputStream(file);
             XmlPullParser parser = Xml.newPullParser();
             parser.setInput(in, "UTF-8");
@@ -32,13 +35,13 @@ public class XmlUtils {
                         break;
                     case XmlPullParser.START_TAG:
                         String tagName = parser.getName();
-//                        Log.e(TAG, "tagName = " + tagName);
+//                        log( "tagName = " + tagName);
 //                        for (int i = 0; i < parser.getAttributeCount(); i++) {
-//                            Log.e(TAG, parser.getAttributeName(i) +", " + parser.getAttributeValue(i) +" i = " + i);
+//                            log( parser.getAttributeName(i) +", " + parser.getAttributeValue(i) +" i = " + i);
 //                        }
 
-                        if (tagName.equals("setting")  && "android_id".equals(parser.getAttributeValue(1)))
-                            Log.e(TAG, parser.getAttributeValue(2));
+                        if (tagName.equals("setting") && "android_id".equals(parser.getAttributeValue(1)))
+                            log(parser.getAttributeValue(2));
 
                         break;
                     case XmlPullParser.END_TAG:
@@ -74,15 +77,15 @@ public class XmlUtils {
                         break;
                     case (XmlPullParser.START_TAG):
                         String tagName = parser.getName();
-                        Log.e("AndyXml", "  tag = " + tagName);
+                        log("  tag = " + tagName);
                         //if (tagName.equals("string") &&)
 
                         if (tagName.equals("string")) {
                             String name = parser.getAttributeValue(0);
-                            Log.e("AndyXml", "name = " + name);
-                            if (name.equals("\"adid_key\"")){
+                            log("name = " + name);
+                            if (name.equals("\"adid_key\"")) {
                                 String value = parser.nextText();
-                                Log.e("AndyXml", "value = " + value);
+                                log("value = " + value);
                             }
                         }
 

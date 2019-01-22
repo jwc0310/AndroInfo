@@ -29,6 +29,10 @@ public class PackageUtils {
 
     private static final String TAG = PackageUtils.class.getSimpleName();
 
+    private static void log(String content) {
+        LogUtil.e(LogUtil.PackageUtils_debug, TAG, content);
+    }
+
     public static String getInstalledPackages(Context context) {
         JSONArray jas = new JSONArray();
         PackageManager packageManager = context.getPackageManager();
@@ -48,7 +52,7 @@ public class PackageUtils {
         PackageManager packageManager = context.getPackageManager();
         List<ApplicationInfo> list = packageManager.getInstalledApplications(0x2000);
         for (ApplicationInfo packageInfo : list) {
-            Log.e("AndyPackage", packageInfo.packageName +", is install in sdcard ? = " + ((packageInfo.flags & ApplicationInfo.FLAG_EXTERNAL_STORAGE) != 0)
+            log("AndyPackage "+packageInfo.packageName +", is install in sdcard ? = " + ((packageInfo.flags & ApplicationInfo.FLAG_EXTERNAL_STORAGE) != 0)
             + ", from = " + packageManager.getInstallerPackageName(packageInfo.packageName));
         }
         return builder.toString();
@@ -59,7 +63,7 @@ public class PackageUtils {
         PackageManager packageManager = context.getPackageManager();
         List<PackageInfo> list = packageManager.getInstalledPackages(0);
         for (PackageInfo packageInfo : list) {
-            Log.e("AndyPackage", packageInfo.toString());
+            log("AndyPackage "+packageInfo.toString());
         }
         return builder.toString();
     }
@@ -72,7 +76,7 @@ public class PackageUtils {
         if (list != null) {
             Iterator iterator = list.iterator();
             while (iterator.hasNext()) {
-                Log.e("Andy package", ((ResolveInfo)iterator.next()).activityInfo.packageName);
+                log("Andy package" +((ResolveInfo)iterator.next()).activityInfo.packageName);
             }
         }
     }
@@ -171,8 +175,8 @@ public class PackageUtils {
             } else {
                 result = 2;
             }
-            Log.e("result", result + "");
-            Log.d("installSlient", "successMsg:" + successMsg + ", ErrorMsg:" + errorMsg);
+            log(result + "");
+            log("installSlient successMsg:" + successMsg + ", ErrorMsg:" + errorMsg);
             return result;
         }
     }

@@ -15,7 +15,7 @@ public class ActivityUtils {
         int version  = configurationInfo.reqGlEsVersion;
         int version2  = configurationInfo.reqGlEsVersion;
         String strVersion = ((version & 0xffff0000) >> 16) +"." +(version2 & 0xffff);
-        Log.e(TAG, "version = " +strVersion);
+        LogUtil.e(LogUtil.ActivityUtils_debug, TAG, "version = " +strVersion);
         return strVersion;
     }
 
@@ -23,21 +23,21 @@ public class ActivityUtils {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningServiceInfo> serviceInfos = activityManager.getRunningServices(30);
         for (ActivityManager.RunningServiceInfo serviceInfo : serviceInfos) {
-            Log.e(TAG, serviceInfo.service.getClassName());
-            Log.e(TAG, serviceInfo.service.getPackageName());
+            LogUtil.e(LogUtil.ActivityUtils_debug, TAG, serviceInfo.service.getClassName());
+            LogUtil.e(LogUtil.ActivityUtils_debug, TAG, serviceInfo.service.getPackageName());
         }
 
-        Log.e(TAG, "-----------------------------------");
+        LogUtil.e(LogUtil.ActivityUtils_debug, TAG, "-----------------------------------");
 
         List<ActivityManager.RunningAppProcessInfo> appProcessInfos = activityManager.getRunningAppProcesses();
         for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessInfos) {
-            Log.e(TAG, appProcessInfo.processName);
+            LogUtil.e(LogUtil.ActivityUtils_debug, TAG, appProcessInfo.processName);
         }
 
-        Log.e(TAG, "------------------------------------");
+        LogUtil.e(LogUtil.ActivityUtils_debug, TAG, "------------------------------------");
         List<ActivityManager.RunningTaskInfo> taskInfos = activityManager.getRunningTasks(30);
         for (ActivityManager.RunningTaskInfo runningTaskInfo : taskInfos) {
-            Log.e(TAG, runningTaskInfo.baseActivity.getPackageName());
+            LogUtil.e(LogUtil.ActivityUtils_debug, TAG, runningTaskInfo.baseActivity.getPackageName());
         }
     }
 

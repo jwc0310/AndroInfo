@@ -21,10 +21,10 @@ import java.util.Observable;
 
 public class Test2 extends Observable{
 
-    public static boolean tt = false;
+    private static final String TAG = Test2.class.getSimpleName();
 
     public static boolean test() {
-        log("channel2", getSystemProperty("microvirt.channel"));
+        log("channel2", getSystemProperty(".channel"));
         log("channel3", getChannel());
         return false;
     }
@@ -76,11 +76,11 @@ public class Test2 extends Observable{
 */
 
 
-        Log.e(wendao, builder.toString());
+        log(wendao, builder.toString());
 
-        Log.e(wendao, tm.getLine1Number());
-        Log.e(wendao, tm.getNetworkOperator());
-        Log.e(wendao, tm.getNetworkOperatorName());
+        log(wendao, tm.getLine1Number());
+        log(wendao, tm.getNetworkOperator());
+        log(wendao, tm.getNetworkOperatorName());
 
     }
 
@@ -94,11 +94,11 @@ public class Test2 extends Observable{
             } else
                 deviceType = 0;
         }
-        String key = "microvirt.channel";
+        String key = ".channel";
         String defaultValue = "7c8a454a";
         String channel = getprop(key, defaultValue);
-        Log.e("yb", "channel = " + channel);
-        Log.e("yb", "deviceType = " + deviceType);
+        log("yb", "channel = " + channel);
+        log("yb", "deviceType = " + deviceType);
         if (deviceType == 1)
             return channel;
         else
@@ -203,9 +203,9 @@ public class Test2 extends Observable{
                 errormsg +=line;
                 errormsg +="\n";
             }
-            Log.e("tmp", errormsg);
+            log("tmp", errormsg);
         } catch (Exception e) {
-            Log.e("Andy", "dfdsfsdfadfa");
+            log("Andy", "dfdsfsdfadfa");
             e.printStackTrace();
         }
         return content.toString();
@@ -231,7 +231,7 @@ public class Test2 extends Observable{
     }
 
     private static void log(String key, String str) {
-        Log.e("666666", key + ": " +str);
+        LogUtil.e(LogUtil.Test_debug, TAG, key + ": " +str);
     }
 
 }
