@@ -12,18 +12,55 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <math.h>
-
+#include <dlfcn.h>
 
 #define LOG_TAG "Andy_jni"
 
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+#define LIB_PATH "/system/lib/libc.so"
+
+typedef unsigned long int (*CALL_FUNC) (unsigned long int);
 
 extern "C" uint32_t read_elf_header(const char *, const char *);
 
 JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__
    (JNIEnv *env, jclass) {
      LOGI("getString");
-     read_elf_header("", "");
+
+     void *handle;
+     char *error;
+
+     CALL_FUNC call_func = NULL;
+
+     //打开动态链接库
+     handle = dlopen(LIB_PATH, RTLD_LAZY);
+     if (!handle) {
+        LOGI("dlopen error");
+        return env->NewStringUTF("dlopen error");
+     }
+     //清除之前的错误
+     dlerror();
+
+     //获取一个函数
+     *(void **) (&call_func) = dlsym(handle, "getauxval");
+     if ((error = dlerror()) != NULL) {
+        LOGI("dlsym error");
+        return env->NewStringUTF("dlsym error");
+     }
+
+     //小米手机   3649750/0x37b0d6  31/0x1f     1101 1110 1100 0011 010 110
+     //模拟器     12503/0x30d7      0/0x0                 1100 0011 010 111
+     //小米平板   471286/0x730f6    0/0x0          1 1100  1100 0011 110 110
+     LOGI("call %lu", (*call_func)(16));
+     LOGI("call 0x%lx", (*call_func)(16));
+
+     LOGI("call %lu", (*call_func)(26));
+     LOGI("call 0x%lx", (*call_func)(26));
+
+     //关闭动态链接库
+     dlclose(handle);
+
+     //read_elf_header("", "");
      return env->NewStringUTF("This is myLibrary");
  }
 
