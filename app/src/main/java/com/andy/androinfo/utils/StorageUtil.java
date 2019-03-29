@@ -9,6 +9,7 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
 
 /**
@@ -23,6 +24,39 @@ public class StorageUtil {
         LogUtil.e(LogUtil.StorageUtil_debug, TAG, str);
     }
 
+    public static void test(Context context) {
+        log("isExternalStorageEmulated = " + Environment.isExternalStorageEmulated());
+        try {
+            File file = context.getFilesDir();
+            File file1 = file.getCanonicalFile();
+            log("file path = " + file1.getAbsolutePath());
+            File[] files = android.support.v4.content.ContextCompat.getObbDirs(context);
+            log("obb dirs size = " + files.length);
+//            for (File tmp : files) {
+//                log(tmp == null ? "is null" :tmp.getAbsolutePath());
+//            }
+
+            File external = context.getExternalFilesDir(null);
+            if (external == null) {
+                log("external is null");
+            } else {
+                log("external is " + external.getAbsolutePath());
+            }
+
+            File[] externals = context.getExternalFilesDirs(null);
+            if (externals == null) {
+                log("externals is null");
+            } else {
+                log("externals size is " + externals.length);
+                for (File tmp : externals) {
+                    log(tmp == null ? "is null" : tmp.getAbsolutePath());
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static StringBuilder printStorageDir(Context context) {
         String internalPath = Environment.getRootDirectory().getPath();

@@ -1,18 +1,26 @@
 package com.andy.androinfo.utils;
 
 import android.content.Context;
+import android.hardware.input.InputManager;
+import android.hardware.usb.UsbDeviceConnection;
 import android.os.Build;
 import android.os.Debug;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Display;
+import android.view.InputDevice;
 import android.view.WindowManager;
 
 import java.lang.reflect.Array;
+import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.Formatter;
+import java.util.Locale;
+
+import static android.content.Context.INPUT_SERVICE;
 
 /**
  * Created by Administrator on 2018/5/19.
@@ -31,6 +39,19 @@ public class Androinfo {
         return root;
     }
 
+    public static String getDevicesInfo(Context context) {
+        InputManager im = (InputManager) context.getSystemService(INPUT_SERVICE);
+        int[] devices = im.getInputDeviceIds();
+        StringBuilder builder = new StringBuilder();
+        builder.append("Input Devices:\n");
+        for (int id : devices) {
+            InputDevice device = im.getInputDevice(id);
+            builder.append(device.toString()+"\n");
+        }
+
+        return builder.toString();
+    }
+
     public static String deviceInfo(Context context) {
 
         StringBuilder builder = new StringBuilder();
@@ -38,8 +59,11 @@ public class Androinfo {
         Display display = wm.getDefaultDisplay();
 
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        builder.append(getDevicesInfo(context));
 
+        builder.append(formatProperty("sim card: ", tm.getSimState() +""));
         builder.append(formatProperty("Mac: ", WifiUtils.getMacDefault(context)));
+        builder.append(WifiUtils.getWifiScanInfo(context));
         builder.append(formatProperty("device_id", tm.getDeviceId()));
         builder.append(formatProperty("System android_id", Settings.System.getString(context.getContentResolver(), Settings.System.ANDROID_ID)));
         builder.append(formatProperty("Secure android_id", Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID)));
@@ -55,18 +79,30 @@ public class Androinfo {
         builder.append(formatProperty("ro.board.platform", PropertyUtil.getprop("ro.board.platform", "no value")));
         builder.append(formatProperty("ro.product.cpu.abilist32", PropertyUtil.getprop("ro.product.cpu.abilist32", "no value")));
         String tmp = "";
-        String[] abis32 = Build.SUPPORTED_32_BIT_ABIS;
-        for (int i = 0; i< abis32.length; i++) {
-            tmp += abis32[i];
-            tmp += ",";
+        String[] abis32;
+        if (Build.VERSION.SDK_INT >= 21) {
+            abis32 = Build.SUPPORTED_32_BIT_ABIS;
+            for (int i = 0; i < abis32.length; i++) {
+                tmp += abis32[i];
+                tmp += ",";
+            }
+        } else {
+            builder.append("has no abilist\n");
+            builder.append(formatProperty("ro.product.cpu.abi", Build.CPU_ABI));
         }
         builder.append(formatProperty("ro.product.cpu.abilist32", tmp));
         builder.append(formatProperty("ro.product.cpu.abilist", PropertyUtil.getprop("ro.product.cpu.abilist", "no value")));
+        builder.append(formatProperty("ro.product.cpu.abi", PropertyUtil.getprop("ro.product.cpu.abi", "no value")));
         tmp = "";
-        abis32 = Build.SUPPORTED_ABIS;
-        for (int i = 0; i< abis32.length; i++) {
-            tmp += abis32[i];
-            tmp += ",";
+        if (Build.VERSION.SDK_INT >= 21) {
+            abis32 = Build.SUPPORTED_ABIS;
+            for (int i = 0; i < abis32.length; i++) {
+                tmp += abis32[i];
+                tmp += ",";
+            }
+        } else {
+            builder.append("has no abilist\n");
+            builder.append(formatProperty("ro.product.cpu.abi", Build.CPU_ABI2));
         }
         builder.append(formatProperty("ro.product.cpu.abilist",tmp));
 
@@ -118,9 +154,20 @@ public class Androinfo {
         }
 
         builder.append(formatProperty("network", netInterface));
+        builder.append("\n");
 
-        PackageUtils.getInstallPackages(context);
-
+        try {
+            InetAddress address = InetAddress.getLocalHost();
+            NetworkInterface ni = NetworkInterface.getByInetAddress(address);
+            byte[] bs = ni.getHardwareAddress();
+            String mac = "";
+            for (int i = 0; i < bs.length; i++) {
+                mac += new Formatter().format(Locale.getDefault(), "%02X%s", bs[i], (i < bs.length - 1) ? "-" : "").toString();
+            }
+            builder.append("mac: " + mac);
+        } catch (Exception e) {
+            builder.append("mac: " + null);
+        }
         return builder.toString();
     }
 

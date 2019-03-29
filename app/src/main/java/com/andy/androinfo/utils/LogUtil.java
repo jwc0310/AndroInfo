@@ -17,13 +17,14 @@ public class LogUtil {
     public static boolean Test_debug = false;
     public static boolean PackageUtils_debug = false;
     public static boolean LocationUtils_debug = false;
-    public static boolean StorageUtil_debug = false;
+    public static boolean StorageUtil_debug = true;
     public static boolean WifiUtils_debug = false;
     public static boolean XmlUtils_debug = false;
-    public static boolean FileUtil_debug = false;
+    public static boolean FileUtil_debug = true;
     public static boolean WifUtils_debug = false;
     public static boolean ZipUtils_debug = false;
     public static boolean HookUtil_debug = false;
+    public static boolean NetworkUtil_debug = false;
 
     public static void setDebug(boolean debug) {
         LogUtil.debug = debug;

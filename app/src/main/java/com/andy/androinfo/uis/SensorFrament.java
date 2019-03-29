@@ -15,7 +15,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.andy.androinfo.R;
+import com.andy.androinfo.utils.FileUtil;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 
@@ -28,6 +30,9 @@ public class SensorFrament extends AndyBaseFragment implements SensorEventListen
     private TextView context_tv, mTxtValue1, mTxtValue2, mTxtValue3, mTxtValue4, mTxtValue5
             , mTxtValue6, mTxtValue7, mTxtValue8, mTxtValue9;
     private SensorManager sm;
+
+    private String acc_data = "gyr.log";
+    private BufferedWriter acc_writer = null;
 
     public static SensorFrament instance(String content) {
         SensorFrament fragment = new SensorFrament();
@@ -56,7 +61,6 @@ public class SensorFrament extends AndyBaseFragment implements SensorEventListen
             Log.e("Andy Sensor", "sensor proximity is enable");
         }
 
-
         for (int i = 1; i < 10; i++) {
             Sensor sensor1 = sm.getDefaultSensor(i);
             if (sensor1 == null) {
@@ -65,11 +69,18 @@ public class SensorFrament extends AndyBaseFragment implements SensorEventListen
                 Log.e("Andy Sensor", "sensor " + i + " is enable");
             }
         }
+
+        if (acc_writer == null) {
+            acc_writer = FileUtil.openFile(acc_data);
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        if (acc_writer != null) {
+            FileUtil.closeFile(acc_writer);
+        }
     }
 
     @Override
@@ -112,16 +123,6 @@ public class SensorFrament extends AndyBaseFragment implements SensorEventListen
         mTxtValue8 = (TextView) view.findViewById(R.id.andy_tv_sensor8);
         mTxtValue9 = (TextView) view.findViewById(R.id.andy_tv_sensor9);
 
-        try {
-            File file = new File("/sdcard/Download/tmp.xml");
-            if (file.exists())
-                file.delete();
-
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         return view;
     }
 
@@ -142,6 +143,10 @@ public class SensorFrament extends AndyBaseFragment implements SensorEventListen
                 sb.append("\nZ方向的加速度：");
                 sb.append(values[2]);
                 mTxtValue1.setText(sb.toString());
+                if (acc_writer != null) {
+                    //Log.e("SensorFragment", values[0] + "," + values[1] + "," + values[2]);
+                    //FileUtil.writeData(acc_writer, values[0] + "," + values[1] + "," + values[2] + "\n");
+                }
                 break;
             case Sensor.TYPE_ORIENTATION:
                 sb = new StringBuilder();
@@ -164,6 +169,10 @@ public class SensorFrament extends AndyBaseFragment implements SensorEventListen
                 sb.append("\n绕Z轴旋转的角速度：");
                 sb.append(values[2]);
                 mTxtValue3.setText(sb.toString());
+                if (acc_writer != null) {
+                    //Log.e("SensorFragment", values[0] + "," + values[1] + "," + values[2]);
+                    //FileUtil.writeData(acc_writer, values[0] + "," + values[1] + "," + values[2] + "\n");
+                }
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
                 sb = new StringBuilder();
@@ -175,6 +184,10 @@ public class SensorFrament extends AndyBaseFragment implements SensorEventListen
                 sb.append("\nZ轴方向上的磁场强度：");
                 sb.append(values[2]);
                 mTxtValue4.setText(sb.toString());
+                if (acc_writer != null) {
+                    //Log.e("SensorFragment", values[0] + "," + values[1] + "," + values[2]);
+                    //FileUtil.writeData(acc_writer, values[0] + "," + values[1] + "," + values[2] + "\n");
+                }
                 break;
             case Sensor.TYPE_GRAVITY:
                 sb = new StringBuilder();

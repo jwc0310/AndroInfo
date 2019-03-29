@@ -1,9 +1,5 @@
 package com.andy.androinfo.uis;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,11 +16,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.andy.androinfo.R;
 import com.andy.androinfo.beans.TitleBean;
-import com.andy.androinfo.emulator.Detecter;
-import com.andy.androinfo.reflect.ReflectUtil;
+import com.andy.androinfo.jni.TestJni;
 import com.andy.androinfo.utils.*;
 
 import java.util.ArrayList;
@@ -39,28 +33,38 @@ public class MainActivity extends AndyBaseActivity {
     ViewPager content_vp;
     ContentFragmentPagerAdapter contentFragmentPagerAdapter;
     List<Fragment> fragmentList;
-    BatteryBcr batteryBcr;
 
     AndroFileObserver fileObserver;
 
+    //模拟器 新api测试
     private void doEmulatorTest() {
         Emulator.run(this);
         new IPInfo(this).getMacAddress();
         new IPInfo(this).getWIFILocalIpAdress();
+        NetworkUtils.test(this);
+        StorageUtil.getStorageCapacity(this);
+        StorageUtil.readSDCard(this);
+        StorageUtil.readSystem(this);
+        /*
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FileUtil.readFile("/dev/__properties__");
+
+                //Log.e("IPInfo", ShellUtils.do_exec("/system/bin/cat /dev/__properties__"));
+            }
+        }).start();
+        */
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ReflectUtil.doReflect(this.getClassLoader());
-        ReflectUtil.doReflect2();
-        XmlUtils.getAndroidId();
+        StorageUtil.test(this);
     }
 
     @Override
     public void onDestroy() {
-        if (batteryBcr != null)
-            unregisterReceiver(batteryBcr);
         if (fileObserver != null)
             fileObserver.stopWatching();
         super.onDestroy();
@@ -74,15 +78,10 @@ public class MainActivity extends AndyBaseActivity {
         Log.e("xxxx", dm.widthPixels + " x " + dm.heightPixels);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_main);
-        HasFeature.showHasFeature(this);
+        TestJni.checkDetect();
 
         fileObserver = new AndroFileObserver("/data/data/com.android.vending/shared_prefs/");
         fileObserver.startWatching();
-
-        batteryBcr = new BatteryBcr();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
-        registerReceiver(batteryBcr, filter);
 
         titleBeans = new ArrayList<>();
         fragmentList = new ArrayList<>();
@@ -261,29 +260,6 @@ public class MainActivity extends AndyBaseActivity {
         public TitleHolder(View itemView) {
             super(itemView);
             this.subTitle_tv = (TextView) itemView.findViewById(R.id.andy_item_title_id);
-        }
-    }
-
-
-    private class BatteryBcr extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            if (intent != null) {
-                String action = intent.getAction();
-                switch (action) {
-                    case Intent.ACTION_BATTERY_CHANGED:
-
-                        Bundle bundle = intent.getExtras();
-                        Log.e("Andy", "battery change = " + intent.toString() + " " + bundle.toString());
-
-                        Log.e("Andy_battery", "battery level = " + intent.getIntExtra("level", 0));
-                        Log.e("Andy_battery", "battery scale = " + intent.getIntExtra("scale", 0));
-                        break;
-                }
-            }
-
         }
     }
 }

@@ -2,6 +2,7 @@ package com.andy.androinfo.utils;
 
 import android.content.Context;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.util.Log;
 
 public class BatteryUtils {
@@ -9,9 +10,10 @@ public class BatteryUtils {
     private static final String TAG = BatteryUtils.class.getSimpleName();
 
     public static void dump(Context context) {
-        BatteryManager batteryManager = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
+        BatteryManager batteryManager = (BatteryManager) context.getSystemService("batterymanager");
         for (int i = 0; i<5; i++) {
-            LogUtil.e(LogUtil.BatteryUtils_debug, TAG, "battery = " + batteryManager.getIntProperty(i+1));
+            if(Build.VERSION.SDK_INT > 20)
+                LogUtil.e(LogUtil.BatteryUtils_debug, TAG, "battery = " + batteryManager.getIntProperty(i+1));
         }
     }
 

@@ -56,7 +56,7 @@ public class ShellUtils {
     public static String do_exec_getprop() {
         StringBuilder builder = new StringBuilder("");
         int result;
-        String command = "toolbox getprop";
+        String command = "getprop";
         if (Build.VERSION.SDK_INT >= 25)
             command = "getprop";
         try {
@@ -81,6 +81,38 @@ public class ShellUtils {
         } catch (Exception e) {
             e.printStackTrace();
             builder = new StringBuilder("");
+        }
+
+        return builder.toString();
+    }
+
+    public static String do_su_exec(String command) {
+        StringBuilder builder = new StringBuilder("");
+        int result;
+        try {
+            Process process = Runtime.getRuntime().exec("su");
+            DataOutputStream outputStream = new DataOutputStream(process.getOutputStream());
+            outputStream.write(command.getBytes());
+            outputStream.writeBytes("\n");
+            outputStream.flush();
+            outputStream.writeBytes("exit\n");
+            outputStream.flush();
+            result = process.waitFor();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+                builder.append("\n");
+            }
+            BufferedReader reader1 = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            while ((line = reader1.readLine()) != null) {
+                builder.append(line);
+                builder.append("\n");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            builder.append("exec " + command + " error");
         }
 
         return builder.toString();

@@ -6,6 +6,10 @@ import com.andy.androinfo.utils.ShellUtils;
 
 import java.io.File;
 
+
+/*
+ * 获取google play 的gaid
+ */
 public class Gapps {
     private static final String TAG = Gapps.class.getSimpleName();
 

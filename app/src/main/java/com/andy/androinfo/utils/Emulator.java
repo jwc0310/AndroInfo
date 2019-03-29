@@ -10,13 +10,10 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Vibrator;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.InputDevice;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.util.List;
@@ -100,13 +97,13 @@ public class Emulator {
 
     public static void test(Context context) {
         int[] nums = InputDevice.getDeviceIds();
-        LogUtil.e(LogUtil.Emulator_debug, "AndyEmulator", "nums = " + nums.length);
+        LogUtil.e(LogUtil.Emulator_debug, "AndyEmulator abc", "nums = " + nums.length);
         for (int num : nums) {
-            LogUtil.e(LogUtil.Emulator_debug,"AndyEmulator", "num = " + num);
+            LogUtil.e(LogUtil.Emulator_debug,"AndyEmulator abc", "num = " + num);
             InputDevice inputDevice = InputDevice.getDevice(num);
-            LogUtil.e(LogUtil.Emulator_debug, TAG, inputDevice.getName());
-            LogUtil.e(LogUtil.Emulator_debug, TAG, inputDevice.getDescriptor());
-            LogUtil.e(LogUtil.Emulator_debug, TAG, inputDevice.getControllerNumber()+"");
+            LogUtil.e(LogUtil.Emulator_debug, TAG +" abc", inputDevice.getName());
+            LogUtil.e(LogUtil.Emulator_debug, TAG +" abc", inputDevice.getDescriptor());
+            LogUtil.e(LogUtil.Emulator_debug, TAG +" abc", inputDevice.getControllerNumber()+"");
         }
 
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);

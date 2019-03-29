@@ -9,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Created by Administrator on 2018/5/3.
@@ -21,6 +22,29 @@ public class FileUtil {
         LogUtil.e(LogUtil.FileUtil_debug, TAG, content);
     }
 
+    public static void readFile(String path) {
+        try {
+            File file = new File(path);
+            if (!file.exists()) {
+                log(path +" is not exist");
+                return;
+            }
+
+            //File dest = new File("/data/.__props__");
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            //BufferedWriter writer = new BufferedWriter(new FileWriter(dest));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                log(line);
+                log("\n");
+            }
+            reader.close();
+            //writer.close();
+        }catch (Exception e) {
+            log(path +"execption\n");
+            e.printStackTrace();
+        }
+    }
 
     public static boolean modifyXml(String path, String tag, String value) {
         File file = new File(path);
@@ -94,4 +118,65 @@ public class FileUtil {
         return null;
 
     }
+
+
+    //-----------------------------------------------------
+    public static BufferedWriter openFile(String path) {
+        try {
+            File dst = new File("/sdcard/Download/" + path);
+            if (dst.exists()) {
+                dst.delete();
+            }
+            dst.createNewFile();
+            BufferedWriter writer = new BufferedWriter(new FileWriter(dst));
+            return writer;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static void writeData(BufferedWriter writer, String data) {
+        try {
+            writer.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void closeFile(BufferedWriter writer) {
+        try {
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

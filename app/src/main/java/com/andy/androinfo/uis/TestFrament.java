@@ -14,6 +14,7 @@ import android.widget.Button;
 import com.andy.androinfo.R;
 import com.andy.androinfo.features.Gapps;
 import com.andy.androinfo.hook.HookUtil;
+import com.andy.androinfo.opengl.OpenGlActivity;
 import com.andy.androinfo.preference.PreferenceActivityWithPreferenceFragment;
 import com.andy.androinfo.utils.NotificationUtils;
 import com.andy.androinfo.utils.SocketUtils;
@@ -22,11 +23,12 @@ import com.andy.androinfo.utils.SocketUtils;
  * Created by Administrator on 2018/5/14.
  */
 
-public class TestFrament extends AndyBaseFragment {
+public class TestFrament extends AndyBaseFragment implements View.OnClickListener {
 
     private static final String TAG = TestFrament.class.getSimpleName();
 
     private Button hook_onClick, hook_notify, go_prefer, go_prefer2, install_xapk;
+    private Button go_opengl;
     private int testi = 0;
     private Context context;
 
@@ -127,6 +129,29 @@ public class TestFrament extends AndyBaseFragment {
             }
         });
 
+        setClickEvent(go_opengl, view, R.id.andy_go_opengl, this);
+
+
+
         return view;
+    }
+
+
+    private void setClickEvent(Button button, View view, int resId, View.OnClickListener listener) {
+        if (view == null) return;
+        button = (Button) view.findViewById(resId);
+        button.setOnClickListener(listener);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch(id) {
+            case R.id.andy_go_opengl:
+                startActivity(new Intent(getContext(), OpenGlActivity.class));
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -29,7 +29,7 @@ public class Detecter {
         builder.append(checkCgroupFileExist() ? "exist" : "not exist");
         builder.append("\n");
 
-        BatteryUtils.dump(context);
+        //BatteryUtils.dump(context);
 
         return builder.toString();
     }

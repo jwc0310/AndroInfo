@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -31,6 +32,31 @@ public class PackageUtils {
 
     private static void log(String content) {
         LogUtil.e(LogUtil.PackageUtils_debug, TAG, content);
+    }
+
+    public static String getLauncherPackageName(Context context) {
+        Intent intent = new Intent("android.intent.action.MAIN", null);
+        intent.addCategory("android.intent.category.HOME");
+        ResolveInfo resolveInfo = context.getPackageManager().resolveActivity(intent, 0);
+        if (resolveInfo.activityInfo != null) {
+            return resolveInfo.activityInfo.packageName;
+        }
+        return "";
+    }
+
+    public static String getInstallChannel(Context context) {
+        try {
+            ApplicationInfo info = context.getPackageManager().getApplicationInfo(context.getPackageName(), 128);
+            if (info != null) {
+                Bundle bundle = (Bundle) info.metaData.get("InstallChannel");
+                if (bundle != null)
+                    log(bundle.toString());
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return "";
     }
 
     public static String getInstalledPackages(Context context) {
@@ -68,17 +94,24 @@ public class PackageUtils {
         return builder.toString();
     }
 
-    public static void getInstallPackages(Context context) {
+    public static String getInstallPackages(Context context) {
         PackageManager  packageManager  = context.getPackageManager();
         Intent intent = new Intent("android.intent.action.MAIN", null);
         intent.addCategory("android.intent.category.LAUNCHER");
+        StringBuilder builder = new StringBuilder();
+        builder.append("\n");
+        builder.append("Installed packages:");
+        builder.append("\n");
         List list = packageManager.queryIntentActivities(intent, 0);
         if (list != null) {
             Iterator iterator = list.iterator();
             while (iterator.hasNext()) {
-                log("Andy package" +((ResolveInfo)iterator.next()).activityInfo.packageName);
+                builder.append(((ResolveInfo)iterator.next()).activityInfo.packageName);
+                builder.append("\n");
             }
         }
+        builder.append("\n");
+        return builder.toString();
     }
 
 

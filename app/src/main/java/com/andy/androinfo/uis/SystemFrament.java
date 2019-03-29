@@ -3,17 +3,8 @@ package com.andy.androinfo.uis;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.InputType;
-import android.util.Log;
-import android.view.Display;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.view.*;
 import android.widget.TextView;
-
 import com.andy.androinfo.R;
 
 /**
