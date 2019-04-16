@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.andy.androinfo.R;
 import com.andy.androinfo.beans.TitleBean;
+import com.andy.androinfo.devices.CameraUtils;
 import com.andy.androinfo.jni.TestJni;
 import com.andy.androinfo.utils.*;
 
@@ -79,6 +80,7 @@ public class MainActivity extends AndyBaseActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_main);
         TestJni.checkDetect();
+        CameraUtils.showCameraInfo(this);
 
         fileObserver = new AndroFileObserver("/data/data/com.android.vending/shared_prefs/");
         fileObserver.startWatching();

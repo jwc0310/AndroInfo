@@ -23,6 +23,7 @@ typedef unsigned long int (*CALL_FUNC) (unsigned long int);
 
 extern "C" uint32_t read_elf_header(const char *, const char *);
 
+//test getauxal with value 16/26 hwcap/hwcap2
 JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__
    (JNIEnv *env, jclass) {
      LOGI("getString");
@@ -61,7 +62,7 @@ JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__
      dlclose(handle);
 
      //read_elf_header("", "");
-     return env->NewStringUTF("This is myLibrary");
+     return env->NewStringUTF("This is d");
  }
 
  JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__Ljava_lang_String_2
@@ -81,13 +82,15 @@ JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__
  int setupSigTrap() {
     // BKPT throws SIGTRAP on nexus 5 / oneplus one (and most devices)
     signal(SIGTRAP, handler_sigtrap);
+    return 0;
  }
-
+/*
  int tryBKPT() {
     // BKPT throws SIGBUS on nexus 4 signal(SIGBUS, handler_sigbus);
     // 只能编译arm库
     __asm__ __volatile__ ("bkpt 255");
  }
+ */
 
  JNIEXPORT jint JNICALL Java_com_andy_androinfo_jni_TestJni_qemuBkpt
    (JNIEnv *env, jclass) {
@@ -97,7 +100,7 @@ JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__
     int child_status, status = 0;
     if(child == 0) {
         setupSigTrap();
-        tryBKPT();
+        //tryBKPT();
     } else if(child == -1) {
         status = -1;
     } else {
@@ -163,145 +166,6 @@ void polling_thread(void){
 	}
 }
 
-void* atomicallyIncreasingGlobalVarThread(void * data){
-	for(;;){
-
-		#ifdef __amd64__
-			__asm__ __volatile__ ( "mov %0, %%rbx;"
-				"movl $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"     "add $1, (%%rbx);"
-				"add $1, (%%rbx);"
-				:
-				:"c"(&global_value)
-				);
-		#endif
-		#ifdef __arm__
-			__asm__ __volatile__ ("mov r0, %[global];"
-		        "mov r1, #1;"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        "add r1, r1, #1;" "str r1, [r0];"
-		        :
-		        :[global] "r" (&global_value)
-		        );
-		#endif
-		#ifdef __i386__
-			__asm__ __volatile__ (
-				"movl %0, %%ebx;"
-				"movl $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				"add $1, (%%ebx);"
-				:
-				:"c"(&global_value)
-				);
-		#endif
-	}
-}
-
 double calculatEntropyValue(){
 	double sum = 0.0, ent = 0.0;
 	uint i = 0;
@@ -327,7 +191,7 @@ void initializeHistogram(){
 	//Assume that we have ~numberOfIncIns asm increment instructions
 	//so we know that we will have an index into histogram greater than numberOfIncIns
 	#ifdef __amd64__
-		histogram = malloc(sizeof(uint64_t) * (numberOfIncIns));
+		histogram = (uint32_t *)malloc(sizeof(uint64_t) * (numberOfIncIns));
 	#else
 		histogram = (uint32_t *)malloc(sizeof(uint32_t) * (numberOfIncIns));
 	#endif
@@ -338,7 +202,7 @@ void initializeHistogram(){
 
 JNIEXPORT jdouble JNICALL Java_com_andy_androinfo_jni_TestJni_qemuFingerPrint
   (JNIEnv *env, jclass) {
-
+/*
   	initializeHistogram();
 
   	pthread_t threadData;
@@ -352,5 +216,7 @@ JNIEXPORT jdouble JNICALL Java_com_andy_androinfo_jni_TestJni_qemuFingerPrint
   	free(histogram);
 
     return entValue;
+    */
+    return 0.0f;
 
   }

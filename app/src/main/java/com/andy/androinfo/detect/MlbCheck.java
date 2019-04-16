@@ -1,4 +1,4 @@
-package com.andy.androinfo.mlb;
+package com.andy.androinfo.detect;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;

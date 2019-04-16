@@ -18,6 +18,14 @@ android {
             jni.srcDirs = []
             jniLibs.srcDir "src/main/libs"
         }
+//
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+                arguments "-DANDROID_STL=c++_shared"
+
+            }
+        }
     }
     buildTypes {
         release {
@@ -25,7 +33,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets { main { assets.srcDirs = ['src/assets', 'src/assets/'] } }
+//    externalNativeBuild {
+//        ndkBuild {
+//            path 'src/main/jni/Android.mk'
+//        }
+//    }
 }
 
 dependencies {

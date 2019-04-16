@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.andy.androinfo.AndroInfoApplication;
 import com.andy.androinfo.R;
 import com.andy.androinfo.emulator.Detecter;
+import com.andy.androinfo.detect.MlbCheck;
 import com.andy.androinfo.utils.*;
 
 import java.io.File;
@@ -337,6 +338,8 @@ public class EmulatorFrament extends AndyBaseFragment {
             e.printStackTrace();
         }
         getShowMsg();
+
+        MlbCheck.show(getContext());
 
         property_get.setOnClickListener(new View.OnClickListener() {
             @Override

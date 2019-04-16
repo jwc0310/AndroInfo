@@ -2,6 +2,7 @@ package com.andy.androinfo.utils;
 
 import android.text.TextUtils;
 
+import android.util.Log;
 import com.andy.androinfo.beans.Properys;
 
 import java.lang.reflect.Method;
@@ -33,6 +34,7 @@ public class PropertyUtil {
         if (!TextUtils.isEmpty(result)) {
             String[] lines = result.split("\n");
             for (int i = 0; i < lines.length; i++) {
+                Log.e("Property", lines[i]);
                 String[] pros = lines[i].split(":");
                 list.add(new Properys(pros[0], pros[1]));
             }

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +13,7 @@ import android.widget.Button;
 import com.andy.androinfo.R;
 import com.andy.androinfo.binder.DemoService;
 import com.andy.androinfo.binder.IDemoConnection;
-import com.andy.androinfo.hook.HookUtil;
-import com.andy.androinfo.jni.TestJni;
-import com.andy.androinfo.mlb.MlbCheck;
-import com.andy.androinfo.utils.NotificationUtils;
-import com.andy.androinfo.utils.StorageUtil;
 
-import java.util.Properties;
 import java.util.Set;
 
 /**
@@ -62,10 +55,8 @@ public class BinderFrament extends AndyBaseFragment {
 
     @Override
     protected void initData() {
-        Log.e("Andy", "add binder");
         Intent intent = new Intent(getContext(), DemoService.class);
         context.bindService(intent, new IDemoConnection(), Context.BIND_AUTO_CREATE);
-        MlbCheck.show(context);
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.andy.androinfo;
 
 import android.app.Application;
+import android.app.ApplicationErrorReport;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.util.Log;
 
 import com.andy.androinfo.uis.MainActivity;
@@ -19,11 +21,7 @@ public class AndroInfoApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        //new HookUtil(MainActivity.class, this).handleOpenGLInfo();
-        new HookUtil(MainActivity.class, this).hookFuncs();
-        new HookUtil(MainActivity.class, this).hookNotificationManager();
-        Log.e("Andy777", getPackageName());
-        LogUtil.setDebug(true);
+        initial();
     }
 
     @Override
@@ -34,6 +32,18 @@ public class AndroInfoApplication extends Application {
 
     public static Context getGlobal() {
         return global;
+    }
+
+    private void initial() {
+        //new HookUtil(MainActivity.class, this).handleOpenGLInfo();
+        new HookUtil(MainActivity.class, this).hookFuncs();
+        new HookUtil(MainActivity.class, this).hookNotificationManager();
+        LogUtil.setDebug(true);
+
+        ApplicationInfo applicationInfo = getApplicationInfo();
+        Log.e("Application", applicationInfo.packageName+", " + applicationInfo.dataDir+", " + applicationInfo.nativeLibraryDir+", "
+        + applicationInfo.sourceDir);
+
     }
 
 }
