@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,8 +56,7 @@ public class BinderFrament extends AndyBaseFragment {
 
     @Override
     protected void initData() {
-        Intent intent = new Intent(getContext(), DemoService.class);
-        context.bindService(intent, new IDemoConnection(), Context.BIND_AUTO_CREATE);
+
     }
 
     @Override
@@ -88,7 +88,9 @@ public class BinderFrament extends AndyBaseFragment {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.e(TAG, "home click");
+                Intent intent = new Intent(getContext(), DemoService.class);
+                context.bindService(intent, new IDemoConnection(), Context.BIND_AUTO_CREATE);
             }
         });
 

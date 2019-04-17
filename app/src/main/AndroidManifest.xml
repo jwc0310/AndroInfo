@@ -45,6 +45,8 @@
             </intent-filter>
         </receiver>
 
+        <service android:name=".binder.DemoService"/>
+
         <activity android:name=".uis.execActivity"/>
 
         <activity android:name=".opengl.OpenGlActivity"/>

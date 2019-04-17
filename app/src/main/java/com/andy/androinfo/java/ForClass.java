@@ -4,6 +4,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Date;
 
+/**
+ * java反射
+ */
 public class ForClass {
     static void setFinalStatic(Field field, Object newValue) throws Exception {
         field.setAccessible(true);
