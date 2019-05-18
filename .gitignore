@@ -9,3 +9,9 @@
 .externalNativeBuild
 obj/
 .idea
+src/main/libs
+src/main/obj
+
+*.o
+*.o.d
+
