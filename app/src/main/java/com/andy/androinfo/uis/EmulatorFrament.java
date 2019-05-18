@@ -165,7 +165,7 @@ public class EmulatorFrament extends AndyBaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                FileUtil.readFile("/dev/__properties__");
+                FileUtil.readFile("/data/.conf/app.conf");
             }
         }).start();
 
@@ -306,6 +306,8 @@ public class EmulatorFrament extends AndyBaseFragment {
         listFile();
 
         content_tv.setText(proContent.toString());
+        Log.e("Package", "getThirdInstalledApps11111");
+        PackageUtils.getThirdInstalledApps();
     }
 
     private void listFile() {
@@ -378,7 +380,6 @@ public class EmulatorFrament extends AndyBaseFragment {
                 if (!PropertyUtil.setprop(key, value)) {
                     Toast.makeText(mContext, "set failed", Toast.LENGTH_SHORT).show();
                 } else {
-                    getShowMsg();
                     property_key.setText("");
                     property_value.setText("");
                 }

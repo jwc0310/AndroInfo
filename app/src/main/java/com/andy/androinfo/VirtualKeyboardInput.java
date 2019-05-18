@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 import java.util.Arrays;
 
-public class VirtualKeyboardInput extends EditText
+public class VirtualKeyboardInput extends android.support.v7.widget.AppCompatEditText
 {
     public VirtualKeyboardInput(Context context, AttributeSet attrs, int defStyle)
     {

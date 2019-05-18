@@ -1,6 +1,6 @@
-package com.microvirt.launcher.utils;
+package com.andy.androinfo.utils;
 
-import com.microvirt.launcher.ad.AdAction;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -41,6 +41,7 @@ public class UpdateAppConf implements Runnable {
         }
     }
 
+    //开机启动后 获取所有第三方应用
     private String getUpdateContent() {
         ShellUtils.CommandResult result = ShellUtils.execCommand("pm list packages -3", false, true);
         if (result.result == 0)
@@ -49,6 +50,7 @@ public class UpdateAppConf implements Runnable {
             return null;
     }
 
+    //指定label中添加
     private String insertLabel(String labelContent, String label, String[] packages) {
         StringBuilder builder = new StringBuilder(labelContent);
         StringBuilder md5s = new StringBuilder();
@@ -56,6 +58,8 @@ public class UpdateAppConf implements Runnable {
             String tmp = getMd5(packages[i]);
             if (null != tmp) {
                 String md5 = tmp.substring(0, 8);
+                if (labelContent.contains(md5))
+                    continue;
                 md5s.append(md5);
                 md5s.append(";");
             }
@@ -69,6 +73,7 @@ public class UpdateAppConf implements Runnable {
         return builder.toString();
     }
 
+    //新增label
     private String addLabel(String label, String[] packages) {
 
         if (packages.length <= 0)
@@ -80,7 +85,7 @@ public class UpdateAppConf implements Runnable {
         builder.append(">");
 
         for (int i = 0; i < packages.length; i++) {
-            String tmp = AdAction.getMd5(packages[i]);
+            String tmp = getMd5(packages[i]);
             if (null != tmp) {
                 String md5 = tmp.substring(0, 8);
                 builder.append(md5);
@@ -113,8 +118,13 @@ public class UpdateAppConf implements Runnable {
         }
 
         File tmp = new File("/data/.conf/app.conf_tmp");
-        if (tmp.exists())
-            tmp.delete();
+        if (!tmp.exists()) {
+            try {
+                tmp.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader(conf));
@@ -170,9 +180,7 @@ public class UpdateAppConf implements Runnable {
 
     }
 
-
-
-    public String getMd5(String str) {
+    private String getMd5(String str) {
         StringBuilder sb = null;
         try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
@@ -185,6 +193,7 @@ public class UpdateAppConf implements Runnable {
                     sb.append(Integer.toHexString(x & 0xff));
                 }
             }
+            Log.e("UpdateAppConf", str + ": " +sb.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

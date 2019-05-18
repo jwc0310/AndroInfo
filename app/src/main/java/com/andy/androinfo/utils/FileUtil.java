@@ -7,9 +7,12 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
 
 /**
  * Created by Administrator on 2018/5/3.
@@ -119,7 +122,6 @@ public class FileUtil {
 
     }
 
-
     //-----------------------------------------------------
     public static BufferedWriter openFile(String path) {
         try {
@@ -152,6 +154,20 @@ public class FileUtil {
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * RandomAccessFile 实现文件插入修改
+     */
+
+    public void modifyAppConf(String filename, String label, byte[] content) {
+        File file = new File(filename);
+        if (!file.exists()) {
+            log(filename +", no such file");
+            return;
+        }
+    }
+
 
 
 

@@ -1,5 +1,8 @@
 package com.andy.androinfo.uis;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,11 +19,20 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.andy.androinfo.R;
 import com.andy.androinfo.beans.TitleBean;
 import com.andy.androinfo.devices.CameraUtils;
+import com.andy.androinfo.emulator.Detecter;
 import com.andy.androinfo.jni.TestJni;
-import com.andy.androinfo.utils.*;
+import com.andy.androinfo.utils.AndroFileObserver;
+import com.andy.androinfo.utils.DirUtils;
+import com.andy.androinfo.utils.Emulator;
+import com.andy.androinfo.utils.IPInfo;
+import com.andy.androinfo.utils.MemUtils;
+import com.andy.androinfo.utils.NetworkUtils;
+import com.andy.androinfo.utils.StorageUtil;
+import com.andy.androinfo.utils.TestHideTools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +49,9 @@ public class MainActivity extends AndyBaseActivity {
 
     AndroFileObserver fileObserver;
 
+    UpdateAppConfReceiver receiver;
+    Context context;
+
     //模拟器 新api测试
     private void doEmulatorTest() {
         Emulator.run(this);
@@ -46,6 +61,8 @@ public class MainActivity extends AndyBaseActivity {
         StorageUtil.getStorageCapacity(this);
         StorageUtil.readSDCard(this);
         StorageUtil.readSystem(this);
+        Detecter.TestInvisibleMode(this);
+        TestHideTools.test(this);
         /*
         new Thread(new Runnable() {
             @Override
@@ -68,6 +85,10 @@ public class MainActivity extends AndyBaseActivity {
     public void onDestroy() {
         if (fileObserver != null)
             fileObserver.stopWatching();
+        if (receiver != null) {
+            Log.e("updateAppConf", "unregisterReceiver");
+            unregisterReceiver(receiver);
+        }
         super.onDestroy();
     }
 
@@ -81,6 +102,14 @@ public class MainActivity extends AndyBaseActivity {
         setContentView(R.layout.activity_main);
         TestJni.checkDetect();
         CameraUtils.showCameraInfo(this);
+        receiver = new UpdateAppConfReceiver();
+        context = this;
+//        IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction(Intent.ACTION_BOOT_COMPLETED);
+//        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
+//        intentFilter.addDataScheme("package");
+//        context.registerReceiver(receiver, intentFilter);
+        Log.e("updateAppConf", "registerReceiver");
 
         fileObserver = new AndroFileObserver("/data/data/com.android.vending/shared_prefs/");
         fileObserver.startWatching();

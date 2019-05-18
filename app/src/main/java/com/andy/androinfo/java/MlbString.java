@@ -395,6 +395,22 @@ public class MlbString {
         l_string("u;/{\'`w(fvw");
         l_string("_\u001b");
         l_string("u\'p;{ pgu9dgD;{.f,g:P u%{.");
+
+        qc_string("\u001f\u0000\u000c");
+        qc_string("\u000f939e. *61*6e7+4<x6-5(**1+e4 . 4eie9+<ek");
+        qc_string("bdj>*61f");
+        qc_string("7+\u000c71(\u000f,6!72+");
+        qc_string("installedList");
+        qc_string("+=2\u0011++19+; \u0017#\u000b ;0* \u001a<, +mq");
+        qc_string("1++19)4 <\t16,");
+        bc_string(".]\u001fj\u001aL\u001dI#D\u000cH\u0001^\n");
+        qc_string("5910");
+        qc_string("\u001d\u0017\n\n\n");
+        qc_string("-1>h`");
+        qc_string("memu");
+        qc_string("MEmu");
+        qc_string("blue");
+
     }
 
     public static int m = 0x0;
@@ -676,7 +692,7 @@ public class MlbString {
 
     public static void qc_string(String str) {
         String res = mlb_string(str, 0x58, 0x45);
-        System.out.print(str + "\t\t"+ res + "\n");
+        System.out.print("qc_string: " +str + "\t\t"+ res + "\n");
     }
 
     public static void ea_string(String str) {
@@ -752,5 +768,7 @@ public class MlbString {
         }
         return new String(arrayOfChar);
     }
+
+
 
 }

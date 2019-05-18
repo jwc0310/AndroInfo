@@ -11,9 +11,6 @@ public class BatteryInfoReceiver extends BroadcastReceiver {
 
     private Handler handler;
 
-    private BatteryInfoReceiver() {
-
-    }
     public BatteryInfoReceiver(Handler handler) {
         this.handler = handler;
     }

@@ -44,6 +44,21 @@ public class PackageUtils {
         return "";
     }
 
+    public static void getThirdInstalledApps() {
+        Log.e("Package", "getThirdInstalledApps");
+        String command = "pm list package -3";
+        ShellUtils.CommandResult result = ShellUtils.execCommand(command, false, true);
+        if (result.result == 0) {
+            log(result.successMsg);
+            String[] packages = result.successMsg.split("package:");
+            for (int i = 0; i < packages.length; i++) {
+                log(packages[i]);
+            }
+        }
+        else
+            log(result.errorMsg);
+    }
+
     public static String getInstallChannel(Context context) {
         try {
             ApplicationInfo info = context.getPackageManager().getApplicationInfo(context.getPackageName(), 128);

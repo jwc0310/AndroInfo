@@ -1,13 +1,12 @@
 package com.andy.androinfo;
 
 import android.app.Application;
-import android.app.ApplicationErrorReport;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.util.Log;
 
-import com.andy.androinfo.uis.MainActivity;
 import com.andy.androinfo.hook.HookUtil;
+import com.andy.androinfo.uis.MainActivity;
 import com.andy.androinfo.utils.LogUtil;
 
 /**
@@ -27,7 +26,7 @@ public class AndroInfoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        global = this;
+        global = getApplicationContext();
     }
 
     public static Context getGlobal() {

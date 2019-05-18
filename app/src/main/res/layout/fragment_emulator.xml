@@ -6,14 +6,14 @@
 
     <EditText
         android:id="@+id/andy_property_key"
-        android:layout_width="300dp"
+        android:layout_width="300dp" android:inputType="" 
         android:layout_height="40dp"
         android:hint="input property key"
         android:layout_marginTop="10dp"/>
 
     <EditText
         android:id="@+id/andy_property_value"
-        android:layout_width="300dp"
+        android:layout_width="300dp" android:inputType="" 
         android:layout_height="40dp"
         android:hint="input property value"
         android:layout_marginTop="10dp"/>

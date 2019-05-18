@@ -15,7 +15,7 @@ public class LogUtil {
     public static boolean BatteryUtils_debug = false;
     public static boolean DirUtils_debug = false;
     public static boolean Test_debug = false;
-    public static boolean PackageUtils_debug = false;
+    public static boolean PackageUtils_debug = true;
     public static boolean LocationUtils_debug = false;
     public static boolean StorageUtil_debug = true;
     public static boolean WifiUtils_debug = false;

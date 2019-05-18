@@ -16,15 +16,19 @@ public class TestHideTools {
 
     public static void test(Context context) {
         String packageName = "com.tencent.ssss";
-        File file = new File("/data/data" + packageName);
+        // /data/data
+        String installpath = context.getFilesDir().getPath();
+        File file = new File("/data/data/" +packageName);
         if (file.exists()) {
             Log.e(TAG, packageName +" is exist");
         } else {
             Log.e(TAG, packageName +" is not exist");
         }
+
+        Log.e(TAG, "\n");
         String path = Environment.getExternalStorageDirectory().getPath();
 
-        File file1 = new File(path);
+        File file1 = new File(path +"/Android/data");
         if (file1.exists()) {
             File[] files = file1.listFiles();
             for (File file2 : files) {
@@ -32,11 +36,22 @@ public class TestHideTools {
             }
         }
 
+        Log.e(TAG, "\n");
+
         PackageManager pm = context.getPackageManager();
         List<PackageInfo> list = pm.getInstalledPackages(0);
         for (PackageInfo info : list) {
-            if ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
-                Log.e(TAG, info.packageName);
+            Log.e(TAG, info.packageName);
+//            if ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
+//                Log.e(TAG, info.packageName);
+        }
+
+        packageName = "com.microvirt.guide";
+        file = new File("/data/data/" +packageName);
+        if (file.exists()) {
+            Log.e(TAG, packageName +" is exist");
+        } else {
+            Log.e(TAG, packageName +" is not exist");
         }
     }
 

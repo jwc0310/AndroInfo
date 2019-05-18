@@ -13,7 +13,6 @@ public class PubgCheck {
     }
 
     public static void check(Context context) {
-
     }
 
 

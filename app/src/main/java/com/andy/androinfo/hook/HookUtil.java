@@ -4,7 +4,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 
 import com.andy.androinfo.utils.LogUtil;
@@ -215,11 +214,7 @@ public class HookUtil {
         }
     }
 
-
-
     private static void log(String content) {
         LogUtil.e(LogUtil.HookUtil_debug, TAG, content);
     }
-
-
 }
