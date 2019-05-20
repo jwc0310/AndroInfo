@@ -46,7 +46,7 @@ public class TestHideTools {
 //                Log.e(TAG, info.packageName);
         }
 
-        packageName = "com.microvirt.guide";
+        packageName = "com.test.guide";
         file = new File("/data/data/" +packageName);
         if (file.exists()) {
             Log.e(TAG, packageName +" is exist");
