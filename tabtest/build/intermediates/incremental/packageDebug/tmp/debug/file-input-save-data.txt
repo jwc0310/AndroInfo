@@ -1,0 +1,7 @@
+#Internal package file, do not edit.
+#Mon May 20 16:58:35 CST 2019
+0.baseType=DIRECTORY
+0.base=E\:\\works2\\androInfo\\tabtest\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+0.path=classes.dex
+0.set=DEX
+count=1
