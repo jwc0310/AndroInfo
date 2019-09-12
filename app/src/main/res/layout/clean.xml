@@ -1,21 +1,26 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/widget_margin"
-    android:background="#09C" >
+    android:orientation="vertical"
+    android:gravity="center"
+    android:id="@+id/appwidget_ll">
+
+    <ImageView
+        android:id="@+id/appwidget_image"
+        android:layout_height="56dp"
+        android:layout_width="56dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_launcher"/>
 
     <TextView
         android:id="@+id/appwidget_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@string/appwidget_text"
         android:text="@string/appwidget_text"
         android:textColor="#ffffff"
-        android:textSize="24sp"
-        android:textStyle="bold|italic"
-        android:layout_margin="8dp"
-        android:contentDescription="@string/appwidget_text"
-        android:background="#09C"/>
+        android:textSize="10sp"
+        android:textStyle="bold|italic" />
 
-</RelativeLayout>
+</LinearLayout>

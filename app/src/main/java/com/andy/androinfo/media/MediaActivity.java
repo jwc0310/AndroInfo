@@ -3,6 +3,8 @@ package com.andy.androinfo.media;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.andy.androinfo.R;
+
 public class MediaActivity extends AppCompatActivity {
 
     @Override

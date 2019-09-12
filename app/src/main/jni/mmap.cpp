@@ -29,6 +29,7 @@ void test_mmap(void) {
     if (p_map == MAP_FAILED) {
         LOGE("mmap failed\n");
         munmap(p_map, SHARE_SIZE);
+        close(fd);
         return;
     }
     len = strlen(p_map);

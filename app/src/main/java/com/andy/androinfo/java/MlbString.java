@@ -745,7 +745,6 @@ public class MlbString {
         System.out.print(str + "\t"+ res + "\n");
     }
 
-
     public static void k_string(String str) {
         String res = mlb_string(str, 0x29, 0x5C);
         System.out.print(str + "\t"+ res + "\n");

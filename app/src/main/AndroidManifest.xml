@@ -4,18 +4,18 @@
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.DELETE_PACKAGES" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <permission
         android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
@@ -29,6 +29,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".media.MediaActivity"></activity>
         <activity android:name=".uis.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,22 +46,37 @@
                 <action android:name="android.intent.action.BATTERY_CHANGED" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".uis.UpdateAppConfReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
+
                 <category android:name="android.intent.category.HOME" />
 
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".binder.DemoService"/>
+        <service android:name=".binder.DemoService" />
 
-        <activity android:name=".uis.execActivity"/>
+        <activity android:name=".uis.execActivity" />
+        <activity android:name=".opengl.OpenGlActivity" />
 
-        <activity android:name=".opengl.OpenGlActivity"/>
+        <receiver android:name=".widgets.clean">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.xxxx.xxxx" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/clean_info" />
+        </receiver>
+
+        <service
+            android:name=".widgets.UpdateService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

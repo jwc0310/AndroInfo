@@ -1,7 +1,6 @@
 package com.andy.androinfo.utils;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
@@ -45,8 +44,7 @@ public class TestHideTools {
 //            if ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
 //                Log.e(TAG, info.packageName);
         }
-
-        packageName = "com.test.guide";
+        packageName = "com.microvirt.installer";
         file = new File("/data/data/" +packageName);
         if (file.exists()) {
             Log.e(TAG, packageName +" is exist");

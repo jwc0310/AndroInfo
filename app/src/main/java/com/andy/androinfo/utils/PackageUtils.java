@@ -38,7 +38,7 @@ public class PackageUtils {
         Intent intent = new Intent("android.intent.action.MAIN", null);
         intent.addCategory("android.intent.category.HOME");
         ResolveInfo resolveInfo = context.getPackageManager().resolveActivity(intent, 0);
-        if (resolveInfo.activityInfo != null) {
+        if (resolveInfo != null && resolveInfo.activityInfo != null) {
             return resolveInfo.activityInfo.packageName;
         }
         return "";

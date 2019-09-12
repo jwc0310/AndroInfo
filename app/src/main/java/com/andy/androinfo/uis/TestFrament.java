@@ -14,6 +14,7 @@ import android.widget.Button;
 import com.andy.androinfo.R;
 import com.andy.androinfo.features.Gapps;
 import com.andy.androinfo.hook.HookUtil;
+import com.andy.androinfo.jni.TestJni;
 import com.andy.androinfo.opengl.OpenGlActivity;
 import com.andy.androinfo.preference.PreferenceActivityWithPreferenceFragment;
 import com.andy.androinfo.utils.NotificationUtils;
@@ -113,13 +114,16 @@ public class TestFrament extends AndyBaseFragment implements View.OnClickListene
         });
 
         install_xapk = (Button) view.findViewById(R.id.andy_install_xapk);
-//        install_xapk.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                startActivity(new Intent(getContext(), ActivityWithPreferenceFragment.class));
+        install_xapk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                startActivity(new Intent(getContext(), ActivityWithPreferenceFragment.class));
 //            SocketUtils.startInstallXapkClient("/sdcard/Download/war.xapk");
-//            }
-//        });
+                long t1 = System.currentTimeMillis();
+                TestJni.getHello();
+                Log.e(TAG, "cost time = " + (System.currentTimeMillis() - t1));
+            }
+        });
 
         install_xapk.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -130,9 +134,6 @@ public class TestFrament extends AndyBaseFragment implements View.OnClickListene
         });
 
         setClickEvent(go_opengl, view, R.id.andy_go_opengl, this);
-
-
-
         return view;
     }
 

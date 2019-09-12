@@ -1,8 +1,6 @@
 package com.andy.androinfo.uis;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ import com.andy.androinfo.beans.TitleBean;
 import com.andy.androinfo.devices.CameraUtils;
 import com.andy.androinfo.emulator.Detecter;
 import com.andy.androinfo.jni.TestJni;
+import com.andy.androinfo.ms.Ms;
 import com.andy.androinfo.utils.AndroFileObserver;
 import com.andy.androinfo.utils.DirUtils;
 import com.andy.androinfo.utils.Emulator;
@@ -34,6 +34,7 @@ import com.andy.androinfo.utils.NetworkUtils;
 import com.andy.androinfo.utils.StorageUtil;
 import com.andy.androinfo.utils.TestHideTools;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,22 +64,26 @@ public class MainActivity extends AndyBaseActivity {
         StorageUtil.readSystem(this);
         Detecter.TestInvisibleMode(this);
         TestHideTools.test(this);
-        /*
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                FileUtil.readFile("/dev/__properties__");
 
-                //Log.e("IPInfo", ShellUtils.do_exec("/system/bin/cat /dev/__properties__"));
-            }
-        }).start();
-        */
+        DirUtils.externalDir(this);
+        MemUtils.getMemInfo(this);
+        TestJni.checkDetect();
+        CameraUtils.showCameraInfo(this);
+        StorageUtil.test(this);
+
+        try {
+            DirUtils.getApplicationDirectories(this);
+            DirUtils.getEnvironmentDirectories();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        StorageUtil.getStorageCapacity(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        StorageUtil.test(this);
     }
 
     @Override
@@ -86,7 +91,6 @@ public class MainActivity extends AndyBaseActivity {
         if (fileObserver != null)
             fileObserver.stopWatching();
         if (receiver != null) {
-            Log.e("updateAppConf", "unregisterReceiver");
             unregisterReceiver(receiver);
         }
         super.onDestroy();
@@ -100,16 +104,8 @@ public class MainActivity extends AndyBaseActivity {
         Log.e("xxxx", dm.widthPixels + " x " + dm.heightPixels);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_main);
-        TestJni.checkDetect();
-        CameraUtils.showCameraInfo(this);
         receiver = new UpdateAppConfReceiver();
         context = this;
-//        IntentFilter intentFilter = new IntentFilter();
-//        intentFilter.addAction(Intent.ACTION_BOOT_COMPLETED);
-//        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
-//        intentFilter.addDataScheme("package");
-//        context.registerReceiver(receiver, intentFilter);
-        Log.e("updateAppConf", "registerReceiver");
 
         fileObserver = new AndroFileObserver("/data/data/com.android.vending/shared_prefs/");
         fileObserver.startWatching();
@@ -154,8 +150,6 @@ public class MainActivity extends AndyBaseActivity {
         title_rv.setAdapter(titleAdapter);
         titleAdapter.tabChange(0);
 
-        StorageUtil.getStorageCapacity(this);
-
         content_vp = (ViewPager) findViewById(R.id.andy_content_vp);
         contentFragmentPagerAdapter = new ContentFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
         content_vp.setAdapter(contentFragmentPagerAdapter);
@@ -186,16 +180,9 @@ public class MainActivity extends AndyBaseActivity {
             }
         });
 
-        doEmulatorTest();
-        DirUtils.externalDir(this);
-        MemUtils.getMemInfo(this);
-        
-        try {
-            DirUtils.getApplicationDirectories(this);
-            DirUtils.getEnvironmentDirectories();
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
+        //doEmulatorTest();
+
+        TestJni.checkDetect();
 
     }
 

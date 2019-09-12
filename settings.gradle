@@ -1,1 +1,1 @@
-include ':app', ':mylib', ':mylibrary', ':tabtest'
+include ':app', ':javaTest', ':MaterialTab'

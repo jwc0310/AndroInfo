@@ -5,16 +5,17 @@
 #include "com_andy_androinfo_jni_TestJni.h"
 
 #include <android/log.h>
+#include <dlfcn.h>
+#include <math.h>
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <pthread.h>
+#include <sys/mman.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <math.h>
-#include <dlfcn.h>
+#include <unistd.h>
 
-#define LOG_TAG "Andy_jni"
+#define LOG_TAG "hello_jni"
 
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
 #define LIB_PATH "/system/lib/libc.so"
@@ -28,6 +29,26 @@ JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__
    (JNIEnv *env, jclass) {
      LOGI("getString");
 
+     LOGI("back home 1");
+     FILE *fp = NULL;
+     char data[1024] = {'0'};
+     fp = popen("input keyevent 3", "r");
+
+     if (fp == NULL) {
+        LOGI("popen failed");
+     } else {
+
+        while (fgets(data, sizeof(data), fp) != NULL)
+     	{
+     		LOGI("%s", data);
+     	}
+     	pclose(fp);
+
+     }
+
+     LOGI("back home 2, err = %d", errno);
+
+/*
      void *handle;
      char *error;
 
@@ -60,6 +81,8 @@ JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__
 
      //关闭动态链接库
      dlclose(handle);
+
+     */
 
      //read_elf_header("", "");
      return env->NewStringUTF("This is d");

@@ -5,15 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.andy.androinfo.R;
-import com.andy.androinfo.binder.DemoService;
-import com.andy.androinfo.binder.IDemoConnection;
+import com.andy.androinfo.utils.ShellUtils;
 
 import java.util.Set;
 
@@ -66,6 +68,8 @@ public class BinderFrament extends AndyBaseFragment {
     }
 
     private Button home;
+    private EditText editText_command;
+    private TextView textView_exec_res;
 
     private void backHome(Context context) {
         Intent intent = new Intent();
@@ -84,15 +88,41 @@ public class BinderFrament extends AndyBaseFragment {
         View view;
         context = getContext();
         view = inflater.inflate(R.layout.fragment_binder, null);
+
+        editText_command = (EditText) view.findViewById(R.id.binder_command);
+        textView_exec_res = (TextView) view.findViewById(R.id.binder_exec_res);
+
         home = (Button) view.findViewById(R.id.Binder_home);
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e(TAG, "home click");
-                Intent intent = new Intent(getContext(), DemoService.class);
-                context.bindService(intent, new IDemoConnection(), Context.BIND_AUTO_CREATE);
+
+                textView_exec_res.setText("");
+
+                String command = editText_command.getText().toString();
+                if (TextUtils.isEmpty(command) || command.trim().length() <= 0) {
+                    Toast.makeText(context, "命令格式不正确", Toast.LENGTH_SHORT).show();
+                    editText_command.setText("");
+                    return;
+                }
+
+                ShellUtils.CommandResult commandResult = ShellUtils.execCommand(command, false);
+                String res = "";
+                if (commandResult.successMsg != null) {
+                    res += commandResult.successMsg;
+                    res += "\n";
+                }
+
+                if (commandResult.errorMsg != null) {
+                    res += commandResult.errorMsg;
+                    res += "\n";
+                }
+                textView_exec_res.setText(res);
+
             }
         });
+
+
 
         return view;
     }

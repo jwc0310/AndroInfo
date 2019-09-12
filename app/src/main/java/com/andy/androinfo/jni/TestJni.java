@@ -1,5 +1,7 @@
 package com.andy.androinfo.jni;
 
+import android.util.Log;
+
 public class TestJni {
 
     static {
@@ -7,9 +9,16 @@ public class TestJni {
     }
 
     public static int checkDetect() {
-        getHello();
         return 0;
     }
+
+    public static void hello() {
+        String res = getHello();
+        Log.e("checkDetect", "1111 " +res);
+    }
+
+
+
 //
 //    public static boolean checkQemuBreakpoint() {
 //        boolean hit_breakpoint = false;

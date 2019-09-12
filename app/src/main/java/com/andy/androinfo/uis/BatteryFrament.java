@@ -1,6 +1,7 @@
 package com.andy.androinfo.uis;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +18,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.andy.androinfo.R;
+import com.andy.androinfo.media.MediaActivity;
+import com.andy.androinfo.utils.ShellUtils;
 import com.tbruyelle.rxpermissions.RxPermissions;
+
+import java.util.List;
 
 import rx.Observer;
 
@@ -28,7 +33,7 @@ import rx.Observer;
 public class BatteryFrament extends AndyBaseFragment {
 
     private static final String TAG = BatteryFrament.class.getSimpleName();
-    private Button button, settings;
+    private Button button, settings, media;
     private TextView battery_info_tv;
 
     private Context context;
@@ -103,10 +108,38 @@ public class BatteryFrament extends AndyBaseFragment {
                 Intent intent = new Intent();
                 intent.setComponent(new ComponentName("com.android.settings", "com.android.settings.Settings"));
                 startActivity(intent);
+////                ShellUtils.CommandResult result = ShellUtils.execCommand("chmod 777 /data/mycpuinfo", false, false);
+////                Log.e("BatteryFragment", result.result + "");
+////                Log.e("BatteryFragment", result.successMsg +"");
+////                Log.e("BatteryFragment", result.errorMsg +"");
+////                result = ShellUtils.execCommand("/data/data/com.tencent.yoozoo.got.wintercoming/files/mycpuinfo" , false, true);
+////                Log.e("BatteryFragment", result.result + "");
+////                Log.e("BatteryFragment", result.successMsg +"");
+////                Log.e("BatteryFragment", result.errorMsg+"");
+//
+//
+//                ActivityManager am = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
+//                List<ActivityManager.RunningAppProcessInfo> list =  am.getRunningAppProcesses();
+//                Log.e("BatteryFragment", "list =  " + (list == null ? "null" : list.size()));
+
+
+
             }
         });
 
         battery_info_tv = (TextView) view.findViewById(R.id.andy_battery_info);
+
+        media = (Button) view.findViewById(R.id.start_media);
+        media.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), MediaActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         return view;
     }
 
