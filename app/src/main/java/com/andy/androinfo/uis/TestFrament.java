@@ -1,8 +1,14 @@
 package com.andy.androinfo.uis;
 
+import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.Process;
+import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +25,9 @@ import com.andy.androinfo.opengl.OpenGlActivity;
 import com.andy.androinfo.preference.PreferenceActivityWithPreferenceFragment;
 import com.andy.androinfo.utils.NotificationUtils;
 import com.andy.androinfo.utils.SocketUtils;
+import com.andy.detect.IEmulatorCheck;
+import com.andy.detect.log.Logger;
+import com.andy.detect.service.EmulatorCheckService;
 
 /**
  * Created by Administrator on 2018/5/14.
@@ -29,7 +38,7 @@ public class TestFrament extends AndyBaseFragment implements View.OnClickListene
     private static final String TAG = TestFrament.class.getSimpleName();
 
     private Button hook_onClick, hook_notify, go_prefer, go_prefer2, install_xapk;
-    private Button go_opengl;
+    private Button go_opengl, go_detect;
     private int testi = 0;
     private Context context;
 
@@ -134,6 +143,7 @@ public class TestFrament extends AndyBaseFragment implements View.OnClickListene
         });
 
         setClickEvent(go_opengl, view, R.id.andy_go_opengl, this);
+        setClickEvent(go_detect, view, R.id.andy_go_detect, this);
         return view;
     }
 
@@ -151,8 +161,38 @@ public class TestFrament extends AndyBaseFragment implements View.OnClickListene
             case R.id.andy_go_opengl:
                 startActivity(new Intent(getContext(), OpenGlActivity.class));
                 break;
+            case R.id.andy_go_detect:
+                setGo_detect();
+                break;
             default:
                 break;
         }
     }
+
+    private void setGo_detect() {
+        Intent intent = new Intent(getContext(), EmulatorCheckService.class);
+        getActivity().bindService(intent, serviceConnection, Service.BIND_AUTO_CREATE);
+    }
+
+    final ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            IEmulatorCheck iEmulatorCheck = IEmulatorCheck.Stub.asInterface(service);
+            if (iEmulatorCheck != null) {
+                try {
+                    int pid = Process.myPid();
+                    Logger.getInstance().e("request pid = " + pid);
+                    iEmulatorCheck.isEmulator();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
 }

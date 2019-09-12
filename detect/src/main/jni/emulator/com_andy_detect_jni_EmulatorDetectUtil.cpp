@@ -8,6 +8,7 @@
 #include <signal.h>
 
 #include "util/log.h"
+#include "com_andy_detect_jni_EmulatorDetectUtil.h"
 
 #define PROT PROT_EXEC|PROT_WRITE|PROT_READ
 //检测是在x86 还是 arm平台上运行

@@ -5,6 +5,13 @@
 
 #include "util/log.h"
 
+#include "com_andy_detect_jni_Property.h"
+
+JNIEXPORT jstring JNICALL Java_com_andy_detect_jni_Property_native_1get__Ljava_lang_String_2
+  (JNIEnv *env, jclass clazz, jstring keyJ)
+{
+    return Java_com_andy_detect_jni_Property_native_1get__Ljava_lang_String_2Ljava_lang_String_2(env, clazz, keyJ, NULL);
+}
 
 JNIEXPORT jstring JNICALL Java_com_andy_detect_jni_Property_native_1get__Ljava_lang_String_2Ljava_lang_String_2
   (JNIEnv *env, jclass clazz, jstring keyJ, jstring defJ) {
@@ -35,10 +42,4 @@ JNIEXPORT jstring JNICALL Java_com_andy_detect_jni_Property_native_1get__Ljava_l
 error:
     return rvJ;
 
-}
-
-JNIEXPORT jstring JNICALL Java_com_andy_detect_jni_Property_native_1get__Ljava_lang_String_2
-  (JNIEnv *env, jclass clazz, jstring keyJ)
-{
-    return Java_com_andy_detect_jni_Property_native_1get__Ljava_lang_String_2Ljava_lang_String_2(env, clazz, keyJ, NULL);
 }

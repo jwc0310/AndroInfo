@@ -13,11 +13,11 @@ public class EmulatorDetectUtil {
         System.loadLibrary("detect");
     }
 
-    public static native boolean detect();
-
     public static boolean isEmulator() {
         return detect();
     }
+
+    private static native boolean detect();
 
     public void throwNativeCrash(){
 
