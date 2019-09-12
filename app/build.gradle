@@ -49,4 +49,6 @@ dependencies {
     implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
     implementation 'io.reactivex:rxandroid:1.2.1'
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    implementation project(':detect')
 }
