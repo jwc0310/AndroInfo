@@ -1,1 +1,1 @@
-include ':app', ':javaTest', ':MaterialTab'
+include ':app', ':javaTest', ':MaterialTab', ':detect'
