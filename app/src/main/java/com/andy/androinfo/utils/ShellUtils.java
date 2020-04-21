@@ -4,6 +4,7 @@ import android.os.Build;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
@@ -87,6 +88,11 @@ public class ShellUtils {
     }
 
     public static String do_su_exec(String command) {
+
+        if (!new File("/system/bin/su").exists()) {
+            return "";
+        }
+
         StringBuilder builder = new StringBuilder("");
         int result;
         try {

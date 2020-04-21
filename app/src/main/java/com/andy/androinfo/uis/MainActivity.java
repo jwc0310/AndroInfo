@@ -1,6 +1,16 @@
 package com.andy.androinfo.uis;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.GpsStatus;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.OnNmeaMessageListener;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +19,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.CellInfo;
+import android.telephony.CellLocation;
+import android.telephony.NeighboringCellInfo;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
@@ -35,6 +51,7 @@ import com.andy.androinfo.utils.StorageUtil;
 import com.andy.androinfo.utils.TestHideTools;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +72,7 @@ public class MainActivity extends AndyBaseActivity {
 
     //模拟器 新api测试
     private void doEmulatorTest() {
+        pos();
         Emulator.run(this);
         new IPInfo(this).getMacAddress();
         new IPInfo(this).getWIFILocalIpAdress();
@@ -79,11 +97,22 @@ public class MainActivity extends AndyBaseActivity {
         }
 
         StorageUtil.getStorageCapacity(this);
+
+
+
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.removeUpdates(listener);
+        super.onPause();
     }
 
     @Override
@@ -94,7 +123,147 @@ public class MainActivity extends AndyBaseActivity {
             unregisterReceiver(receiver);
         }
         super.onDestroy();
+
     }
+
+    PhoneStateListener phoneStateListener = new PhoneStateListener() {
+
+        public void onCellLocationChanged(CellLocation location) {
+            // default implementation empty
+            Log.e("position", "1-1: " + location.toString());
+        }
+    };
+
+    private void pos() {
+
+        Log.e("position", "\n---------- phone ----------\n");
+
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+
+        telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CELL_LOCATION);
+
+        Log.e("position", "1: " + telephonyManager.getNetworkOperatorName());
+        Log.e("position", "2: " + telephonyManager.getSimOperatorName());
+        Log.e("position", "3: " + telephonyManager.getSimOperator());
+        Log.e("position", "4: " + telephonyManager.getNetworkOperator());
+        Log.e("position", "5: " + telephonyManager.getSimCountryIso());
+        Log.e("position", "6: " + telephonyManager.getNetworkCountryIso());
+
+        List<NeighboringCellInfo> list = telephonyManager.getNeighboringCellInfo();
+        if (list != null) {
+            for (NeighboringCellInfo neighboringCellInfo : list) {
+                Log.e("position", "7: " + neighboringCellInfo.toString());
+            }
+        } else {
+            Log.e("position", "7: getNeighboringCellInfo");
+        }
+
+        List<CellInfo> list1 = telephonyManager.getAllCellInfo();
+        if (list1 != null) {
+            for (CellInfo info : list1) {
+                Log.e("position", "8: " + info.toString());
+            }
+        } else {
+            Log.e("position", "8: getAllCellInfo == null");
+        }
+
+        CellLocation location = telephonyManager.getCellLocation();
+        Log.e("position", "9: " + location.toString());
+
+        Log.e("position", "10: " + telephonyManager.getNetworkType());
+        Log.e("position", "11: " + telephonyManager.getPhoneType());
+//        Log.e("position", "12: " + telephonyManager);
+
+        Log.e("position", "\n---------- wifi ----------\n");
+
+        WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        List<ScanResult> results = wifiManager.getScanResults();
+
+        for (ScanResult scanResult : results) {
+            Log.e("position", "1: " + scanResult.toString());
+        }
+
+        WifiInfo info = wifiManager.getConnectionInfo();
+        if (info != null) {
+
+            Log.e("position", "2: " + info.getMacAddress());
+            Log.e("position", "3: " + info.getBSSID());
+            Log.e("position", "4: " + info.getSSID());
+        }
+
+
+        Log.e("position", "\n---------- location ----------\n");
+
+        LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        GpsStatus status = locationManager.getGpsStatus(null);
+
+        Log.e("position", "1: " +status.getMaxSatellites() + "");
+        Log.e("position", "2: " +status.getTimeToFirstFix() + "");
+        Log.e("position", "3: " +locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) + "");
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, listener);
+        Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (lastKnownLocation != null)
+            Log.e("position", "4: " + lastKnownLocation.toString());
+        //locationManager.removeUpdates(listener);
+
+        locationManager.addNmeaListener(new GpsStatus.NmeaListener() {
+
+            @Override
+            public void onNmeaReceived(long timestamp, String nmea) {
+                Log.e("position", "51: " + timestamp +", nmea = " + nmea);
+            }
+        });
+
+
+        Geocoder geocoder = new Geocoder(this);
+        boolean flag = Geocoder.isPresent();
+        if (flag) {
+            try {
+                List<Address> addresses = geocoder.getFromLocation(39.345345, 116.345, 1);
+                if (addresses.size() > 0) {
+                    Address address = addresses.get(0);
+                    String sAddress;
+                    if (!TextUtils.isEmpty(address.getLocality())) {
+                        if (!TextUtils.isEmpty(address.getFeatureName())) {
+                            //市和周边地址
+                            sAddress = address.getLocality() + " " + address.getFeatureName();
+                        } else {
+                            sAddress = address.getLocality();
+                        }
+                    } else {
+                        sAddress = "定位失败";
+                    }
+                    Log.e("gzq", "sAddress：" + sAddress);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    LocationListener listener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+
+            Log.e("position", "5: " + location.toString());
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            Log.e("position", "6: onStatusChanged: " + provider + ", " + status);
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            Log.e("position", "7: onProviderEnabled: " + provider);
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            Log.e("position", "8: onProviderDisabled: " + provider);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +272,8 @@ public class MainActivity extends AndyBaseActivity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         Log.e("xxxx", dm.widthPixels + " x " + dm.heightPixels);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        //View.SYSTEM_UI_FLAG_FULLSCREEN
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         receiver = new UpdateAppConfReceiver();
         context = this;
@@ -180,7 +351,7 @@ public class MainActivity extends AndyBaseActivity {
             }
         });
 
-        //doEmulatorTest();
+        doEmulatorTest();
 
         TestJni.checkDetect();
 
@@ -231,6 +402,29 @@ public class MainActivity extends AndyBaseActivity {
             lastTitle = -1;
             notifyDataSetChanged();
         }
+
+        LocationListener listener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+                Log.e("position", "5: " + location.toString());
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+                Log.e("position", "6: onStatusChanged: " + provider + ", " + status);
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+                Log.e("position", "7: onProviderEnabled: " + provider);
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                Log.e("position", "8: onProviderDisabled: " + provider);
+            }
+        };
 
         @Override
         public TitleHolder onCreateViewHolder(ViewGroup parent, int viewType) {

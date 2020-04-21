@@ -4,6 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.andy.androinfo"
+//        applicationId "com.tencent.tmgp.sgame"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 120

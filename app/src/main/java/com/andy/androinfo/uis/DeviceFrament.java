@@ -40,7 +40,7 @@ public class DeviceFrament extends AndyBaseFragment {
 
     private void initList() {
         properysList.clear();
-        properysList.addAll(PropertyUtil.getPropertyList());
+        //properysList.addAll(PropertyUtil.getPropertyList());
         propertyListAdapter.notifyDataSetChanged();
     }
 

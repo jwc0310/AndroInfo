@@ -63,9 +63,11 @@ public class PackageUtils {
         try {
             ApplicationInfo info = context.getPackageManager().getApplicationInfo(context.getPackageName(), 128);
             if (info != null) {
-                Bundle bundle = (Bundle) info.metaData.get("InstallChannel");
-                if (bundle != null)
-                    log(bundle.toString());
+                if (info.metaData != null) {
+                    Bundle bundle = (Bundle) info.metaData.get("InstallChannel");
+                    if (bundle != null)
+                        log(bundle.toString());
+                }
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

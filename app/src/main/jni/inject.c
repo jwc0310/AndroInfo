@@ -382,8 +382,12 @@ int inject_remote_process(pid_t target_pid, const char *library_path, const char
     if (ptrace_attach(target_pid) == -1)
         goto exit;
 
+    DEBUG_PRINT("[+] ptrace_attach process: %d success\n", target_pid);
+
     if (ptrace_getregs(target_pid, &regs) == -1)
         goto exit;
+
+    DEBUG_PRINT("[+] ptrace_getregs process: %d success\n", target_pid);
 
     /* save original registers */
     memcpy(&original_regs, &regs, sizeof(regs));
@@ -410,7 +414,7 @@ int inject_remote_process(pid_t target_pid, const char *library_path, const char
     dlerror_addr = get_remote_addr( target_pid, linker_path, (void *)dlerror );
     memcmp_addr = get_remote_addr( target_pid, linker_path, (void *)memcmp );
 
-    DEBUG_PRINT("[+] Get imports: dlopen: %x, dlsym: %x, dlclose: %x, dlerror: %x\n",
+    DEBUG_PRINT("[+] Get imports: dlopen: %x\n, dlsym: %x\n, dlclose: %x\n, dlerror: %x\n",
             dlopen_addr, dlsym_addr, dlclose_addr, dlerror_addr);
 
     printf("library path = %s\n", library_path);
@@ -465,6 +469,8 @@ int main(int argc, char** argv) {
         printf("Can't find the process\n");
         return -1;
     }
+
+    DEBUG_PRINT("target_pid = %d\n", target_pid);
     //target_pid = find_pid_of("/data/test");  
     inject_remote_process(target_pid, "/data/libhello.so", "hook_entry",  "I'm parameter!", strlen("I'm parameter!"));
     return 0;

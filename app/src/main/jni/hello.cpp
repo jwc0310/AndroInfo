@@ -24,12 +24,40 @@ typedef unsigned long int (*CALL_FUNC) (unsigned long int);
 
 extern "C" uint32_t read_elf_header(const char *, const char *);
 
+
+static void cal_addr() {
+    long v1 = 0x00379198;
+    LOGI("addr = 0x%x", (v1 - 0x1b6d74));
+    LOGI("addr = 0x%x", (v1 - 0x1b6d4c));
+    LOGI("addr = 0x%x", (v1 - 0x1b6ef2));
+    LOGI("addr = 0x%x", (v1 - 0x1b6efd));
+    LOGI("addr = 0x%x", (v1 - 0x1b6efc));
+    LOGI("addr = 0x%x", (v1 - 0x1b6e6c));
+    LOGI("addr = 0x%x", (v1 - 0x1b6ee2));
+    LOGI("addr = 0x%x", (v1 - 0x1b6eb8));
+    LOGI("addr = 0x%x", (v1 - 0x1b6eb2));
+    LOGI("addr = 0x%x", (v1 - 0x1b6ea2));
+    LOGI("addr = 0x%x", (v1 - 0x1b6e80));
+    LOGI("addr = 0x%x", (v1 - 0x1b6e84));
+    LOGI("addr = 0x%x", (v1 - 0x1b6e41));
+    LOGI("addr = 0x%x", (v1 - 0x1b6e40));
+    LOGI("addr = 0x%x", (v1 - 0x1b6dd1));
+    LOGI("addr = 0x%x", (v1 - 0x1b6dd0));
+    LOGI("addr = 0x%x", (v1 - 0x1b6dcc));
+    LOGI("addr = 0x%x", (v1 - 0x1b8106));
+    LOGI("addr = 0x%x", (v1 - 0x1b80a8));
+    LOGI("addr = 0x%x", (v1 - 0x1b809a));
+    LOGI("addr = 0x%x", (v1 - 0x2f5f08));
+    LOGI("addr = 0x%x", (v1 - 0x2e2e88));
+    LOGI("addr = 0x%x", (v1 - 0x2e0944));
+}
+
+
 //test getauxal with value 16/26 hwcap/hwcap2
 JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__
    (JNIEnv *env, jclass) {
      LOGI("getString");
 
-     LOGI("back home 1");
      FILE *fp = NULL;
      char data[1024] = {'0'};
      fp = popen("input keyevent 3", "r");

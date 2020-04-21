@@ -1,5 +1,6 @@
 package com.andy.androinfo.utils;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 /**
@@ -36,6 +37,10 @@ public class LogUtil {
 
         if (!module_debug)
             return;
+
+        if (TextUtils.isEmpty(log)) {
+            return;
+        }
 
         Log.e(tag, log);
     }

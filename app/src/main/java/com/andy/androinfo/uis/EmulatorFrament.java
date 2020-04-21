@@ -334,7 +334,7 @@ public class EmulatorFrament extends AndyBaseFragment {
     protected void initData() {
         XmlResourceParser parser = null;
         try {
-            parser = getContext().getAssets().openXmlResourceParser("ab1c.xml");
+            parser = getContext().getAssets().openXmlResourceParser("abc.xml");
             String abc = parser.getAttributeValue("resources", "abc1111");
         } catch (IOException e) {
             e.printStackTrace();
