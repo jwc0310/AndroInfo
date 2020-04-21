@@ -320,7 +320,7 @@ public class TestFrament extends AndyBaseFragment implements View.OnClickListene
             if (iEmulatorCheck != null) {
                 try {
                     int pid = Process.myPid();
-                    Logger.getInstance().e("request pid = " + pid);
+                    Logger.e("request pid = " + pid);
                     iEmulatorCheck.isEmulator();
                 } catch (RemoteException e) {
                     e.printStackTrace();
