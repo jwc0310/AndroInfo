@@ -11,6 +11,7 @@ obj/
 .idea
 src/main/libs
 src/main/obj
+/libs
 
 *.o
 *.o.d

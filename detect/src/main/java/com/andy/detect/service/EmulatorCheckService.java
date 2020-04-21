@@ -22,9 +22,9 @@ public class EmulatorCheckService extends Service {
             @Override
             public boolean isEmulator() throws RemoteException {
                 int pid = Process.myPid();
-                Logger.getInstance().e("response pid = " + pid);
+                Logger.e("response pid = " + pid);
                 String name = Property.getString("ro.product.name");
-                Logger.getInstance().e("response name = " + name);
+                Logger.e("response name = " + name);
                 return EmulatorDetectUtil.isEmulator();
             }
 
