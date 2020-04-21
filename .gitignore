@@ -12,6 +12,7 @@ obj/
 src/main/libs
 src/main/obj
 /libs
+libs/
 
 *.o
 *.o.d
