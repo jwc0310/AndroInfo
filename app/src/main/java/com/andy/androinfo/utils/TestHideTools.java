@@ -44,7 +44,7 @@ public class TestHideTools {
 //            if ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
 //                Log.e(TAG, info.packageName);
         }
-        packageName = "com.microvirt.installer";
+        packageName = "com.android.installer";
         file = new File("/data/data/" +packageName);
         if (file.exists()) {
             Log.e(TAG, packageName +" is exist");
