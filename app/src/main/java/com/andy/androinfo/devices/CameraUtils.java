@@ -52,8 +52,7 @@ public class CameraUtils {
             } else if (cameraInfo.facing == CAMERA_FACING_BACK) {
                 log("back: -------> ");
             }
-
-            showCameraInfo(context, cameraInfo.facing);
+            //showCameraInfo(context, cameraInfo.facing);
         }
         log("");
     }

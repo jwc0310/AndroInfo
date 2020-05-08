@@ -1,6 +1,7 @@
 package com.andy.androinfo.uis;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.GpsStatus;
@@ -50,6 +51,8 @@ import com.andy.androinfo.utils.TestHideTools;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.security.auth.login.LoginException;
 
 public class MainActivity extends AndyBaseActivity {
 
@@ -116,7 +119,7 @@ public class MainActivity extends AndyBaseActivity {
         if (fileObserver != null)
             fileObserver.stopWatching();
         if (receiver != null) {
-            unregisterReceiver(receiver);
+            //unregisterReceiver(receiver);
         }
         super.onDestroy();
 
@@ -351,6 +354,15 @@ public class MainActivity extends AndyBaseActivity {
 
         TestJni.checkDetect();
 
+        Log.e("isTablet", "is Tablet " + isTablet(this));
+
+    }
+
+    private boolean isTablet(Context context) {
+        int screenLayout = context.getResources().getConfiguration().screenLayout;
+        int size = screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+        Log.e("isTablet", "screen = " + screenLayout + ", " + size);
+        return size >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     public class ContentFragmentPagerAdapter extends FragmentPagerAdapter {
