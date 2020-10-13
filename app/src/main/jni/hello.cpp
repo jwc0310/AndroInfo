@@ -17,7 +17,7 @@
 
 #define LOG_TAG "hello_jni"
 
-#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+#define LOGI(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #define LIB_PATH "/system/lib/libc.so"
 
 typedef unsigned long int (*CALL_FUNC) (unsigned long int);
@@ -57,7 +57,7 @@ static void cal_addr() {
 JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__
    (JNIEnv *env, jclass) {
      LOGI("getString");
-
+/*
      FILE *fp = NULL;
      char data[1024] = {'0'};
      fp = popen("input keyevent 3", "r");
@@ -73,10 +73,11 @@ JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__
      	pclose(fp);
 
      }
+     */
 
      LOGI("back home 2, err = %d", errno);
 
-/*
+
      void *handle;
      char *error;
 
@@ -88,21 +89,33 @@ JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__
         LOGI("dlopen error");
         return env->NewStringUTF("dlopen error");
      }
+     LOGI("back home 3, err = %d", errno);
      //清除之前的错误
      dlerror();
 
+    LOGI("back home 4, err = %d", errno);
      //获取一个函数
      *(void **) (&call_func) = dlsym(handle, "getauxval");
      if ((error = dlerror()) != NULL) {
         LOGI("dlsym error");
         return env->NewStringUTF("dlsym error");
      }
+     LOGI("back home 5, err = %d", errno);
 
      //小米手机   3649750/0x37b0d6  31/0x1f     1101 1110 1100 0011 010 110
      //模拟器     12503/0x30d7      0/0x0                 1100 0011 010 111
      //小米平板   471286/0x730f6    0/0x0          1 1100  1100 0011 110 110
-     LOGI("call %lu", (*call_func)(16));
+     LOGI("call 0x%lu", (*call_func)(16));
      LOGI("call 0x%lx", (*call_func)(16));
+
+     /*
+
+     05-25 18:38:55.150 16640 16758 E hello_jni: call 3649750
+     05-25 18:38:55.150 16640 16758 E hello_jni: call 0x37b0d6
+     05-25 18:38:55.150 16640 16758 E hello_jni: call 31
+     05-25 18:38:55.150 16640 16758 E hello_jni: call 0x1f
+     2097184 0x200020
+     */
 
      LOGI("call %lu", (*call_func)(26));
      LOGI("call 0x%lx", (*call_func)(26));
@@ -110,9 +123,20 @@ JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__
      //关闭动态链接库
      dlclose(handle);
 
-     */
 
+    int h = open("/proc/self/auxv", 0);
+
+    if (h > 0) {
+        char buf[64];
+        memset(buf, 0, 64);
+        read(h, &buf, 16);
+        LOGI("read %s\n", buf);
+        close(h);
+    } else {
+        LOGI("open failed %d", errno);
+    }
      //read_elf_header("", "");
+     LOGI("back home end, err = %d", errno);
      return env->NewStringUTF("This is d");
  }
 

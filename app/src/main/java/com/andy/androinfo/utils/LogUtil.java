@@ -11,7 +11,7 @@ public class LogUtil {
 
     private static boolean debug = true;
     public static boolean MemUtils_debug = false;
-    public static boolean Emulator_debug = false;
+    public static boolean Emulator_debug = true;
     public static boolean ActivityUtils_debug = false;
     public static boolean BatteryUtils_debug = false;
     public static boolean DirUtils_debug = false;

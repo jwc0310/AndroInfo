@@ -14,6 +14,17 @@
         android:id="@+id/Binder_home"
         />
 
+    <EditText
+        android:id="@+id/binder_path"
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+
+    <Button android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:text="执行"
+        android:id="@+id/Binder_cat"
+        />
+
     <TextView
         android:id="@+id/binder_exec_res"
         android:layout_width="match_parent"

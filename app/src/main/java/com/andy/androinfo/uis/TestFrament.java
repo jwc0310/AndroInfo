@@ -145,9 +145,15 @@ public class TestFrament extends AndyBaseFragment implements View.OnClickListene
             public void onClick(View v) {
 //                startActivity(new Intent(getContext(), ActivityWithPreferenceFragment.class));
 //            SocketUtils.startInstallXapkClient("/sdcard/Download/war.xapk");
-                long t1 = System.currentTimeMillis();
-                TestJni.getHello();
-                Log.e(TAG, "cost time = " + (System.currentTimeMillis() - t1));
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        long t1 = System.currentTimeMillis();
+                        TestJni.getHello();
+                        Log.e(TAG, "cost time = " + (System.currentTimeMillis() - t1));
+                    }
+                }).start();
+
             }
         });
 

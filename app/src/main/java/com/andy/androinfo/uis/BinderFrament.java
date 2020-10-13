@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andy.androinfo.R;
+import com.andy.androinfo.utils.FileUtil;
 import com.andy.androinfo.utils.ShellUtils;
 
 import java.util.Set;
@@ -67,8 +68,8 @@ public class BinderFrament extends AndyBaseFragment {
         }
     }
 
-    private Button home;
-    private EditText editText_command;
+    private Button home, cat;
+    private EditText editText_command, editText_path;
     private TextView textView_exec_res;
 
     private void backHome(Context context) {
@@ -90,9 +91,35 @@ public class BinderFrament extends AndyBaseFragment {
         view = inflater.inflate(R.layout.fragment_binder, null);
 
         editText_command = (EditText) view.findViewById(R.id.binder_command);
+        editText_path = (EditText) view.findViewById(R.id.binder_path);
         textView_exec_res = (TextView) view.findViewById(R.id.binder_exec_res);
 
         home = (Button) view.findViewById(R.id.Binder_home);
+        cat = (Button) view.findViewById(R.id.Binder_cat);
+
+        cat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textView_exec_res.setText("");
+
+                final String command = editText_path.getText().toString();
+                if (TextUtils.isEmpty(command) || command.trim().length() <= 0) {
+                    Toast.makeText(context, "命令格式不正确", Toast.LENGTH_SHORT).show();
+                    editText_path.setText("");
+                    return;
+                }
+
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        FileUtil.readFile(command);
+                    }
+                }).start();
+
+            }
+        });
+
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
