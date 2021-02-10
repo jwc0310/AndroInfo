@@ -21,6 +21,8 @@ public class NetworkUtils {
         StringBuilder builder = new StringBuilder();
         builder.append("line1number: ");
         builder.append(telephonyManager.getLine1Number());
+        builder.append("getVoiceMailNumber: ");
+        builder.append(telephonyManager.getVoiceMailNumber());
         builder.append("\n");
         builder.append("simserialnumber: ");
         builder.append(telephonyManager.getSimSerialNumber());

@@ -247,7 +247,9 @@ public class TestFrament extends AndyBaseFragment implements View.OnClickListene
         }
 
         CellLocation location = telephonyManager.getCellLocation();
-        Log.e("position", "9: " + location.toString());
+        if (location != null) {
+            Log.e("position", "9: " + location.toString());
+        }
 
         Log.e("position", "10: " + telephonyManager.getNetworkType());
         Log.e("position", "11: " + telephonyManager.getPhoneType());
@@ -276,9 +278,10 @@ public class TestFrament extends AndyBaseFragment implements View.OnClickListene
         LocationManager locationManager = (LocationManager)getContext().getSystemService(Context.LOCATION_SERVICE);
         GpsStatus status = locationManager.getGpsStatus(null);
 
-        Log.e("position", "1: " +status.getMaxSatellites() + "");
-        Log.e("position", "2: " +status.getTimeToFirstFix() + "");
-        Log.e("position", "3: " +locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) + "");
+        Log.e("position2", "1: " +status.getMaxSatellites() + "");
+        Log.e("position2", "2: " +status.getTimeToFirstFix() + "");
+        Log.e("position2", "3: " +locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) + "");
+        Log.e("position2", "4: " +locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) + "");
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0,listener);
         Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);

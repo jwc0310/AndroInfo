@@ -12,9 +12,9 @@ android {
         versionName "1.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        ndk {
-            moduleName "MyLibrary"
-        }
+//        ndk {
+//            moduleName "MyLibrary"
+//        }
 
         sourceSets.main {
             jniLibs.srcDir "src/main/libs"

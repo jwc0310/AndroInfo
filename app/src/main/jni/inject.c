@@ -97,86 +97,86 @@ int ptrace_writedata(pid_t pid, uint8_t *dest, uint8_t *data, size_t size)
     return 0;
 }
 
-#if defined(__arm__)
-int ptrace_call(pid_t pid, uint32_t addr, long *params, uint32_t num_params, struct pt_regs* regs)
-{
-    uint32_t i;
-    for (i = 0; i < num_params && i < 4; i ++) {
-        regs->uregs[i] = params[i];
-    }
-
-    //
-    // push remained params onto stack
-    //
-    if (i < num_params) {
-        regs->ARM_sp -= (num_params - i) * sizeof(long) ;
-        ptrace_writedata(pid, (void *)regs->ARM_sp, (uint8_t *)&params[i], (num_params - i) * sizeof(long));
-    }
-
-    regs->ARM_pc = addr;
-    if (regs->ARM_pc & 1) {
-        /* thumb */
-        regs->ARM_pc &= (~1u);
-        regs->ARM_cpsr |= CPSR_T_MASK;
-    } else {
-        /* arm */
-        regs->ARM_cpsr &= ~CPSR_T_MASK;
-    }
-
-    regs->ARM_lr = 0;
-
-    if (ptrace_setregs(pid, regs) == -1
-            || ptrace_continue(pid) == -1) {
-        printf("error\n");
-        return -1;
-    }
-
-    int stat = 0;
-    waitpid(pid, &stat, WUNTRACED);
-    while (stat != 0xb7f) {
-        if (ptrace_continue(pid) == -1) {
-            printf("error\n");
-            return -1;
-        }
-        waitpid(pid, &stat, WUNTRACED);
-    }
-
-    return 0;
-}
-
-#elif defined(__i386__)
-long ptrace_call(pid_t pid, uint32_t addr, long *params, uint32_t num_params, struct user_regs_struct * regs)
-{
-    regs->esp -= (num_params) * sizeof(long) ;
-    ptrace_writedata(pid, (void *)regs->esp, (uint8_t *)params, (num_params) * sizeof(long));
-
-    long tmp_addr = 0x00;
-    regs->esp -= sizeof(long);
-    ptrace_writedata(pid, regs->esp, (char *)&tmp_addr, sizeof(tmp_addr));
-
-    regs->eip = addr;
-
-    if (ptrace_setregs(pid, regs) == -1
-            || ptrace_continue( pid) == -1) {
-        printf("error\n");
-        return -1;
-    }
-
-    int stat = 0;
-    waitpid(pid, &stat, WUNTRACED);
-    while (stat != 0xb7f) {
-        if (ptrace_continue(pid) == -1) {
-            printf("error\n");
-            return -1;
-        }
-        waitpid(pid, &stat, WUNTRACED);
-    }
-
-    return 0;
-}
-#else
-#error "Not supported"
-#endif
+//#if defined(__arm__)
+//int ptrace_call(pid_t pid, uint32_t addr, long *params, uint32_t num_params, struct pt_regs* regs)
+//{
+//    uint32_t i;
+//    for (i = 0; i < num_params && i < 4; i ++) {
+//        regs->uregs[i] = params[i];
+//    }
+//
+//    //
+//    // push remained params onto stack
+//    //
+//    if (i < num_params) {
+//        regs->ARM_sp -= (num_params - i) * sizeof(long) ;
+//        ptrace_writedata(pid, (void *)regs->ARM_sp, (uint8_t *)&params[i], (num_params - i) * sizeof(long));
+//    }
+//
+//    regs->ARM_pc = addr;
+//    if (regs->ARM_pc & 1) {
+//        /* thumb */
+//        regs->ARM_pc &= (~1u);
+//        regs->ARM_cpsr |= CPSR_T_MASK;
+//    } else {
+//        /* arm */
+//        regs->ARM_cpsr &= ~CPSR_T_MASK;
+//    }
+//
+//    regs->ARM_lr = 0;
+//
+//    if (ptrace_setregs(pid, regs) == -1
+//            || ptrace_continue(pid) == -1) {
+//        printf("error\n");
+//        return -1;
+//    }
+//
+//    int stat = 0;
+//    waitpid(pid, &stat, WUNTRACED);
+//    while (stat != 0xb7f) {
+//        if (ptrace_continue(pid) == -1) {
+//            printf("error\n");
+//            return -1;
+//        }
+//        waitpid(pid, &stat, WUNTRACED);
+//    }
+//
+//    return 0;
+//}
+//
+//#elif defined(__i386__)
+//long ptrace_call(pid_t pid, uint32_t addr, long *params, uint32_t num_params, struct user_regs_struct * regs)
+//{
+//    regs->esp -= (num_params) * sizeof(long) ;
+//    ptrace_writedata(pid, (void *)regs->esp, (uint8_t *)params, (num_params) * sizeof(long));
+//
+//    long tmp_addr = 0x00;
+//    regs->esp -= sizeof(long);
+//    ptrace_writedata(pid, regs->esp, (char *)&tmp_addr, sizeof(tmp_addr));
+//
+//    regs->eip = addr;
+//
+//    if (ptrace_setregs(pid, regs) == -1
+//            || ptrace_continue( pid) == -1) {
+//        printf("error\n");
+//        return -1;
+//    }
+//
+//    int stat = 0;
+//    waitpid(pid, &stat, WUNTRACED);
+//    while (stat != 0xb7f) {
+//        if (ptrace_continue(pid) == -1) {
+//            printf("error\n");
+//            return -1;
+//        }
+//        waitpid(pid, &stat, WUNTRACED);
+//    }
+//
+//    return 0;
+//}
+//#else
+//#error "Not supported"
+//#endif
 
 int ptrace_getregs(pid_t pid, struct pt_regs * regs)
 {
@@ -326,43 +326,43 @@ int find_pid_of(const char *process_name)
     return pid;
 }
 
-long ptrace_retval(struct pt_regs * regs)
-{
-#if defined(__arm__)
-    return regs->ARM_r0;
-#elif defined(__i386__)
-    return regs->eax;
-#else
-#error "Not supported"
-#endif
-}
+//long ptrace_retval(struct pt_regs * regs)
+//{
+//#if defined(__arm__)
+//    return regs->ARM_r0;
+//#elif defined(__i386__)
+//    return regs->eax;
+//#else
+//#error "Not supported"
+//#endif
+//}
 
-long ptrace_ip(struct pt_regs * regs)
-{
-#if defined(__arm__)
-    return regs->ARM_pc;
-#elif defined(__i386__)
-    return regs->eip;
-#else
-#error "Not supported"
-#endif
-}
+//long ptrace_ip(struct pt_regs * regs)
+//{
+//#if defined(__arm__)
+//    return regs->ARM_pc;
+//#elif defined(__i386__)
+//    return regs->eip;
+//#else
+//#error "Not supported"
+//#endif
+//}
 
 int ptrace_call_wrapper(pid_t target_pid, const char * func_name, void * func_addr, long * parameters, int param_num, struct pt_regs * regs)
 {
-    DEBUG_PRINT("[+] Calling %s in target process.\n", func_name);
-    if (ptrace_call(target_pid, (uint32_t)func_addr, parameters, param_num, regs) == -1)
-        return -1;
-
-    if (ptrace_getregs(target_pid, regs) == -1)
-        return -1;
-    DEBUG_PRINT("[+] Target process returned from %s, return value=%x, pc=%x \n",
-            func_name, ptrace_retval(regs), ptrace_ip(regs));
+//    DEBUG_PRINT("[+] Calling %s in target process.\n", func_name);
+//    if (ptrace_call(target_pid, (uint32_t)func_addr, parameters, param_num, regs) == -1)
+//        return -1;
+//
+//    if (ptrace_getregs(target_pid, regs) == -1)
+//        return -1;
+//    DEBUG_PRINT("[+] Target process returned from %s, return value=%x, pc=%x \n",
+//            func_name, ptrace_retval(regs), ptrace_ip(regs));
     return 0;
 }
 
 int inject_remote_process(pid_t target_pid, const char *library_path, const char *function_name, const char *param, size_t param_size)
-{
+{/*
     int ret = -1;
     void *mmap_addr, *dlopen_addr, *dlsym_addr, *dlclose_addr, *dlerror_addr, *memcmp_addr;
     void *local_handle, *remote_handle, *dlhandle;
@@ -388,15 +388,15 @@ int inject_remote_process(pid_t target_pid, const char *library_path, const char
         goto exit;
 
     DEBUG_PRINT("[+] ptrace_getregs process: %d success\n", target_pid);
-
+*/
     /* save original registers */
-    memcpy(&original_regs, &regs, sizeof(regs));
+  /*  memcpy(&original_regs, &regs, sizeof(regs));
 
     mmap_addr = get_remote_addr(target_pid, libc_path, (void *)mmap);
     DEBUG_PRINT("[+] Remote mmap address: %x\n", mmap_addr);
-
+*/
     /* call mmap */
-    parameters[0] = 0;  // addr
+/*    parameters[0] = 0;  // addr
     parameters[1] = 0x4000; // size
     parameters[2] = PROT_READ | PROT_WRITE | PROT_EXEC;  // prot
     parameters[3] =  MAP_ANONYMOUS | MAP_PRIVATE; // flags
@@ -435,31 +435,31 @@ int inject_remote_process(pid_t target_pid, const char *library_path, const char
 
     if (ptrace_call_wrapper(target_pid, "dlsym", dlsym_addr, parameters, 2, &regs) == -1)
         goto exit;
-
-    void * hook_entry_addr = ptrace_retval(&regs);
-    DEBUG_PRINT("hook_entry_addr = %p\n", hook_entry_addr);
-
-#define FUNCTION_PARAM_ADDR_OFFSET      0x200
-    ptrace_writedata(target_pid, map_base + FUNCTION_PARAM_ADDR_OFFSET, param, strlen(param) + 1);
-    parameters[0] = map_base + FUNCTION_PARAM_ADDR_OFFSET;
-
-    if (ptrace_call_wrapper(target_pid, "hook_entry", hook_entry_addr, parameters, 1, &regs) == -1)
-        goto exit;
-
-    printf("Press enter to dlclose and detach\n");
-    getchar();
-    parameters[0] = sohandle;
-
-    if (ptrace_call_wrapper(target_pid, "dlclose", dlclose, parameters, 1, &regs) == -1)
-        goto exit;
-
-    /* restore */
-    ptrace_setregs(target_pid, &original_regs);
-    ptrace_detach(target_pid);
-    ret = 0;
+*/
+//    void * hook_entry_addr = ptrace_retval(&regs);
+//    DEBUG_PRINT("hook_entry_addr = %p\n", hook_entry_addr);
+//
+//#define FUNCTION_PARAM_ADDR_OFFSET      0x200
+//    ptrace_writedata(target_pid, map_base + FUNCTION_PARAM_ADDR_OFFSET, param, strlen(param) + 1);
+//    parameters[0] = map_base + FUNCTION_PARAM_ADDR_OFFSET;
+//
+//    if (ptrace_call_wrapper(target_pid, "hook_entry", hook_entry_addr, parameters, 1, &regs) == -1)
+//        goto exit;
+//
+//    printf("Press enter to dlclose and detach\n");
+//    getchar();
+//    parameters[0] = sohandle;
+//
+//    if (ptrace_call_wrapper(target_pid, "dlclose", dlclose, parameters, 1, &regs) == -1)
+//        goto exit;
+//
+//    /* restore */
+//    ptrace_setregs(target_pid, &original_regs);
+//    ptrace_detach(target_pid);
+//    ret = 0;
 
 exit:
-    return ret;
+    return 0;
 }
 
 int main(int argc, char** argv) {

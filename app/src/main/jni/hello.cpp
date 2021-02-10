@@ -122,19 +122,6 @@ JNIEXPORT jstring JNICALL Java_com_andy_androinfo_jni_TestJni_getHello__
 
      //关闭动态链接库
      dlclose(handle);
-
-
-    int h = open("/proc/self/auxv", 0);
-
-    if (h > 0) {
-        char buf[64];
-        memset(buf, 0, 64);
-        read(h, &buf, 16);
-        LOGI("read %s\n", buf);
-        close(h);
-    } else {
-        LOGI("open failed %d", errno);
-    }
      //read_elf_header("", "");
      LOGI("back home end, err = %d", errno);
      return env->NewStringUTF("This is d");

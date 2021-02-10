@@ -93,11 +93,14 @@ public class PackageUtils {
     public static String getInstalledApps2(Context context) {
         StringBuilder builder = new StringBuilder();
         PackageManager packageManager = context.getPackageManager();
-        List<ApplicationInfo> list = packageManager.getInstalledApplications(0x2000);
+        List<ApplicationInfo> list = packageManager.getInstalledApplications(0x0);
         for (ApplicationInfo packageInfo : list) {
             log("AndyPackage "+packageInfo.packageName +", is install in sdcard ? = " + ((packageInfo.flags & ApplicationInfo.FLAG_EXTERNAL_STORAGE) != 0)
             + ", from = " + packageManager.getInstallerPackageName(packageInfo.packageName));
+            log(packageInfo.sourceDir);
         }
+
+        System.out.println("myandy locale: " + context.getResources().getConfiguration().locale.toString());
         return builder.toString();
     }
 

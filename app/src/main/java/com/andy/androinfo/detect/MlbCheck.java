@@ -50,6 +50,9 @@ public class MlbCheck {
 
         log("Serial Number: " + telephonyManager.getSimSerialNumber());
         log("Operator: " + telephonyManager.getNetworkOperator());
+        log("Operator: " + telephonyManager.getNetworkOperator());
+
+
         log("RELEASE: " + Build.VERSION.RELEASE);
 
         Account[] accounts = accountManager.getAccounts();

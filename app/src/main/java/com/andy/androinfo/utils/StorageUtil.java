@@ -107,8 +107,8 @@ public class StorageUtil {
             long blockSize = sf.getBlockSize();
             long blockCount = sf.getBlockCount();
             long availCount = sf.getAvailableBlocks();
-            log("block大小:"+ blockSize+",block数目:"+ blockCount+",总大小:"+blockSize*blockCount/1024+"KB");
-            log("可用的block数目：:"+ availCount+",剩余空间:"+ availCount*blockSize/1024+"KB");
+            log("block大小:"+ blockSize+",block数目:"+ blockCount+",总大小:"+blockSize*blockCount/(1024 * 1024)+"MB");
+            log("可用的block数目：:"+ availCount+",剩余空间:"+ availCount*blockSize/(1024 * 1024)+"MB");
 
 
             String totalStr1 = Formatter.formatFileSize(context, blockSize * blockCount);

@@ -12,7 +12,7 @@ public class LogUtil {
     private static boolean debug = true;
     public static boolean MemUtils_debug = false;
     public static boolean Emulator_debug = true;
-    public static boolean ActivityUtils_debug = false;
+    public static boolean ActivityUtils_debug = true;
     public static boolean BatteryUtils_debug = false;
     public static boolean DirUtils_debug = false;
     public static boolean Test_debug = false;
@@ -25,7 +25,7 @@ public class LogUtil {
     public static boolean WifUtils_debug = false;
     public static boolean ZipUtils_debug = false;
     public static boolean HookUtil_debug = false;
-    public static boolean NetworkUtil_debug = false;
+    public static boolean NetworkUtil_debug = true;
 
     public static void setDebug(boolean debug) {
         LogUtil.debug = debug;

@@ -28,7 +28,11 @@ import com.andy.androinfo.detect.MlbCheck;
 import com.andy.androinfo.utils.*;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
@@ -327,6 +331,32 @@ public class EmulatorFrament extends AndyBaseFragment {
         File file1[] = file.listFiles();
         for (File tmp : file1) {
             Log.e("xxx", tmp.getAbsolutePath());
+        }
+
+
+
+
+        try {
+            Properties properties = new Properties();
+            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(new File("/system/build.prop")), "utf-8");
+            properties.load(inputStreamReader);
+            String abi = properties.getProperty("ro.product.cpu.abi");
+            System.out.println("myandy abi: " + abi);
+
+            String path = System.getenv("EXTERNAL_STORAGE");
+            System.out.println("myandy external: " + path);
+
+            String vm = System.getProperty("java.vm.version");
+            System.out.println("myandy java.vm.version: " + vm);
+
+            System.out.println("myandy finger: " + Build.FINGERPRINT);
+
+
+
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

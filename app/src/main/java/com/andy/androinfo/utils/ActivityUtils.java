@@ -37,7 +37,7 @@ public class ActivityUtils {
 
     public static void printAllServices(Context context) {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningServiceInfo> serviceInfos = activityManager.getRunningServices(30);
+        List<ActivityManager.RunningServiceInfo> serviceInfos = activityManager.getRunningServices(0x7fffffff);
         for (ActivityManager.RunningServiceInfo serviceInfo : serviceInfos) {
             LogUtil.e(LogUtil.ActivityUtils_debug, TAG, serviceInfo.service.getClassName());
             LogUtil.e(LogUtil.ActivityUtils_debug, TAG, serviceInfo.service.getPackageName());
@@ -51,7 +51,7 @@ public class ActivityUtils {
         }
 
         LogUtil.e(LogUtil.ActivityUtils_debug, TAG, "------------------------------------");
-        List<ActivityManager.RunningTaskInfo> taskInfos = activityManager.getRunningTasks(30);
+        List<ActivityManager.RunningTaskInfo> taskInfos = activityManager.getRunningTasks(0x7fffffff);
         for (ActivityManager.RunningTaskInfo runningTaskInfo : taskInfos) {
             LogUtil.e(LogUtil.ActivityUtils_debug, TAG, runningTaskInfo.baseActivity.getPackageName());
         }

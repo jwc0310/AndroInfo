@@ -39,6 +39,7 @@ import com.andy.androinfo.beans.TitleBean;
 import com.andy.androinfo.devices.CameraUtils;
 import com.andy.androinfo.emulator.Detecter;
 import com.andy.androinfo.jni.TestJni;
+import com.andy.androinfo.ms.Am;
 import com.andy.androinfo.utils.AndroFileObserver;
 import com.andy.androinfo.utils.DirUtils;
 import com.andy.androinfo.utils.Emulator;
@@ -97,6 +98,8 @@ public class MainActivity extends AndyBaseActivity {
 
         StorageUtil.getStorageCapacity(this);
 
+        Am.getInstance().getRunningAppProcesses();
+        Am.getInstance().getRunningServices();
 
 
 
@@ -167,7 +170,9 @@ public class MainActivity extends AndyBaseActivity {
         }
 
         CellLocation location = telephonyManager.getCellLocation();
-        Log.e("position", "9: " + location.toString());
+        if (location != null) {
+            Log.e("position", "9: " + location.toString());
+        }
 
         Log.e("position", "10: " + telephonyManager.getNetworkType());
         Log.e("position", "11: " + telephonyManager.getPhoneType());
